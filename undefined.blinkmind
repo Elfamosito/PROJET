@@ -1,0 +1,495 @@
+{
+  "rootTopicKey": "635d6197-4a9b-44be-9130-a2d481101f5c",
+  "editorRootTopicKey": "635d6197-4a9b-44be-9130-a2d481101f5c",
+  "focusKey": "410fa118-d160-46b0-8c1c-f64cdd81816e",
+  "extData": {
+    "TOPIC_REFERENCE": {
+      "reference": {}
+    },
+    "TAGS": {
+      "tags": {
+        "Fait": {
+          "name": "Fait",
+          "style": "{\"backgroundColor\":\"#02c21b\",\"color\":\"black\"}",
+          "topicKeys": [
+            "789def75-f8b6-4e88-b507-1d17558e98e0",
+            "ee800084-b2a3-46b7-b5bf-61a43994e275",
+            "784b12c9-86df-4f26-88f5-e5bb0c111211",
+            "7ac2bede-5413-46a7-be21-cf5006ab9a21",
+            "01489993-5311-4f36-b405-8058b9d37d66",
+            "fa786267-6ba8-4329-99ae-97592b788896",
+            "588cc251-e094-4285-ae3f-60f3dec15f18",
+            "3209e619-56c3-446a-affe-d9512ae8c5e1",
+            "188b2011-6da8-47ba-a9d5-8f83784604e3",
+            "410fa118-d160-46b0-8c1c-f64cdd81816e",
+            "6d91731e-5b66-41d3-bd36-f13c6ae46c89",
+            "8f02179a-2948-48ea-9942-40f9e296bf0b"
+          ]
+        },
+        "En cours": {
+          "name": "En cours",
+          "style": "{\"backgroundColor\":\"#c26002\",\"color\":\"black\"}",
+          "topicKeys": [
+            "4bc718a8-ed00-4db1-9369-2ee6c7d9838f",
+            "8a9fae2a-43ab-460f-beb1-3be0bcd361be",
+            "2443e687-eeee-43bb-bf29-94fdc65b008b",
+            "821ceba3-00d9-4a68-89b9-305cdb806475"
+          ]
+        },
+        "Non fait": {
+          "name": "Non fait",
+          "style": "{\"backgroundColor\":\"#c20202\",\"color\":\"black\"}",
+          "topicKeys": [
+            "1667e519-4ef6-427f-af0e-380e9d23aaef",
+            "19396548-52c7-4035-bc68-5ccabcf2be4c"
+          ]
+        },
+        "En plus": {
+          "name": "En plus",
+          "style": "{\"backgroundColor\":\"#1802c2\",\"color\":\"black\"}",
+          "topicKeys": [
+            "c1b60231-d02b-4b50-b846-2751353897a7",
+            "19396548-52c7-4035-bc68-5ccabcf2be4c",
+            "fa786267-6ba8-4329-99ae-97592b788896",
+            "3209e619-56c3-446a-affe-d9512ae8c5e1",
+            "821ceba3-00d9-4a68-89b9-305cdb806475",
+            "410fa118-d160-46b0-8c1c-f64cdd81816e"
+          ]
+        },
+        "Ajustable": {
+          "name": "Ajustable",
+          "style": "{\"backgroundColor\":\"#00a4aa\",\"color\":\"black\"}",
+          "topicKeys": [
+            "75a5cce6-849a-4be4-8ff4-c8336b7429f2",
+            "fa786267-6ba8-4329-99ae-97592b788896",
+            "3209e619-56c3-446a-affe-d9512ae8c5e1",
+            "188b2011-6da8-47ba-a9d5-8f83784604e3",
+            "8f02179a-2948-48ea-9942-40f9e296bf0b",
+            "6d91731e-5b66-41d3-bd36-f13c6ae46c89"
+          ]
+        },
+        "Non actif": {
+          "name": "Non actif",
+          "style": "{\"backgroundColor\":\"#9600aa\",\"color\":\"black\"}",
+          "topicKeys": [
+            "588cc251-e094-4285-ae3f-60f3dec15f18"
+          ]
+        }
+      }
+    }
+  },
+  "topics": [
+    {
+      "key": "08c51780-42ab-480e-a365-6e7b9325206a",
+      "parentKey": "b46e06cb-c359-4b3e-a9e6-05befa512294",
+      "subKeys": [],
+      "collapse": false,
+      "style": null,
+      "blocks": [
+        {
+          "type": "CONTENT",
+          "data": "Faire le jeu\nMidnight Drive"
+        }
+      ]
+    },
+    {
+      "key": "b46e06cb-c359-4b3e-a9e6-05befa512294",
+      "parentKey": "635d6197-4a9b-44be-9130-a2d481101f5c",
+      "subKeys": [
+        "08c51780-42ab-480e-a365-6e7b9325206a"
+      ],
+      "collapse": false,
+      "style": null,
+      "blocks": [
+        {
+          "type": "CONTENT",
+          "data": "I﻿dées"
+        }
+      ]
+    },
+    {
+      "key": "8f02179a-2948-48ea-9942-40f9e296bf0b",
+      "parentKey": "6d91731e-5b66-41d3-bd36-f13c6ae46c89",
+      "subKeys": [],
+      "collapse": false,
+      "style": null,
+      "blocks": [
+        {
+          "type": "CONTENT",
+          "data": "R﻿ouler à minuit"
+        },
+        {
+          "type": "DESC",
+          "data": "## N﻿om du jeu\n\n\nTraduction de Midnight Drive, jeu que l'on recopie.﻿"
+        }
+      ]
+    },
+    {
+      "key": "588cc251-e094-4285-ae3f-60f3dec15f18",
+      "parentKey": "3209e619-56c3-446a-affe-d9512ae8c5e1",
+      "subKeys": [],
+      "collapse": false,
+      "style": null,
+      "blocks": [
+        {
+          "type": "CONTENT",
+          "data": "G﻿arder la même couleur\nque la couleur autour du frame"
+        },
+        {
+          "type": "DESC",
+          "data": "## Changer la totalité de l'arrière\\-plan du Menu﻿\n\n\nA﻿voir la même couleur que celle qui est autour de la frame et de l'arrière\\-plan du bloc titre.\n\nEnlever le \\# à la dernière ligne du module changement\\_de\\_couleur pour ajouter la ligne de code suivant :\n\nframe\\_test\\.configure\\(bg=couleur\\)"
+        }
+      ]
+    },
+    {
+      "key": "19396548-52c7-4035-bc68-5ccabcf2be4c",
+      "parentKey": "3209e619-56c3-446a-affe-d9512ae8c5e1",
+      "subKeys": [],
+      "collapse": false,
+      "style": null,
+      "blocks": [
+        {
+          "type": "CONTENT",
+          "data": "F﻿ond\nMidnight Drive\ndu Menu﻿"
+        },
+        {
+          "type": "DESC",
+          "data": "## F﻿ond d'écran du menu de Midnight Drive\n\nAller sur le jeu, le lancer, prendre une capture d'écran, puis la modifier avec paint 3D ou autre, pour l'ajuster au programme.\n\nPuis l'insérer dans le programme. L'insertion doit être réalisé au niveau du module changement\\_de\\_couleur\\(avant ou après\\). L'insertion doit être mise dans frame\\_test"
+        }
+      ]
+    },
+    {
+      "key": "3209e619-56c3-446a-affe-d9512ae8c5e1",
+      "parentKey": "fa786267-6ba8-4329-99ae-97592b788896",
+      "subKeys": [
+        "19396548-52c7-4035-bc68-5ccabcf2be4c",
+        "588cc251-e094-4285-ae3f-60f3dec15f18"
+      ],
+      "collapse": false,
+      "style": null,
+      "blocks": [
+        {
+          "type": "CONTENT",
+          "data": "C﻿ouleur frame"
+        },
+        {
+          "type": "DESC",
+          "data": "## D﻿éfinir la couleur de la frame\n\nLa frame est nommé dans le programme, frame\\_test.\n\nProposition pour définir la couleur de la frame :﻿\n* Ajout du fond d'écran du menu du jeu Midnight Drive ﻿.\n* Le module changement\\_de\\_couleur peut contrôler sa couleur, à l'aide du bloc couleurs qui est associé aux différentes couleurs proposé pour colorer la frame. La couleur proposé sera alors la même que celle qui entoure la frame.\n\n"
+        }
+      ]
+    },
+    {
+      "key": "fa786267-6ba8-4329-99ae-97592b788896",
+      "parentKey": "4bc718a8-ed00-4db1-9369-2ee6c7d9838f",
+      "subKeys": [
+        "789def75-f8b6-4e88-b507-1d17558e98e0",
+        "3209e619-56c3-446a-affe-d9512ae8c5e1"
+      ],
+      "collapse": false,
+      "style": "{\"contentStyle\":{\"borderWidth\":\"4px\",\"borderStyle\":\"double\",\"borderRadius\":\"30px\",\"borderColor\":\"#000000\",\"fontSize\":15,\"lineHeight\":\"2\"},\"linkStyle\":{\"lineWidth\":\"4px\",\"lineType\":\"round\"}}",
+      "blocks": [
+        {
+          "type": "CONTENT",
+          "data": "A﻿rrière-plan"
+        },
+        {
+          "type": "DESC",
+          "data": "## A﻿rrière\\-plan du menu\n\nRéaliser l'arrière plan du menu du jeu.﻿\nDivision de l'arrière﻿\\-plan en deux parties.\n\n1ère partie:\n﻿   ° Couleur du contour de la frame, nommé frame\\_test dans le programme.\n\n2ème partie:\n   ° Couleur de la frame, nommé﻿e frame\\_test dans le programme."
+        }
+      ]
+    },
+    {
+      "key": "2443e687-eeee-43bb-bf29-94fdc65b008b",
+      "parentKey": "8a9fae2a-43ab-460f-beb1-3be0bcd361be",
+      "subKeys": [],
+      "collapse": false,
+      "style": null,
+      "blocks": [
+        {
+          "type": "CONTENT",
+          "data": "J﻿EU"
+        }
+      ]
+    },
+    {
+      "key": "ee800084-b2a3-46b7-b5bf-61a43994e275",
+      "parentKey": "4bc718a8-ed00-4db1-9369-2ee6c7d9838f",
+      "subKeys": [
+        "784b12c9-86df-4f26-88f5-e5bb0c111211",
+        "7ac2bede-5413-46a7-be21-cf5006ab9a21",
+        "01489993-5311-4f36-b405-8058b9d37d66"
+      ],
+      "collapse": false,
+      "style": "{\"contentStyle\":{\"borderWidth\":\"4px\",\"borderStyle\":\"double\",\"borderRadius\":\"30px\",\"borderColor\":\"#000000\",\"fontSize\":15,\"lineHeight\":\"2\"},\"linkStyle\":{\"lineWidth\":\"4px\",\"lineType\":\"round\"}}",
+      "blocks": [
+        {
+          "type": "CONTENT",
+          "data": "B﻿outons"
+        },
+        {
+          "type": "DESC",
+          "data": "A﻿jout de boutons pour le menu principal.\n\nLes différents boutons ont différentes fonctionnalités:\n\n* Bouton\\_couleur \\-\\> Change la couleur de window, ainsi que le fond de titre.\n\n\n* Bouton\\_quit \\-\\> Ferme la fenêtre.\n\n﻿\n* Bouton\\_start \\-\\> Lance la fonction Jeu, lancement du jeu.﻿\n\n"
+        }
+      ]
+    },
+    {
+      "key": "789def75-f8b6-4e88-b507-1d17558e98e0",
+      "parentKey": "fa786267-6ba8-4329-99ae-97592b788896",
+      "subKeys": [
+        "75a5cce6-849a-4be4-8ff4-c8336b7429f2"
+      ],
+      "collapse": false,
+      "style": null,
+      "blocks": [
+        {
+          "type": "CONTENT",
+          "data": "C﻿ouleur contour\nde frame﻿"
+        },
+        {
+          "type": "DESC",
+          "data": "## D﻿éfinir la couleur qui entoure la frame\n\nLa frame est nommé dans le programme frame\\_test.\nLe module changement\\_de\\_couleur contrôle sa couleur, à l'aide du bloc couleurs qui est associé aux différentes couleurs proposé pour colorer la frame."
+        }
+      ]
+    },
+    {
+      "key": "01489993-5311-4f36-b405-8058b9d37d66",
+      "parentKey": "ee800084-b2a3-46b7-b5bf-61a43994e275",
+      "subKeys": [],
+      "collapse": false,
+      "style": null,
+      "blocks": [
+        {
+          "type": "CONTENT",
+          "data": "S﻿tart"
+        },
+        {
+          "type": "DESC",
+          "data": "## B﻿outon \"Start\"\n\nNommé Bouton\\_start, ce bouton permet de lancer le jeu, avec une transition.\n\nLa commande du bouton est le lancement de la fonction Jeu\\(\\)."
+        }
+      ]
+    },
+    {
+      "key": "75a5cce6-849a-4be4-8ff4-c8336b7429f2",
+      "parentKey": "789def75-f8b6-4e88-b507-1d17558e98e0",
+      "subKeys": [],
+      "collapse": false,
+      "style": null,
+      "blocks": [
+        {
+          "type": "CONTENT",
+          "data": "L﻿es couleurs\n(voir notes ->)﻿"
+        },
+        {
+          "type": "DESC",
+          "data": "L﻿es couleurs ajoutées sont :\n\n* noir\n* blanc\n* rouge\n* bleu\n* vert\n* jaune\n* violet﻿\n\n\nPour modifier, voir :\n﻿\ncouleurs=\\['black','white','red','blue','green','yellow','purple'\\]\nDans le module changement de couleur﻿"
+        }
+      ]
+    },
+    {
+      "key": "784b12c9-86df-4f26-88f5-e5bb0c111211",
+      "parentKey": "ee800084-b2a3-46b7-b5bf-61a43994e275",
+      "subKeys": [],
+      "collapse": false,
+      "style": null,
+      "blocks": [
+        {
+          "type": "CONTENT",
+          "data": "C﻿hanger les couleurs"
+        },
+        {
+          "type": "DESC",
+          "data": "## B﻿outon \"Changer la couleur\"\n\nNommé Bouton\\_couleur, ce bouton permet de modifier la couleur de window ainsi que le fond de titre.\nLa commande du bouton est le lancement de la fonction Changement\\_de\\_couleur.﻿\n\n\\(Plus tard, la couleur choisi avec le bouton sera la couleur de la voiture du joueur dans le jeu\\)﻿"
+        }
+      ]
+    },
+    {
+      "key": "6d91731e-5b66-41d3-bd36-f13c6ae46c89",
+      "parentKey": "4bc718a8-ed00-4db1-9369-2ee6c7d9838f",
+      "subKeys": [
+        "8f02179a-2948-48ea-9942-40f9e296bf0b"
+      ],
+      "collapse": false,
+      "style": "{\"contentStyle\":{\"borderWidth\":\"4px\",\"borderStyle\":\"double\",\"borderRadius\":\"30px\",\"borderColor\":\"#000000\",\"fontSize\":15,\"lineHeight\":\"2\",\"color\":\"#000000\"},\"linkStyle\":{\"lineWidth\":\"4px\",\"lineType\":\"round\"},\"subLinkStyle\":{\"lineWidth\":\"3px\"}}",
+      "blocks": [
+        {
+          "type": "CONTENT",
+          "data": "N﻿om"
+        },
+        {
+          "type": "DESC",
+          "data": "## A﻿ffichage du titre du jeu dans le menu.\n\nAffichage du titre du jeu avec le bloc titre\\_jeu.﻿"
+        }
+      ]
+    },
+    {
+      "key": "410fa118-d160-46b0-8c1c-f64cdd81816e",
+      "parentKey": "4bc718a8-ed00-4db1-9369-2ee6c7d9838f",
+      "subKeys": [],
+      "collapse": false,
+      "style": "{\"contentStyle\":{\"lineHeight\":\"2\",\"border\":\"1px solid #e8eaec\",\"borderRadius\":\"30px\",\"fontSize\":15,\"padding\":\"4px 10px\",\"borderWidth\":\"4px\",\"background\":\"#7089b9\",\"borderColor\":\"#000000\",\"subLinkStyle\":{\"lineColor\":\"#739E82\"},\"borderStyle\":\"double\"},\"linkStyle\":{\"lineRadius\":5,\"lineType\":\"round\",\"lineWidth\":\"4px\",\"lineColor\":\"#DB995A\"},\"subLinkStyle\":{\"lineRadius\":5,\"lineType\":\"curve\",\"lineWidth\":\"3px\",\"lineColor\":\"#739E82\"}}",
+      "blocks": [
+        {
+          "type": "CONTENT",
+          "data": "T﻿ransition vers JEU"
+        }
+      ]
+    },
+    {
+      "key": "8a9fae2a-43ab-460f-beb1-3be0bcd361be",
+      "parentKey": "635d6197-4a9b-44be-9130-a2d481101f5c",
+      "subKeys": [
+        "4bc718a8-ed00-4db1-9369-2ee6c7d9838f",
+        "2443e687-eeee-43bb-bf29-94fdc65b008b",
+        "1667e519-4ef6-427f-af0e-380e9d23aaef"
+      ],
+      "collapse": false,
+      "style": null,
+      "blocks": [
+        {
+          "type": "CONTENT",
+          "data": "C﻿ODE"
+        }
+      ]
+    },
+    {
+      "key": "1667e519-4ef6-427f-af0e-380e9d23aaef",
+      "parentKey": "8a9fae2a-43ab-460f-beb1-3be0bcd361be",
+      "subKeys": [],
+      "collapse": false,
+      "style": null,
+      "blocks": [
+        {
+          "type": "CONTENT",
+          "data": "F﻿in"
+        }
+      ]
+    },
+    {
+      "key": "4bc718a8-ed00-4db1-9369-2ee6c7d9838f",
+      "parentKey": "8a9fae2a-43ab-460f-beb1-3be0bcd361be",
+      "subKeys": [
+        "fa786267-6ba8-4329-99ae-97592b788896",
+        "ee800084-b2a3-46b7-b5bf-61a43994e275",
+        "6d91731e-5b66-41d3-bd36-f13c6ae46c89",
+        "821ceba3-00d9-4a68-89b9-305cdb806475",
+        "410fa118-d160-46b0-8c1c-f64cdd81816e"
+      ],
+      "collapse": false,
+      "style": null,
+      "blocks": [
+        {
+          "type": "CONTENT",
+          "data": "M﻿enu\ndépart"
+        }
+      ]
+    },
+    {
+      "key": "635d6197-4a9b-44be-9130-a2d481101f5c",
+      "parentKey": null,
+      "subKeys": [
+        "b46e06cb-c359-4b3e-a9e6-05befa512294",
+        "8a9fae2a-43ab-460f-beb1-3be0bcd361be"
+      ],
+      "collapse": false,
+      "style": null,
+      "blocks": [
+        {
+          "type": "CONTENT",
+          "data": "Le Projet NSI"
+        }
+      ]
+    },
+    {
+      "key": "821ceba3-00d9-4a68-89b9-305cdb806475",
+      "parentKey": "4bc718a8-ed00-4db1-9369-2ee6c7d9838f",
+      "subKeys": [],
+      "collapse": false,
+      "style": "{\"contentStyle\":{\"lineHeight\":\"2\",\"border\":\"1px solid #e8eaec\",\"borderRadius\":\"30px\",\"fontSize\":15,\"padding\":\"4px 10px\",\"borderWidth\":\"4px\",\"background\":\"#70b98a\",\"borderColor\":\"#000000\",\"subLinkStyle\":{\"lineColor\":\"#739E82\"},\"borderStyle\":\"double\"},\"linkStyle\":{\"lineRadius\":5,\"lineType\":\"round\",\"lineWidth\":\"4px\",\"lineColor\":\"#DB995A\"},\"subLinkStyle\":{\"lineRadius\":5,\"lineType\":\"curve\",\"lineWidth\":\"3px\",\"lineColor\":\"#739E82\"}}",
+      "blocks": [
+        {
+          "type": "CONTENT",
+          "data": "S﻿auvegardes des données"
+        }
+      ]
+    },
+    {
+      "key": "7ac2bede-5413-46a7-be21-cf5006ab9a21",
+      "parentKey": "ee800084-b2a3-46b7-b5bf-61a43994e275",
+      "subKeys": [],
+      "collapse": false,
+      "style": null,
+      "blocks": [
+        {
+          "type": "CONTENT",
+          "data": "Q﻿uitter"
+        },
+        {
+          "type": "DESC",
+          "data": "## B﻿outon \"Quitter\"\n\nNommé Bouton\\_quit, ce bouton permet de quitter l'application, en détruisant window.\nLa commande du bouton est le lancement de la fonction window.destroy\\(\\)."
+        }
+      ]
+    }
+  ],
+  "config": {
+    "readOnly": false,
+    "allowUndo": true,
+    "layoutDir": 2,
+    "theme": {
+      "name": "default",
+      "randomColor": true,
+      "background": "#393c41",
+      "highlightColor": "#50C9CE",
+      "marginH": 60,
+      "marginV": 20,
+      "contentStyle": {
+        "lineHeight": "1.5"
+      },
+      "linkStyle": {
+        "lineRadius": 5,
+        "lineType": "curve",
+        "lineWidth": "3px"
+      },
+      "rootTopic": {
+        "contentStyle": {
+          "fontSize": "34px",
+          "borderRadius": "35px",
+          "padding": "16px 18px 16px 18px"
+        },
+        "subLinkStyle": {
+          "lineType": "curve",
+          "lineWidth": "3px",
+          "lineColor": "rgb(113, 203, 45)"
+        }
+      },
+      "primaryTopic": {
+        "contentStyle": {
+          "borderWidth": "1px",
+          "borderStyle": "solid",
+          "borderRadius": "20px",
+          "fontSize": "17px",
+          "padding": "10px 15px 10px 15px"
+        },
+        "subLinkStyle": {
+          "lineType": "curve",
+          "lineWidth": "3px",
+          "lineColor": "rgb(113, 203, 45)"
+        }
+      },
+      "normalTopic": {
+        "contentStyle": {
+          "border": "1px solid #e8eaec",
+          "borderRadius": "20px",
+          "fontSize": "17px",
+          "padding": "4px 10px",
+          "borderWidth": "0px"
+        },
+        "subLinkStyle": {
+          "lineType": "curve",
+          "lineWidth": "3px",
+          "lineColor": "white"
+        }
+      }
+    }
+  },
+  "formatVersion": "0.0"
+}

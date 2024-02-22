@@ -1,0 +1,20 @@
+Création du projet:
+
+Faire le jeu midnight drive.
+
+Décomposition du jeu:
+
+Faire le fond animé, 
+
+Télécharger les images, (voiture qui monte, descend, avance et détruit)
+                        (route)
+                        (paysage)
+                        (Voitures aléatoires parmis 3 pattern environ)
+                        
+
+
+Commencer par une version simplifiée du jeu :   avec une boule qui se déplace, color('blue')
+                                                doit esquiver les autres boules, color('red')
+                                                les boules ennemies apparaissent aléatoirement, importer bibliothèque random
+                                                si notre boule touche en une autre fin du jeu 
+                                                notre boule peut se déplacer de haut vers le bas 
