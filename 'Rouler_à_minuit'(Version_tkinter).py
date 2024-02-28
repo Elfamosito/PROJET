@@ -194,7 +194,7 @@ def Initialisation_Jeu():
         window.bind("<KeyPress-W-Motion",hauut)
         window.bind("<Down-Motion",baas)
         window.bind("<KeyPress-s-Motion",baas)
-        window.bind("<KeyPress-s-Motion",baas)
+        window.bind("<KeyPress-S-Motion",baas)
     
     MAJHeure()
 
