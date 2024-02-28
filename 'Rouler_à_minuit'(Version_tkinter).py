@@ -132,7 +132,7 @@ def Initialisation_Jeu():
     piv=35
     
     def Vehicle_p():
-        global Page
+        global Page, r
         r=30
         Page = Canvas(window, bg='black', width=w, height=h)
         Page.pack(fill='both')
@@ -155,11 +155,19 @@ def Initialisation_Jeu():
 
         
     def haut(event):
+        global piv
         print('haut')
+        if piv-r-5>0:
+            piv-=10
         
-
+    def hauut(event):
+        print('hauut')
+        piv-=5
+    
     def bas(event):
         print('bas')
+        if piv+r+5<h:
+            piv+=10
 
     def Deplacement_voiture_p():
         Vehicle_p()
@@ -170,8 +178,8 @@ def Initialisation_Jeu():
         window.bind("<KeyPress-s>",bas)
         window.bind("<KeyPress-Z>",haut)
         window.bind("<KeyPress-W>",haut)
-        window.bind("<KeyPress-S>",bas)    
-        
+        window.bind("<KeyPress-S>",bas)
+        window.bind("<KeyPress-z-Motion",hauut)
 
     MAJHeure()
 
