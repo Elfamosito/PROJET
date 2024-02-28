@@ -128,7 +128,7 @@ def changement_animation_2():
 def Initialisation_Jeu():
     
     window.configure(bg='black')
-    
+    global piv
     piv=35
     
     def Vehicle_p():
@@ -155,7 +155,6 @@ def Initialisation_Jeu():
 
         
     def haut(event):
-        global piv
         print('haut')
         if piv-r-5>0:
             piv-=10
