@@ -129,19 +129,21 @@ def Initialisation_Jeu():
     
     window.configure(bg='black')
     
+    piv=35
+    
     def Vehicle_p():
         global Page
         r=30
         Page = Canvas(window, bg='black', width=w, height=h)
         Page.pack(fill='both')
         Page.create_window(100, 100, anchor='nw')
-        Page.create_oval(200-r,35-r,200+r,0+r, outline='red', fill='white')
+        Page.create_oval(200-r,piv-r,200+r,piv+r/2, outline='red', fill='white')
 
     Vehicle_p()
     
-    grille_voiture=[[0],
+    grille_voiture=[[1],
                     [0],
-                    [1],
+                    [0],
                     [0]]
 
     délai=int(50)
@@ -154,11 +156,13 @@ def Initialisation_Jeu():
         
     def haut(event):
         print('haut')
+        
 
     def bas(event):
         print('bas')
 
     def Deplacement_voiture_p():
+        Vehicle_p()
         window.bind("<Up>",haut)
         window.bind("<Down>",bas)
         window.bind("<KeyPress-z>",haut)
