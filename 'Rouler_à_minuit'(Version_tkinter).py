@@ -162,12 +162,20 @@ def Initialisation_Jeu():
         
     def hauut(event):
         print('hauut')
-        piv-=5
+        def vite_haut():
+            piv-=5
+        window.after(5,vite_haut)
     
     def bas(event):
         print('bas')
         if piv+r+5<h:
             piv+=10
+
+    def baas(event):
+        print('baas')
+        def vite_bas():
+            piv-=5
+        window.after(5,vite_bas)
 
     def Deplacement_voiture_p():
         Vehicle_p()
@@ -180,7 +188,14 @@ def Initialisation_Jeu():
         window.bind("<KeyPress-W>",haut)
         window.bind("<KeyPress-S>",bas)
         window.bind("<KeyPress-z-Motion",hauut)
-
+        window.bind("<Up-Motion",hauut)
+        window.bind("<KeyPress-Z-Motion",hauut)
+        window.bind("<KeyPress-w-Motion",hauut)
+        window.bind("<KeyPress-W-Motion",hauut)
+        window.bind("<Down-Motion",baas)
+        window.bind("<KeyPress-s-Motion",baas)
+        window.bind("<KeyPress-s-Motion",baas)
+    
     MAJHeure()
 
 
