@@ -126,26 +126,28 @@ def changement_animation_2():
 
 
 def Initialisation_Jeu():
-    global piv
+    global piv, Page
     window.configure(bg='black')
     piv=35
     
+    Page = tk.Canvas(window, bg='black', width=w, height=h)
+    Page.pack(fill='both')
+    Page.create_window(100, 100, anchor='nw')
+    
+    
     def Vehicle_p():
-        global Page, r
+        global r, voiture
         r=30
-        Page = tk.Canvas(window, bg='black', width=w, height=h)
-        Page.pack(fill='both')
-        Page.create_window(100, 100, anchor='nw')
-        Page.create_oval(200-r,piv-r,200+r,piv+r/2, outline='red', fill='white')
+        voiture = Page.create_oval(200-r,piv-r,200+r,piv+r/2, outline='red', fill='white')
 
     Vehicle_p()
     
-    grille_voiture=[[1],
-                    [0],
-                    [0],
-                    [0]]
+    grille_voiture_generated=[  [0],
+                                [0],
+                                [0],
+                                [0]]
 
-    délai=int(50)
+    délai=int(1)
 
     def MAJHeure():
 
@@ -157,27 +159,17 @@ def Initialisation_Jeu():
         global piv
         print('haut')
         if piv-r-5>0:
-            piv-=10
-        
-    def hauut(event):
-        print('hauut')
-        def vite_haut():
-            global piv
-            piv-=5
-        window.after(5,vite_haut)
-    
+            piv-=7
+            Page.delete('all')
+            Vehicle_p()
+
     def bas(event):
         global piv
         print('bas')
         if piv+r+5<h:
-            piv+=10
-
-    def baas(event):
-        print('baas')
-        def vite_bas():
-            global piv
-            piv-=5
-        window.after(5,vite_bas)
+            piv+=7
+            Page.delete('all')
+            Vehicle_p()
 
     def Deplacement_voiture_p():
         Vehicle_p()
@@ -189,15 +181,6 @@ def Initialisation_Jeu():
         window.bind("<KeyPress-Z>",haut)
         window.bind("<KeyPress-W>",haut)
         window.bind("<KeyPress-S>",bas)
-        window.bind("<KeyPress-z-Motion",hauut)
-        window.bind("<Up-Motion",hauut)
-        window.bind("<KeyPress-Z-Motion",hauut)
-        window.bind("<KeyPress-w-Motion",hauut)
-        window.bind("<KeyPress-W-Motion",hauut)
-        window.bind("<Down-Motion",baas)
-        window.bind("<KeyPress-s-Motion",baas)
-        window.bind("<KeyPress-S-Motion",baas)
-    
     MAJHeure()
 
 
