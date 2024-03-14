@@ -1,10 +1,10 @@
-from tkinter import *
-from random import *
-from time import *
+import tkinter as tk
+import random as ra
+import time as ti
 import numpy as np
 
 
-window=Tk()
+window=tk.Tk()
 window.geometry('700x350')
 window.title('Rouler à minuit')
 #window.attributes('-fullscreen', True) si vous voulez grand écran
@@ -17,11 +17,11 @@ def Relancer():
     Jeu()
 
 
-frame_test=Frame(window,bg='white') #mettre l'image du menu de mignight drive si on ne veut pas mettre la même couleur partout
-frame_test.pack(expand=YES,pady=0,fill=X)
+frame_test=tk.Frame(window,bg='white') #mettre l'image du menu de mignight drive si on ne veut pas mettre la même couleur partout
+frame_test.pack(expand=True,pady=0,fill='x')
 
-titre_jeu=Label(frame_test,text='Rouler à minuit',font=("Courrier",40,'bold'),bg='white',fg='black')
-titre_jeu.pack(side=TOP)
+titre_jeu=tk.Label(frame_test,text='Rouler à minuit',font=("Courrier",40,'bold'),bg='white',fg='black')
+titre_jeu.pack(side='top')
 
 ii=0
 
@@ -47,9 +47,9 @@ changement_de_couleur()
 def Menu_barre():
     global menu_barre
     
-    menu_barre=Menu(window)
+    menu_barre=tk.Menu(window)
         
-    menu_fichier=Menu(menu_barre,tearoff=0,relief=GROOVE) 
+    menu_fichier=tk.Menu(menu_barre,tearoff=0,relief='groove') 
 
     menu_fichier.add_command(label="Nouveau",command=Relancer)
     menu_fichier.add_command(label='Changer les couleurs',command=changement_de_couleur)  
@@ -71,14 +71,14 @@ def Jeu():
     window.after(3500,Initialisation_Jeu)
     window.after(3500,Menu_barre)
 
-Bouton_couleur=Button(frame_test,text='Changer la couleur', font=("Courrier",10), bg='#f0f0f0', fg='black', relief=GROOVE, highlightthickness=0,command=changement_de_couleur)
-Bouton_couleur.pack(side=LEFT)
+Bouton_couleur=tk.Button(frame_test,text='Changer la couleur', font=("Courrier",10), bg='#f0f0f0', fg='black', relief='groove', highlightthickness=0,command=changement_de_couleur)
+Bouton_couleur.pack(side='left')
 
-Bouton_quit=Button(frame_test, text='Quitter', font=("Courrier",20), bg='#f0f0f0',fg='black',relief=GROOVE, highlightthickness=0,command=window.destroy)
-Bouton_quit.pack(side=BOTTOM, pady=30)
+Bouton_quit=tk.Button(frame_test, text='Quitter', font=("Courrier",20), bg='#f0f0f0',fg='black',relief='groove', highlightthickness=0,command=window.destroy)
+Bouton_quit.pack(side='bottom', pady=30)
 
-Bouton_start=Button(frame_test, text='Start', font=("Courrier",20), bg='#f0f0f0',fg='black',relief=GROOVE,highlightthickness=0,command=Jeu)
-Bouton_start.pack(expand=YES, pady=30)
+Bouton_start=tk.Button(frame_test, text='Start', font=("Courrier",20), bg='#f0f0f0',fg='black',relief='groove',highlightthickness=0,command=Jeu)
+Bouton_start.pack(expand=True, pady=30)
 
 # highscore=[0],[1]
 # infos = (highscore)   #attribuer les valeurs à sauvegarder / dernier score
@@ -95,8 +95,8 @@ def Animation_lancement_1():
     color_anim_1='black'
     if couleur=='black':
         color_anim_1='white'
-    Animation_1 = Canvas(window, bg=color_anim_1,width=w,height=h)
-    Animation_1.pack(side=RIGHT)
+    Animation_1 = tk.Canvas(window, bg=color_anim_1,width=w,height=h)
+    Animation_1.pack(side='right')
     for i in range(1,275):
         window.after(5*i,changement_animation_1)
 
@@ -113,8 +113,8 @@ def Animation_lancement_2():
         color_anim_2='black'
     window.configure(bg=color_anim_2)
     Animation_1.destroy()
-    Animation_2 = Canvas(window, bg=color_anim_1,width=w,height=h)
-    Animation_2.pack(side=LEFT)
+    Animation_2 = tk.Canvas(window, bg=color_anim_1,width=w,height=h)
+    Animation_2.pack(side='left')
     for i in range(1,275):
         window.after(5*i,changement_animation_2)
 
@@ -126,15 +126,14 @@ def changement_animation_2():
 
 
 def Initialisation_Jeu():
-    
-    window.configure(bg='black')
     global piv
+    window.configure(bg='black')
     piv=35
     
     def Vehicle_p():
         global Page, r
         r=30
-        Page = Canvas(window, bg='black', width=w, height=h)
+        Page = tk.Canvas(window, bg='black', width=w, height=h)
         Page.pack(fill='both')
         Page.create_window(100, 100, anchor='nw')
         Page.create_oval(200-r,piv-r,200+r,piv+r/2, outline='red', fill='white')
@@ -155,6 +154,7 @@ def Initialisation_Jeu():
 
         
     def haut(event):
+        global piv
         print('haut')
         if piv-r-5>0:
             piv-=10
@@ -162,10 +162,12 @@ def Initialisation_Jeu():
     def hauut(event):
         print('hauut')
         def vite_haut():
+            global piv
             piv-=5
         window.after(5,vite_haut)
     
     def bas(event):
+        global piv
         print('bas')
         if piv+r+5<h:
             piv+=10
@@ -173,6 +175,7 @@ def Initialisation_Jeu():
     def baas(event):
         print('baas')
         def vite_bas():
+            global piv
             piv-=5
         window.after(5,vite_bas)
 
@@ -199,4 +202,4 @@ def Initialisation_Jeu():
 
 
 
-mainloop()
+tk.mainloop()
