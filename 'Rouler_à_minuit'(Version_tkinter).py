@@ -138,7 +138,9 @@ def Initialisation_Jeu():
     def Vehicle_p():
         global r, voiture
         r=30
-        voiture = Page.create_oval(200-r,piv-r,200+r,piv+r/2, outline='red', fill='white')
+        voiture = Page.create_rectangle(200-r,piv-r,200+2*r,piv+r/4, outline='white', fill='black')
+        roue_1= Page.create_rectangle(200-25, piv+5, 200-10, piv+20, outline='red', fill='white')
+        roue_2= Page.create_rectangle(200+2*r-5, piv+5, 200+r+10, piv+20, outline='red', fill='white')
 
     Vehicle_p()
     
@@ -147,7 +149,7 @@ def Initialisation_Jeu():
                                 [0],
                                 [0]]
 
-    délai=int(1)
+    délai=int(50)
 
     def MAJHeure():
 
