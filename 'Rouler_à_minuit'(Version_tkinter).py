@@ -13,7 +13,7 @@ w = window.winfo_screenwidth()
 h = window.winfo_screenheight()
 
 def Relancer():
-    Page.destroy()
+    # Page.destroy()
     Jeu()
 
 
@@ -29,7 +29,7 @@ mode=0
 
 def changement_de_couleur():
     global couleur, fground, titre_jeu, ii, mode
-    couleurs=['black','white','red','blue','green','yellow','purple']
+    couleurs=['white','red','blue','green','yellow','purple']
     if ii==len(couleurs):
         ii=0
     couleur=couleurs[ii]
@@ -68,7 +68,7 @@ def Jeu():
     mode=1
     window.after(500,Animation_lancement_1)
     window.after(2000,Animation_lancement_2)
-    window.after(3500,Initialisation_Jeu)
+    # window.after(3500,Initialisation_Jeu)
     window.after(3500,Menu_barre)
 
 Bouton_couleur=tk.Button(frame_test,text='Changer la couleur', font=("Courrier",10), bg='#f0f0f0', fg='black', relief='groove', highlightthickness=0,command=changement_de_couleur)
@@ -125,65 +125,65 @@ def changement_animation_2():
 
 
 
-def Initialisation_Jeu():
-    global piv, Page
-    window.configure(bg='black')
-    piv=35
+# def Initialisation_Jeu():
+#     global piv, Page
+#     window.configure(bg='black')
+#     piv=35
     
-    Page = tk.Canvas(window, bg='black', width=w, height=h)
-    Page.pack(fill='both')
-    Page.create_window(100, 100, anchor='nw')
+#     Page = tk.Canvas(window, bg='black', width=w, height=h)
+#     Page.pack(fill='both')
+#     Page.create_window(100, 100, anchor='nw')
     
     
-    def Vehicle_p():
-        global r, voiture
-        r=30
-        voiture = Page.create_rectangle(200-r,piv-r,200+2*r,piv+r/4, outline='white', fill='black')
-        roue_1= Page.create_rectangle(200-25, piv+5, 200-10, piv+20, outline='red', fill='white')
-        roue_2= Page.create_rectangle(200+2*r-5, piv+5, 200+r+10, piv+20, outline='red', fill='white')
+#     def Vehicle_p():
+#         global r, voiture
+#         r=30
+#         voiture = Page.create_rectangle(200-r,piv-r,200+2*r,piv+r/4, outline='white', fill='black')
+#         roue_1= Page.create_rectangle(200-25, piv+5, 200-10, piv+20, outline='red', fill='white')
+#         roue_2= Page.create_rectangle(200+2*r-5, piv+5, 200+r+10, piv+20, outline='red', fill='white')
 
-    Vehicle_p()
+#     Vehicle_p()
     
-    grille_voiture_generated=[  [0],
-                                [0],
-                                [0],
-                                [0]]
+#     grille_voiture_generated=[  [0],
+#                                 [0],
+#                                 [0],
+#                                 [0]]
 
-    délai=int(50)
+#     délai=int(50)
 
-    def MAJHeure():
+#     def MAJHeure():
 
-        Deplacement_voiture_p()
-        window.after(délai,MAJHeure)
+#         Deplacement_voiture_p()
+#         window.after(délai,MAJHeure)
 
         
-    def haut(event):
-        global piv
-        print('haut')
-        if piv-r-5>0:
-            piv-=7
-            Page.delete('all')
-            Vehicle_p()
+#     def haut(event):
+#         global piv
+#         print('haut')
+#         if piv-r-5>0:
+#             piv-=7
+#             Page.delete('all')
+#             Vehicle_p()
 
-    def bas(event):
-        global piv
-        print('bas')
-        if piv+r+5<h:
-            piv+=7
-            Page.delete('all')
-            Vehicle_p()
+#     def bas(event):
+#         global piv
+#         print('bas')
+#         if piv+r+5<h:
+#             piv+=7
+#             Page.delete('all')
+#             Vehicle_p()
 
-    def Deplacement_voiture_p():
-        Vehicle_p()
-        window.bind("<Up>",haut)
-        window.bind("<Down>",bas)
-        window.bind("<KeyPress-z>",haut)
-        window.bind("<KeyPress-w>",haut)
-        window.bind("<KeyPress-s>",bas)
-        window.bind("<KeyPress-Z>",haut)
-        window.bind("<KeyPress-W>",haut)
-        window.bind("<KeyPress-S>",bas)
-    MAJHeure()
+#     def Deplacement_voiture_p():
+#         Vehicle_p()
+#         window.bind("<Up>",haut)
+#         window.bind("<Down>",bas)
+#         window.bind("<KeyPress-z>",haut)
+#         window.bind("<KeyPress-w>",haut)
+#         window.bind("<KeyPress-s>",bas)
+#         window.bind("<KeyPress-Z>",haut)
+#         window.bind("<KeyPress-W>",haut)
+#         window.bind("<KeyPress-S>",bas)
+#     MAJHeure()
 
 
 
