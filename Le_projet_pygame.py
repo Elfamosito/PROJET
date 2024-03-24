@@ -6,39 +6,42 @@ import sys
 pygame.init()
 
 # Définition des variables globales
-WIDTH, HEIGHT = 800, 600
-PLAYER_SIZE = 50
-PLAYER_COLOR = (255, 0, 0)
-BACKGROUND_COLOR = (0, 0, 0)
-SCORE_COLOR = (255, 255, 255)
-OBSTACLE_WIDTH = 50
-OBSTACLE_HEIGHT = 50
-OBSTACLE_COLOR = (0, 255, 0)
-ACCELERATION = 0.001
-INITIAL_SPEED = 5
-FONT_SIZE = 30
+WIDTH, HEIGHT = 800, 600 # Valeur de la taille (hauteur, largeur) de la fenêtre
+PLAYER_SIZE = 50 # Taille du joueur
+PLAYER_COLOR = (255, 0, 0) # Couleur du joueur en RVB
+BACKGROUND_COLOR = (0, 0, 0) # Couleur du fond du jeu
+SCORE_COLOR = (255, 255, 255) # Couleur du score
+OBSTACLE_WIDTH = 50 # Largeur des blocs ennemis
+OBSTACLE_HEIGHT = 50 # Longueur des blocs ennemis
+OBSTACLE_COLOR = (0, 255, 0) # Couleur des blocs ennemis
+ACCELERATION = 0.001 # Vitesse d'apparition des blocs ennemis ~~
+INITIAL_SPEED = 5 # Vitesse ~~
+FONT_SIZE = 30 # Taille de l'écriture
 
 # Chargement du score record depuis un fichier
 def load_high_score():
-    try:
-        with open("high_score.txt", "r") as file:
-            return int(file.read())
-    except FileNotFoundError:
-        return 0
+    try: # Test pour vérifier l'existence du fichier de sauvegarde du record
+        with open("high_score.txt", "r") as file: # Ouverture du fichier avec le record
+            return int(file.read()) # Récupération du record
+    except FileNotFoundError: # Si le fichier n'existe pas
+        return 0 # Ne rien faire
 
 # Sauvegarde du score record dans un fichier
-def save_high_score(score):
-    with open("high_score.txt", "w") as file:
-        file.write(str(score))
+def save_high_score(score): 
+    with open("high_score.txt", "w") as file: # Ouverture du fichier ou création du fichier avec le record
+        file.write(str(score)) # Insertion du record dans le fichier
 
 # Chargement de la musique de fond
 # def load_background_music():
-    # pygame.mixer.music.load("666.mp4")
+    # pygame.mixer.music.load("666.mp4") # Insertion de la musique en arrière-plan
     # pygame.mixer.music.play(-1)  # Joue en boucle infinie
 
+# /!\Il faut mettre la musique et ce fichier dans le même dossier sinon la musique ne fonctionnera pas et le code aussi
+
+
 # Création de la fenêtre de jeu
-window = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Runner Game")
+window = pygame.display.set_mode((WIDTH, HEIGHT)) # Paramètre de la fenêtre avec la largeur et la hauteur défini
+pygame.display.set_caption("Rouler à minuit") # Paramètre du nom
 
 # Classe pour représenter le joueur
 class Player:
@@ -72,19 +75,20 @@ class Obstacle:
 
 # Fonction pour détecter les collisions entre le joueur et les obstacles
 def collision(player, obstacle):
-    if (player.x < obstacle.x + obstacle.width and
-        player.x + player.width > obstacle.x and
-        player.y < obstacle.y + obstacle.height and
-        player.y + player.height > obstacle.y):
-        return True
-    return False
+    if (player.x < obstacle.x + obstacle.width and # Verification du côté gauche du joueur
+        player.x + player.width > obstacle.x and # Verification du côté droit du joueur
+        player.y < obstacle.y + obstacle.height and # Verification du côté haut du joueur
+        player.y + player.height > obstacle.y): # Verification du côté bas du joueur
+        return True # Continue à jouer
+    return False # Arrête le jeu
 
-# Fonction principale pour exécuter le jeu
+# Fonction principale du jeu
 def main():
     def draw_buttons():
 
         # Afficher le texte des boutons
         font = pygame.font.SysFont('None', FONT_SIZE)
+        
 
     running = True
     player = Player()
@@ -130,12 +134,12 @@ def main():
             obstacle.move(player.velocity)
             if collision(player, obstacle):
                 running = False
-            if obstacle.y > HEIGHT:
-                player.update_score()
-                obstacles.remove(obstacle)
+            if obstacle.y > HEIGHT: # Condition si un bloc ennemi passe en dessous de la fenêtre
+                player.update_score() # Ajout de 1 pour le score 
+                obstacles.remove(obstacle) # Destruction du bloc ennemi
 
         # Augmentation de la vitesse avec le temps
-        player.velocity += ACCELERATION #type:ignore
+        player.velocity += ACCELERATION  # type:ignore
 
         # Affichage du score
         font = pygame.font.SysFont('None', FONT_SIZE)
@@ -151,18 +155,15 @@ def main():
         replay_button = pygame.Rect(WIDTH // 2 - 100, HEIGHT // 2 + 100, 200, 50)
         draw_buttons()
 
-        pygame.display.update()
-        clock.tick(60)
+        pygame.display.update() # Rafraîchissement de la page
+        clock.tick(60) # Valeur du rafrâichissement + c'est haut + le jeu est rapide.
 
-    # Vérification du score pour le record
-    if player.score > high_score:
-        save_high_score(player.score)
-        print("New High Score:", player.score)
+    if player.score > high_score: # Condition pour savoir si le score du joueur est supérieur au score enregistrer dans le fichier de sauvegarde du score
+        save_high_score(player.score) # Enregistrer la valeur du nouveau record à l'aide de la fonction save_high_score
+        print("New High Score:", player.score) # Afficher sur la console que le joueur a fait un nouveau record et l'afficher
 
     # Attendre 2 secondes avant de quitter
-    pygame.time.wait(2000)
-    pygame.quit()
+    pygame.time.wait(1000)
+    pygame.quit() # Effacer la fenêtre du jeu
 
-if __name__ == "__main__":
-    main()
-
+main() # Lancer la fonction pour le jeu
