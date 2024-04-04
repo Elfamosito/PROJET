@@ -21,27 +21,27 @@ OBSTACLE_INTERVAL_DECREMENT = 2
 
 class Player:
     def __init__(self):
-        self.x = WINDOW_WIDTH // 2
-        self.y = WINDOW_HEIGHT - PLAYER_HEIGHT
+        self.y = WINDOW_HEIGHT // 2
+        self.x = 0 + PLAYER_WIDTH
         self.score = 0
         self.is_alive = True
 
     def update(self):
-        if pyxel.btn(pyxel.KEY_LEFT) and self.x > 0:
-            self.x -= PLAYER_SPEED
-        if pyxel.btn(pyxel.KEY_RIGHT) and self.x < WINDOW_WIDTH - PLAYER_WIDTH:
-            self.x += PLAYER_SPEED
+        if pyxel.btn(pyxel.KEY_UP) and self.y > 0:
+            self.y -= PLAYER_SPEED
+        if pyxel.btn(pyxel.KEY_DOWN) and self.y < WINDOW_HEIGHT - PLAYER_HEIGHT:
+            self.y += PLAYER_SPEED
 
     def draw(self):
         pyxel.rect(self.x, self.y, PLAYER_WIDTH, PLAYER_HEIGHT, PLAYER_COLOR)
 
 class Obstacle:
     def __init__(self):
-        self.x = random.randint(0, WINDOW_WIDTH - OBSTACLE_WIDTH)
-        self.y = -OBSTACLE_HEIGHT
+        self.y = random.randint(0, WINDOW_HEIGHT - OBSTACLE_WIDTH)
+        self.x = WINDOW_WIDTH + OBSTACLE_WIDTH
 
     def update(self):
-        self.y += OBSTACLE_SPEED
+        self.x -= OBSTACLE_SPEED
 
     def draw(self):
         pyxel.rect(self.x, self.y, OBSTACLE_WIDTH, OBSTACLE_HEIGHT, OBSTACLE_COLOR)
@@ -75,11 +75,11 @@ class App:
         if pyxel.frame_count % self.obstacle_interval == 0:
             self.obstacles.append(Obstacle())
             self.obstacle_interval -= OBSTACLE_INTERVAL_DECREMENT
-            if self.obstacle_interval < 10:
-                self.obstacle_interval = 10
+            if self.obstacle_interval < 5:
+                self.obstacle_interval = 5
         for obstacle in self.obstacles:
             obstacle.update()
-            if obstacle.y > WINDOW_HEIGHT:
+            if obstacle.x < -OBSTACLE_WIDTH :
                 self.obstacles.remove(obstacle)
                 self.player.score += 1
 

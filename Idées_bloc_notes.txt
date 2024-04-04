@@ -10,11 +10,25 @@ Télécharger les images, (voiture qui monte, descend, avance et détruit)
                         (route)
                         (paysage)
                         (Voitures aléatoires parmis 3 pattern environ)
-                        
 
+Bouton Replay
 
-Commencer par une version simplifiée du jeu :   avec une boule qui se déplace, color('blue')
-                                                doit esquiver les autres boules, color('red')
-                                                les boules ennemies apparaissent aléatoirement, importer bibliothèque random
-                                                si notre boule touche en une autre fin du jeu 
-                                                notre boule peut se déplacer de haut vers le bas 
+Idées pouvoir:
+
+    Le dash, Va vers le bas ou haut, et évite les voitures entre.
+
+    Les missiles, détruit le bloc devant
+
+    Le rocket, propulse vers l'avant. Comme dans Jetpack Joyride
+
+    Mettre un slow
+
+Mettre des ennemis différents avec des images différentes:
+
+    Le normal
+
+    Le gros
+
+    Le rapide
+
+    Le normal mais clignote, apparaît disparaît.
