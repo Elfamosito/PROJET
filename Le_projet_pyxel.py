@@ -2,22 +2,24 @@ import pyxel
 import random
 
 # Définition des variables globales
-WINDOW_WIDTH = 160
-WINDOW_HEIGHT = 120
-PLAYER_WIDTH = 7
-PLAYER_HEIGHT = 7
-OBSTACLE_WIDTH = 7
-OBSTACLE_HEIGHT = 7
+WINDOW_WIDTH = 1200
+WINDOW_HEIGHT = 600
+PLAYER_WIDTH = 100
+PLAYER_HEIGHT = 50
+OBSTACLE_WIDTH = 100
+OBSTACLE_HEIGHT = 45
 PLAYER_COLOR = 8
 OBSTACLE_COLOR = 9
 BACKGROUND_COLOR = 0
 SCORE_COLOR = 7
-FONT_COLOR = 7
-FONT_SIZE = 4
-PLAYER_SPEED = 2
-OBSTACLE_SPEED = 2
-INITIAL_OBSTACLE_INTERVAL = 40
-OBSTACLE_INTERVAL_DECREMENT = 2
+PLAYER_SPEED = 10
+OBSTACLE_SPEED = 10
+INITIAL_OBSTACLE_INTERVAL = 100
+OBSTACLE_INTERVAL_DECREMENT = 5
+
+pyxel.init(WINDOW_WIDTH, WINDOW_HEIGHT, title="Midnight Drive", display_scale=1)
+
+pyxel.images[0].load(0,0,"Voiture_joueur.png") #type: ignore
 
 class Player:
     def __init__(self):
@@ -33,7 +35,7 @@ class Player:
             self.y += PLAYER_SPEED
 
     def draw(self):
-        pyxel.rect(self.x, self.y, PLAYER_WIDTH, PLAYER_HEIGHT, PLAYER_COLOR)
+        pyxel.blt(self.x, self.y, 0 , 0 , 0 ,150,53)
 
 class Obstacle:
     def __init__(self):
@@ -48,7 +50,7 @@ class Obstacle:
 
 class App:
     def __init__(self):
-        pyxel.init(WINDOW_WIDTH, WINDOW_HEIGHT, title="Midnight Drive")
+        
         self.player = Player()
         self.obstacles = []
         self.obstacle_interval = INITIAL_OBSTACLE_INTERVAL
@@ -75,8 +77,8 @@ class App:
         if pyxel.frame_count % self.obstacle_interval == 0:
             self.obstacles.append(Obstacle())
             self.obstacle_interval -= OBSTACLE_INTERVAL_DECREMENT
-            if self.obstacle_interval < 5:
-                self.obstacle_interval = 5
+            if self.obstacle_interval <= 20:
+                self.obstacle_interval = 15
         for obstacle in self.obstacles:
             obstacle.update()
             if obstacle.x < -OBSTACLE_WIDTH :
