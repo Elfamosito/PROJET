@@ -1,5 +1,5 @@
-import pyxel
-import random
+import pyxel as py
+import random as ra
 
 # Définition des variables globales
 WINDOW_WIDTH = 1200
@@ -17,9 +17,9 @@ OBSTACLE_SPEED = 10
 INITIAL_OBSTACLE_INTERVAL = 100
 OBSTACLE_INTERVAL_DECREMENT = 5
 
-pyxel.init(WINDOW_WIDTH, WINDOW_HEIGHT, title="Midnight Drive", display_scale=1)
+py.init(WINDOW_WIDTH, WINDOW_HEIGHT, title="Midnight Drive", display_scale=1)
 
-pyxel.images[0].load(0,0,"Voiture_joueur.png") #type: ignore
+py.images[0].load(0,0,"Voiture_joueur.png") #type: ignore
 
 class Player:
     def __init__(self):
@@ -29,24 +29,24 @@ class Player:
         self.is_alive = True
 
     def update(self):
-        if pyxel.btn(pyxel.KEY_UP) and self.y > 0:
+        if py.btn(py.KEY_UP) and self.y > 0:
             self.y -= PLAYER_SPEED
-        if pyxel.btn(pyxel.KEY_DOWN) and self.y < WINDOW_HEIGHT - PLAYER_HEIGHT:
+        if py.btn(py.KEY_DOWN) and self.y < WINDOW_HEIGHT - PLAYER_HEIGHT:
             self.y += PLAYER_SPEED
 
     def draw(self):
-        pyxel.blt(self.x, self.y, 0 , 0 , 0 ,150,53)
+        py.blt(self.x, self.y, 0 , 0 , 0 ,150,53)
 
 class Obstacle:
     def __init__(self):
-        self.y = random.randint(0, WINDOW_HEIGHT - OBSTACLE_WIDTH)
+        self.y = ra.randint(0, WINDOW_HEIGHT - OBSTACLE_WIDTH)
         self.x = WINDOW_WIDTH + OBSTACLE_WIDTH
 
     def update(self):
         self.x -= OBSTACLE_SPEED
 
     def draw(self):
-        pyxel.rect(self.x, self.y, OBSTACLE_WIDTH, OBSTACLE_HEIGHT, OBSTACLE_COLOR)
+        py.rect(self.x, self.y, OBSTACLE_WIDTH, OBSTACLE_HEIGHT, OBSTACLE_COLOR)
 
 class App:
     def __init__(self):
@@ -55,7 +55,7 @@ class App:
         self.obstacles = []
         self.obstacle_interval = INITIAL_OBSTACLE_INTERVAL
         self.game_over = False
-        pyxel.run(self.update, self.draw)
+        py.run(self.update, self.draw)
 
     def update(self):
         if not self.game_over:
@@ -64,17 +64,17 @@ class App:
             self.check_collision()
 
     def draw(self):
-        pyxel.cls(BACKGROUND_COLOR)
+        py.cls(BACKGROUND_COLOR)
         if not self.game_over:
             self.player.draw()
             for obstacle in self.obstacles:
                 obstacle.draw()
-            pyxel.text(4, 4, "Score: {}".format(self.player.score), SCORE_COLOR)
+            py.text(4, 4, "Score: {}".format(self.player.score), SCORE_COLOR)
         else:
-            pyxel.text(WINDOW_WIDTH // 2 - 20, WINDOW_HEIGHT // 2, "Game Over", SCORE_COLOR)
+            py.text(WINDOW_WIDTH // 2 - 20, WINDOW_HEIGHT // 2, "Game Over", SCORE_COLOR)
 
     def update_obstacles(self):
-        if pyxel.frame_count % self.obstacle_interval == 0:
+        if py.frame_count % self.obstacle_interval == 0:
             self.obstacles.append(Obstacle())
             self.obstacle_interval -= OBSTACLE_INTERVAL_DECREMENT
             if self.obstacle_interval <= 20:
