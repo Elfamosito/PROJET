@@ -23,6 +23,7 @@ Idées pouvoir:
 
     Mettre un slow
 
+    
 Mettre des ennemis différents avec des images différentes:
 
     Le normal
