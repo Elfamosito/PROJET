@@ -27,7 +27,24 @@ OBSTACLE_INTERVAL_DECREMENT = 5
 
 py.init(WINDOW_WIDTH, WINDOW_HEIGHT, title="Midnight Drive", display_scale=1)
 
-py.images[0].load(0,0,"Voiture_joueur.png") #type: ignore
+# Chargement du score record depuis un fichier
+def load_high_score():
+    try: # Test pour vérifier l'existence du fichier de sauvegarde du record
+        with open("high_score.txt", "r") as file: # Ouverture du fichier avec le record
+            return int(file.read()) # Récupération du record
+    except FileNotFoundError: # Si le fichier n'existe pas
+        return 0 # Ne rien faire
+
+# Sauvegarde du score record dans un fichier
+def save_high_score(score): 
+    with open("high_score.txt", "w") as file: # Ouverture du fichier ou création du fichier avec le record
+        file.write(str(score)) # Insertion du record dans le fichier
+
+def chargement_images():
+
+    py.images[0].load(0,0,"Voiture_joueur.png") #type: ignore
+
+
 
 class Player:
     def __init__(self):
@@ -57,6 +74,9 @@ class Obstacle:
         py.rect(self.x, self.y, OBSTACLE_WIDTH, OBSTACLE_HEIGHT, OBSTACLE_COLOR)
 
 class App:
+    
+    chargement_images()
+    
     def __init__(self):
         
         self.player = Player()
