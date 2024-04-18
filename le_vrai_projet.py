@@ -37,6 +37,7 @@ obstacle_interval = INITIAL_OBSTACLE_INTERVAL
 score = 0
 nb_minute = 0
 obstacle_genere = 0
+vitesse_de_déplacement_ennemi = 10
 
 py.init(WINDOW_WIDTH,WINDOW_HEIGHT, title="Midnight Caca")
 
@@ -137,7 +138,6 @@ def random_obstacles():
     
     indice_obstacle_genere = ra.randint(0 , len(liste_proba_type_obstacle)-1)
     obstacle_genere = liste_proba_type_obstacle[indice_obstacle_genere]
-    # print(obstacle_genere)
 
 def change_proba():
     global nb_minute, max_1, min_2, min_3, min_4, min_1, decrease_1, increase_2, increase_3, increase_4
@@ -181,25 +181,25 @@ def update():
         Obstacle_4()
         check_colision_joueur_obstacle()
         for obstacle in liste_obstacles_1 : 
-            obstacle[0] -= 10
+            obstacle[0] -= vitesse_de_déplacement_ennemi
             if obstacle[0] < -OBSTACLE_WIDTH :
                 liste_obstacles_1.remove(obstacle)
                 score +=1
         for obstacle in liste_obstacles_2 : 
-            obstacle[0] -= 15
+            obstacle[0] -= 1.5 * vitesse_de_déplacement_ennemi
             if obstacle[0] < -OBSTACLE_WIDTH :
                 liste_obstacles_2.remove(obstacle)
-                score +=1
+                score +=2
         for obstacle in liste_obstacles_3 : 
-            obstacle[0] -= 10
+            obstacle[0] -= vitesse_de_déplacement_ennemi
             if obstacle[0] < -OBSTACLE_WIDTH :
                 liste_obstacles_3.remove(obstacle)
-                score +=1
+                score +=2
         for obstacle in liste_obstacles_4 : 
-            obstacle[0] -= 15
+            obstacle[0] -= 1.5 * vitesse_de_déplacement_ennemi
             if obstacle[0] < -OBSTACLE_WIDTH :
                 liste_obstacles_4.remove(obstacle)
-                score +=1
+                score +=4
         
         if score % 15 == 1 or nb_minute == 0 :
             change_proba()
