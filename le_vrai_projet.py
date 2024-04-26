@@ -37,7 +37,18 @@ obstacle_interval = INITIAL_OBSTACLE_INTERVAL
 score = 0
 nb_minute = 0
 obstacle_genere = 0
-vitesse_de_déplacement_ennemi = 10
+vitesse_de_deplacement_ennemi = 10
+
+dash = 0
+fusee = False
+tps_fusee = 0
+liste_missiles = []
+longueur_missile = 50
+liste_explosion = []
+rayon_explosion = 0
+slow = False
+missile_width = 30
+missile_height = 10
 
 py.init(WINDOW_WIDTH,WINDOW_HEIGHT, title="Midnight Caca")
 
@@ -166,6 +177,47 @@ def change_proba():
             min_3 += increase_3 # type: ignore
             min_4 += increase_4 # type: ignore
         
+def explosion():
+    global rayon_explosion
+    for explosion in liste_explosion :
+        if rayon_explosion <= OBSTACLE_HEIGHT :
+            rayon_explosion += 10
+            py.circ(explosion[0] + OBSTACLE_WIDTH/2, explosion[1] + OBSTACLE_HEIGHT/2, rayon_explosion, 10)
+            py.circ(explosion[0] + OBSTACLE_WIDTH/2, explosion[1] + OBSTACLE_HEIGHT/2, rayon_explosion - 10, 10)
+        else:
+            liste_explosion.remove(explosion)
+            
+def lancer_missiles():
+    if py.btnp(py.KEY_SPACE, 10, 20): # type: ignore
+        liste_missiles.append([x_joueur + PLAYER_WIDTH, y_joueur + PLAYER_HEIGHT/3])
+        liste_missiles.append([x_joueur + PLAYER_WIDTH, y_joueur + (PLAYER_HEIGHT/3)*2])
+            
+def deplacement_missiles():
+    for missile in liste_missiles:
+        missile[0] += 20
+        if missile[0] > WINDOW_WIDTH:
+            liste_missiles.remove(missile)
+        else:
+                for obstacle in liste_obstacles_1:
+                    if  missile[0] >= obstacle[0] and missile[1] >= obstacle[1] and missile[1] <= obstacle[1] + OBSTACLE_HEIGHT:
+                        liste_explosion.append([missile[0], missile[1]])
+                        liste_missiles.remove(missile)
+                        liste_obstacles_1.remove(obstacle)
+                for obstacle in liste_obstacles_2:
+                    if  missile[0] >= obstacle[0] and missile[1] >= obstacle[1] and missile[1] <= obstacle[1] + OBSTACLE_HEIGHT:
+                        liste_explosion.append([missile[0], missile[1]])
+                        liste_missiles.remove(missile)
+                        liste_obstacles_2.remove(obstacle)
+                for obstacle in liste_obstacles_3:
+                    if  missile[0] >= obstacle[0] and missile[1] >= obstacle[1] and missile[1] <= obstacle[1] + OBSTACLE_HEIGHT:
+                        liste_explosion.append([missile[0], missile[1]])
+                        liste_missiles.remove(missile)
+                        liste_obstacles_3.remove(obstacle)
+                for obstacle in liste_obstacles_4:
+                    if  missile[0] >= obstacle[0] and missile[1] >= obstacle[1] and missile[1] <= obstacle[1] + OBSTACLE_HEIGHT:
+                        liste_explosion.append([missile[0], missile[1]])
+                        liste_missiles.remove(missile)
+                        liste_obstacles_4.remove(obstacle)
             
 def update():
     global score, nb_minute, SCORE_COLOR
@@ -174,29 +226,35 @@ def update():
         py.quit()
     
     if vivant :
+        if slow == True:
+            vitesse_de_deplacement_ennemi = 5
+        elif slow == False :
+            vitesse_de_deplacement_ennemi = 10
         Joueur()
         Obstacle_1()
         Obstacle_2()
         Obstacle_3()
         Obstacle_4()
         check_colision_joueur_obstacle()
+        lancer_missiles()
+        deplacement_missiles()
         for obstacle in liste_obstacles_1 : 
-            obstacle[0] -= vitesse_de_déplacement_ennemi
+            obstacle[0] -= vitesse_de_deplacement_ennemi
             if obstacle[0] < -OBSTACLE_WIDTH :
                 liste_obstacles_1.remove(obstacle)
                 score +=1
         for obstacle in liste_obstacles_2 : 
-            obstacle[0] -= 1.5 * vitesse_de_déplacement_ennemi
+            obstacle[0] -= 1.5 * vitesse_de_deplacement_ennemi
             if obstacle[0] < -OBSTACLE_WIDTH :
                 liste_obstacles_2.remove(obstacle)
                 score +=2
         for obstacle in liste_obstacles_3 : 
-            obstacle[0] -= vitesse_de_déplacement_ennemi
+            obstacle[0] -= vitesse_de_deplacement_ennemi
             if obstacle[0] < -OBSTACLE_WIDTH :
                 liste_obstacles_3.remove(obstacle)
                 score +=2
         for obstacle in liste_obstacles_4 : 
-            obstacle[0] -= 1.5 * vitesse_de_déplacement_ennemi
+            obstacle[0] -= 1.5 * vitesse_de_deplacement_ennemi
             if obstacle[0] < -OBSTACLE_WIDTH :
                 liste_obstacles_4.remove(obstacle)
                 score +=4
@@ -230,6 +288,9 @@ def draw():
             py.rect(obstacle[0] , obstacle[1], OBSTACLE_WIDTH, OBSTACLE_HEIGHT+50, OBSTACLE_COLOR)
         for obstacle in liste_obstacles_4 :
             py.rect(obstacle[0] , obstacle[1], OBSTACLE_WIDTH+50, OBSTACLE_HEIGHT+50, OBSTACLE_COLOR)
+        for missile in liste_missiles :
+            py.rect(missile[0], missile[1], missile_width, missile_height, 10)
+        explosion()
         py.text(4,4,"Score: {}".format(score), SCORE_COLOR)
         
 py.run(update,draw)
