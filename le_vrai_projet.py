@@ -16,9 +16,8 @@ PLAYER_WIDTH = 115
 PLAYER_HEIGHT = 50
 OBSTACLE_WIDTH = 100
 OBSTACLE_HEIGHT = 45
-PLAYER_COLOR = 8
 OBSTACLE_COLOR = 9
-BACKGROUND_COLOR = 0
+BACKGROUND_COLOR = 0 #couleur noir
 SCORE_COLOR = 7
 PLAYER_SPEED = 10
 OBSTACLE_SPEED = 10
@@ -28,7 +27,7 @@ OBSTACLE_INTERVAL_DECREMENT = 2
 py.init(WINDOW_WIDTH,WINDOW_HEIGHT, title="Midnight Project")
 
 def initialisation():
-    global x_joueur, y_joueur, vivant, game_over, liste_obstacles_1, liste_obstacles_2, liste_obstacles_3, liste_obstacles_4, obstacle_interval, score, obstacle_genere, vitesse_de_deplacement_ennemi, dash, fusee, tps_fusee, liste_missiles, longueur_missile, liste_explosion, rayon_explosion, slow, missile_width, missile_height, nb_missiles
+    global x_joueur, y_joueur, vivant, game_over, liste_obstacles_1, liste_obstacles_2, liste_obstacles_3, liste_obstacles_4, obstacle_interval, score, obstacle_genere, vitesse_de_deplacement_ennemi, dash, fusee, tps_fusee, liste_missiles, longueur_missile, liste_explosion, rayon_explosion, slow, missile_width, missile_height, nb_missiles, shield
     x_joueur = 0 + PLAYER_WIDTH
     y_joueur = WINDOW_HEIGHT // 2
     vivant = True
@@ -42,7 +41,7 @@ def initialisation():
     obstacle_genere = 0
     vitesse_de_deplacement_ennemi = 10
     dash = 0
-    fusee = False
+    fusee = True
     tps_fusee = 0
     liste_missiles = []
     longueur_missile = 50
@@ -52,11 +51,13 @@ def initialisation():
     missile_width = 30
     missile_height = 10
     nb_missiles = 0
+    shield = 0
 
 initialisation()
 
 def images():
     py.images[0].load(0,0,"Voiture_joueur.png") #type: ignore
+    py.images[1].load(0,0,"fusee.png")  #type: ignore
 
 images()
 
@@ -113,27 +114,47 @@ def Obstacle_4():
             obstacle_interval = 15
         
 def check_colision_joueur_obstacle():
-    global game_over, vivant
+    global game_over, vivant, shield
     joueur_hitbox = [x_joueur , y_joueur , x_joueur + PLAYER_WIDTH , y_joueur + PLAYER_HEIGHT]
     for obstacle in liste_obstacles_1:
         obstacle_hitbox = [obstacle[0] , obstacle[1] , obstacle[0] + OBSTACLE_WIDTH , obstacle[1] + OBSTACLE_HEIGHT ]
         if check_hitbox_colision_joueur_obstacle(joueur_hitbox, obstacle_hitbox):
-            vivant = False
+            if shield > 0 :
+                shield -= 1
+                liste_explosion.append([obstacle[0], obstacle[1]])
+            else:
+                vivant = False
+                liste_explosion.append([obstacle[0], obstacle[1]])
             break
     for obstacle in liste_obstacles_2:
         obstacle_hitbox = [obstacle[0] , obstacle[1] , obstacle[0] + OBSTACLE_WIDTH , obstacle[1] + OBSTACLE_HEIGHT ]
         if check_hitbox_colision_joueur_obstacle(joueur_hitbox, obstacle_hitbox):
-            vivant = False
+            if shield > 0 :
+                shield -= 1
+                liste_explosion.append([obstacle[0], obstacle[1]])
+            else:
+                vivant = False
+                liste_explosion.append([obstacle[0], obstacle[1]])
             break
     for obstacle in liste_obstacles_3:
         obstacle_hitbox = [obstacle[0] , obstacle[1] , obstacle[0] + OBSTACLE_WIDTH , obstacle[1] + OBSTACLE_HEIGHT ]
         if check_hitbox_colision_joueur_obstacle(joueur_hitbox, obstacle_hitbox):
-            vivant = False
+            if shield > 0 :
+                shield -= 1
+                liste_explosion.append([obstacle[0], obstacle[1]])
+            else:
+                vivant = False
+                liste_explosion.append([obstacle[0], obstacle[1]])
             break
     for obstacle in liste_obstacles_4:
         obstacle_hitbox = [obstacle[0] , obstacle[1] , obstacle[0] + OBSTACLE_WIDTH , obstacle[1] + OBSTACLE_HEIGHT ]
         if check_hitbox_colision_joueur_obstacle(joueur_hitbox, obstacle_hitbox):
-            vivant = False
+            if shield > 0 :
+                shield -= 1
+                liste_explosion.append([obstacle[0], obstacle[1]])
+            else:
+                vivant = False
+                liste_explosion.append([obstacle[0], obstacle[1]])
             break
 
 def check_hitbox_colision_joueur_obstacle(joueur_hitbox, obstacle_hitbox):
@@ -271,29 +292,79 @@ def slow_pouvoir():
     else :
         vitesse_de_deplacement_ennemi = 10    
 
+def fusee_pouvoir():
+    global fusee
+    
+    # fusee = True
+
+def mode_fusee():
+    global fusee
+    
+    if fusee : 
+        for obstacle in liste_obstacles_1:
+            liste_obstacles_1.remove(obstacle)
+        for obstacle in liste_obstacles_2:
+            liste_obstacles_2.remove(obstacle)
+        for obstacle in liste_obstacles_3:
+            liste_obstacles_3.remove(obstacle)
+        for obstacle in liste_obstacles_4:
+            liste_obstacles_4.remove(obstacle)
+    
+def dash_pouvoir():
+    global dash, y_joueur
+    
+    if dash > 0 :
+        if py.btnp(py.KEY_SHIFT, 0, 10) : # A regler , quelques problèmes dessus ! #type: ignore
+            if py.btn(py.KEY_UP) :
+                y_joueur -= 100
+                dash -= 1
+                print('AAAAAA')
+                if y_joueur <= 0 :
+                    y_joueur = 0
+            elif py.btn(py.KEY_DOWN) :
+                y_joueur += 100
+                dash -= 1
+                print("AAAAAAAAAAAAAAAAAA")
+                if y_joueur >= WINDOW_HEIGHT - PLAYER_HEIGHT :
+                    y_joueur = WINDOW_HEIGHT - PLAYER_HEIGHT
+
+
 def pouvoirs():
     missiles_pouvoir()
     slow_pouvoir()
+    fusee_pouvoir()
+    dash_pouvoir()
 
 def Jeu():
-    global score, SCORE_COLOR
+    global score, SCORE_COLOR, fusee, tps_fusee, x_joueur
     
     if py.btnp(py.KEY_Q):
         py.quit()
 
-    joueur()
-    obstacles()
-    deplacement_obstacles()
-
-    pouvoirs()
+    if fusee:
+        if tps_fusee < 300 :
+            tps_fusee += 1
+            if tps_fusee > 150 :
+                x_joueur -= 4
+            else:
+                x_joueur += 4
+        else: 
+            fusee = False
     
-    if score % 500 == 0: 
-        change_proba()
-    
-    random_obstacles()
+    else:
+        joueur()
+        obstacles()
+        deplacement_obstacles()
 
-    if py.frame_count % 2 == 0 :
-        score += 1
+        pouvoirs()
+        
+        if score % 500 == 0: 
+            change_proba()
+        
+        random_obstacles()
+
+        if py.frame_count % 2 == 0 :
+            score += 1
 
 def Fin():
     global SCORE_COLOR
@@ -311,7 +382,11 @@ def draw_jeu():
     global SCORE_COLOR
     
     py.cls(BACKGROUND_COLOR)
-    py.blt( x_joueur , y_joueur , 0 , 0 , 0 , 150 , 53 )
+    
+    if fusee:
+        py.blt (x_joueur , y_joueur, 1 , 0 , 0 , 870, 270)
+    else:
+        py.blt( x_joueur , y_joueur , 0 , 0 , 0 , 150 , 53)
     
     for obstacle in liste_obstacles_1 :
         py.rect(obstacle[0] , obstacle[1], OBSTACLE_WIDTH, OBSTACLE_HEIGHT, OBSTACLE_COLOR)
