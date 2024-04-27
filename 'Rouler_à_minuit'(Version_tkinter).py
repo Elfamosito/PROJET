@@ -1,7 +1,7 @@
 import tkinter as tk
 import random as ra
 import time as ti
-import numpy as np
+# import numpy as np
 
 
 window=tk.Tk()

@@ -25,40 +25,42 @@ OBSTACLE_SPEED = 10
 INITIAL_OBSTACLE_INTERVAL = 100
 OBSTACLE_INTERVAL_DECREMENT = 2
 
-x_joueur = 0 + PLAYER_WIDTH
-y_joueur = WINDOW_HEIGHT // 2
-vivant = True
-game_over = False
-liste_obstacles_1 =[]
-liste_obstacles_2 =[]
-liste_obstacles_3 =[]
-liste_obstacles_4 =[]
-obstacle_interval = INITIAL_OBSTACLE_INTERVAL
-score = 0
-nb_minute = 0
-obstacle_genere = 0
-vitesse_de_deplacement_ennemi = 10
-
-dash = 0
-fusee = False
-tps_fusee = 0
-liste_missiles = []
-longueur_missile = 50
-liste_explosion = []
-rayon_explosion = 0
-slow = False
-missile_width = 30
-missile_height = 10
-nb_missiles = 0
-
 py.init(WINDOW_WIDTH,WINDOW_HEIGHT, title="Midnight Project")
+
+def initialisation():
+    global x_joueur, y_joueur, vivant, game_over, liste_obstacles_1, liste_obstacles_2, liste_obstacles_3, liste_obstacles_4, obstacle_interval, score, obstacle_genere, vitesse_de_deplacement_ennemi, dash, fusee, tps_fusee, liste_missiles, longueur_missile, liste_explosion, rayon_explosion, slow, missile_width, missile_height, nb_missiles
+    x_joueur = 0 + PLAYER_WIDTH
+    y_joueur = WINDOW_HEIGHT // 2
+    vivant = True
+    game_over = False
+    liste_obstacles_1 =[]
+    liste_obstacles_2 =[]
+    liste_obstacles_3 =[]
+    liste_obstacles_4 =[]
+    obstacle_interval = INITIAL_OBSTACLE_INTERVAL
+    score = 0
+    obstacle_genere = 0
+    vitesse_de_deplacement_ennemi = 10
+    dash = 0
+    fusee = False
+    tps_fusee = 0
+    liste_missiles = []
+    longueur_missile = 50
+    liste_explosion = []
+    rayon_explosion = 0
+    slow = False
+    missile_width = 30
+    missile_height = 10
+    nb_missiles = 0
+
+initialisation()
 
 def images():
     py.images[0].load(0,0,"Voiture_joueur.png") #type: ignore
 
 images()
 
-def Joueur():
+def deplacement_joueur():
     global y_joueur
     if py.btn(py.KEY_UP) and y_joueur > 0 :
         y_joueur -= PLAYER_SPEED
@@ -152,8 +154,8 @@ def random_obstacles():
     obstacle_genere = liste_proba_type_obstacle[indice_obstacle_genere]
 
 def change_proba():
-    global nb_minute, max_1, min_2, min_3, min_4, min_1, decrease_1, increase_2, increase_3, increase_4
-    if nb_minute == 0:
+    global max_1, min_2, min_3, min_4, min_1, decrease_1, increase_2, increase_3, increase_4
+    if score == 0:
         # Initialisation des valeurs
         # Type 1 d'obstacle   Type décroissant   
         min_1 = 30
@@ -172,7 +174,9 @@ def change_proba():
         max_4 = 20
         increase_4 = 1
         
-    elif max_1 > min_1 and nb_minute !=0 : # type: ignore
+        # Il faut que max_1 + max_2 + max_3 + max_4 = 100.
+        
+    elif max_1 > min_1 and score !=0 : # type: ignore
             max_1 -= decrease_1 # type: ignore
             min_2 += increase_2 # type: ignore
             min_3 += increase_3 # type: ignore
@@ -190,7 +194,7 @@ def explosion():
             rayon_explosion = 0
             
 def lancer_missiles():
-    if py.btnp(py.KEY_SPACE, 10, 20) and nb_missiles > 0: # type: ignore
+    if py.btn(py.KEY_SPACE) and nb_missiles > 0:
         liste_missiles.append([x_joueur + PLAYER_WIDTH, y_joueur + PLAYER_HEIGHT/3])
         liste_missiles.append([x_joueur + PLAYER_WIDTH, y_joueur + (PLAYER_HEIGHT/3)*2])
             
@@ -221,83 +225,122 @@ def deplacement_missiles():
                         liste_missiles.remove(missile)
                         liste_obstacles_4.remove(obstacle)
 
-def update():
-    global score, nb_minute, SCORE_COLOR
+def joueur():
+    deplacement_joueur()
+    check_colision_joueur_obstacle()
+
+def obstacles():
+    Obstacle_1()
+    Obstacle_2()
+    Obstacle_3()
+    Obstacle_4()    
+
+def deplacement_obstacles():
+    global score
+    
+    for obstacle in liste_obstacles_1 : 
+        obstacle[0] -= vitesse_de_deplacement_ennemi
+        if obstacle[0] < -OBSTACLE_WIDTH :
+            liste_obstacles_1.remove(obstacle)
+            score +=1
+    for obstacle in liste_obstacles_2 : 
+        obstacle[0] -= 1.5 * vitesse_de_deplacement_ennemi
+        if obstacle[0] < -OBSTACLE_WIDTH :
+            liste_obstacles_2.remove(obstacle)
+            score +=2
+    for obstacle in liste_obstacles_3 : 
+        obstacle[0] -= vitesse_de_deplacement_ennemi
+        if obstacle[0] < -OBSTACLE_WIDTH :
+            liste_obstacles_3.remove(obstacle)
+            score +=2
+    for obstacle in liste_obstacles_4 : 
+        obstacle[0] -= 1.5 * vitesse_de_deplacement_ennemi
+        if obstacle[0] < -OBSTACLE_WIDTH :
+            liste_obstacles_4.remove(obstacle)
+            score +=4    
+
+def missiles_pouvoir():
+    lancer_missiles()
+    deplacement_missiles()
+
+def slow_pouvoir():
+    global vitesse_de_deplacement_ennemi
+    
+    if slow :
+        vitesse_de_deplacement_ennemi = 5
+    else :
+        vitesse_de_deplacement_ennemi = 10    
+
+def pouvoirs():
+    missiles_pouvoir()
+    slow_pouvoir()
+
+def Jeu():
+    global score, SCORE_COLOR
     
     if py.btnp(py.KEY_Q):
         py.quit()
+
+    joueur()
+    obstacles()
+    deplacement_obstacles()
+
+    pouvoirs()
+    
+    if score % 500 == 0: 
+        change_proba()
+    
+    random_obstacles()
+
+    if py.frame_count % 2 == 0 :
+        score += 1
+
+def Fin():
+    global SCORE_COLOR
+    
+    py.cls(0)
+    SCORE_COLOR += 1
+    
+    if SCORE_COLOR == 15 :
+        SCORE_COLOR = 0
+    
+    py.text(WINDOW_WIDTH // 2 - 20, WINDOW_HEIGHT // 2, "Game Over", SCORE_COLOR)
+    py.text(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 20 , "Final score: {}".format(score), SCORE_COLOR)
+
+def draw_jeu():
+    global SCORE_COLOR
+    
+    py.cls(BACKGROUND_COLOR)
+    py.blt( x_joueur , y_joueur , 0 , 0 , 0 , 150 , 53 )
+    
+    for obstacle in liste_obstacles_1 :
+        py.rect(obstacle[0] , obstacle[1], OBSTACLE_WIDTH, OBSTACLE_HEIGHT, OBSTACLE_COLOR)
+    for obstacle in liste_obstacles_2 :
+        py.rect(obstacle[0] , obstacle[1], OBSTACLE_WIDTH+50, OBSTACLE_HEIGHT, OBSTACLE_COLOR)
+    for obstacle in liste_obstacles_3 :
+        py.rect(obstacle[0] , obstacle[1], OBSTACLE_WIDTH, OBSTACLE_HEIGHT+50, OBSTACLE_COLOR)
+    for obstacle in liste_obstacles_4 :
+        py.rect(obstacle[0] , obstacle[1], OBSTACLE_WIDTH+50, OBSTACLE_HEIGHT+50, OBSTACLE_COLOR)
+    for missile in liste_missiles :
+        py.rect(missile[0], missile[1], missile_width, missile_height, 10)
+    
+    explosion()
+    
+    py.text(4,4,"Score: {}".format(score), SCORE_COLOR)
+
+
+def update():
     
     if vivant :
-        if slow == True:
-            vitesse_de_deplacement_ennemi = 5
-        elif slow == False :
-            vitesse_de_deplacement_ennemi = 10
-        Joueur()
-        Obstacle_1()
-        Obstacle_2()
-        Obstacle_3()
-        Obstacle_4()
-        check_colision_joueur_obstacle()
-        lancer_missiles()
-        deplacement_missiles()
-
-        for obstacle in liste_obstacles_1 : 
-            obstacle[0] -= vitesse_de_deplacement_ennemi
-            if obstacle[0] < -OBSTACLE_WIDTH :
-                liste_obstacles_1.remove(obstacle)
-                score +=1
-        for obstacle in liste_obstacles_2 : 
-            obstacle[0] -= 1.5 * vitesse_de_deplacement_ennemi
-            if obstacle[0] < -OBSTACLE_WIDTH :
-                liste_obstacles_2.remove(obstacle)
-                score +=2
-        for obstacle in liste_obstacles_3 : 
-            obstacle[0] -= vitesse_de_deplacement_ennemi
-            if obstacle[0] < -OBSTACLE_WIDTH :
-                liste_obstacles_3.remove(obstacle)
-                score +=2
-        for obstacle in liste_obstacles_4 : 
-            obstacle[0] -= 1.5 * vitesse_de_deplacement_ennemi
-            if obstacle[0] < -OBSTACLE_WIDTH :
-                liste_obstacles_4.remove(obstacle)
-                score +=4
-        
-        if score % 15 == 1 or nb_minute == 0 :
-            change_proba()
-        
-        random_obstacles()
-
-        nb_minute += 1
-        if py.frame_count % 2 == 0 :
-            score += 1
-                
-    else:
-        py.cls(0)
-        SCORE_COLOR += 1
-        if SCORE_COLOR == 15 :
-            SCORE_COLOR = 0
-        py.text(WINDOW_WIDTH // 2 - 20, WINDOW_HEIGHT // 2, "Game Over", SCORE_COLOR)
-        py.text(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 20 , "Final score: {}".format(score), SCORE_COLOR)
-
-
+        Jeu()
+            
     
 def draw():
     
-    if vivant == True :
-        py.cls(BACKGROUND_COLOR)
-        py.blt( x_joueur , y_joueur , 0 , 0 , 0 , 150 , 53 )
-        for obstacle in liste_obstacles_1 :
-            py.rect(obstacle[0] , obstacle[1], OBSTACLE_WIDTH, OBSTACLE_HEIGHT, OBSTACLE_COLOR)
-        for obstacle in liste_obstacles_2 :
-            py.rect(obstacle[0] , obstacle[1], OBSTACLE_WIDTH+50, OBSTACLE_HEIGHT, OBSTACLE_COLOR)
-        for obstacle in liste_obstacles_3 :
-            py.rect(obstacle[0] , obstacle[1], OBSTACLE_WIDTH, OBSTACLE_HEIGHT+50, OBSTACLE_COLOR)
-        for obstacle in liste_obstacles_4 :
-            py.rect(obstacle[0] , obstacle[1], OBSTACLE_WIDTH+50, OBSTACLE_HEIGHT+50, OBSTACLE_COLOR)
-        for missile in liste_missiles :
-            py.rect(missile[0], missile[1], missile_width, missile_height, 10)
-        explosion()
-        py.text(4,4,"Score: {}".format(score), SCORE_COLOR)
- 
+    if vivant :
+        draw_jeu()   
+    else:
+        Fin()
         
+
 py.run(update,draw)
