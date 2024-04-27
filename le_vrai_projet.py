@@ -49,8 +49,9 @@ rayon_explosion = 0
 slow = False
 missile_width = 30
 missile_height = 10
+nb_missiles = 0
 
-py.init(WINDOW_WIDTH,WINDOW_HEIGHT, title="Midnight Caca")
+py.init(WINDOW_WIDTH,WINDOW_HEIGHT, title="Midnight Project")
 
 def images():
     py.images[0].load(0,0,"Voiture_joueur.png") #type: ignore
@@ -156,14 +157,14 @@ def change_proba():
         # Initialisation des valeurs
         # Type 1 d'obstacle   Type décroissant   
         min_1 = 30
-        max_1 = 90
+        max_1 = 100
         decrease_1 = 5
         # Type 2 d'obstacle    Type croissant
-        min_2 = 5
+        min_2 = 0
         max_2 = 25
         increase_2 = 2
         # Type 3 d'obstacle    Type croissant
-        min_3 = 5
+        min_3 = 0
         max_3 = 25
         increase_3 = 2
         # Type 4 d'obstacle    Type croissant
@@ -186,9 +187,10 @@ def explosion():
             py.circ(explosion[0] + OBSTACLE_WIDTH/2, explosion[1] + OBSTACLE_HEIGHT/2, rayon_explosion - 10, 10)
         else:
             liste_explosion.remove(explosion)
+            rayon_explosion = 0
             
 def lancer_missiles():
-    if py.btnp(py.KEY_SPACE, 10, 20): # type: ignore
+    if py.btnp(py.KEY_SPACE, 10, 20) and nb_missiles > 0: # type: ignore
         liste_missiles.append([x_joueur + PLAYER_WIDTH, y_joueur + PLAYER_HEIGHT/3])
         liste_missiles.append([x_joueur + PLAYER_WIDTH, y_joueur + (PLAYER_HEIGHT/3)*2])
             
@@ -218,7 +220,7 @@ def deplacement_missiles():
                         liste_explosion.append([missile[0], missile[1]])
                         liste_missiles.remove(missile)
                         liste_obstacles_4.remove(obstacle)
-            
+
 def update():
     global score, nb_minute, SCORE_COLOR
     
@@ -238,6 +240,7 @@ def update():
         check_colision_joueur_obstacle()
         lancer_missiles()
         deplacement_missiles()
+
         for obstacle in liste_obstacles_1 : 
             obstacle[0] -= vitesse_de_deplacement_ennemi
             if obstacle[0] < -OBSTACLE_WIDTH :
@@ -263,7 +266,10 @@ def update():
             change_proba()
         
         random_obstacles()
+
         nb_minute += 1
+        if py.frame_count % 2 == 0 :
+            score += 1
                 
     else:
         py.cls(0)
@@ -271,8 +277,8 @@ def update():
         if SCORE_COLOR == 15 :
             SCORE_COLOR = 0
         py.text(WINDOW_WIDTH // 2 - 20, WINDOW_HEIGHT // 2, "Game Over", SCORE_COLOR)
-        
-    # nb_minute += 1
+        py.text(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 20 , "Final score: {}".format(score), SCORE_COLOR)
+
 
     
 def draw():
@@ -292,5 +298,6 @@ def draw():
             py.rect(missile[0], missile[1], missile_width, missile_height, 10)
         explosion()
         py.text(4,4,"Score: {}".format(score), SCORE_COLOR)
+ 
         
 py.run(update,draw)

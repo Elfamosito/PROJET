@@ -16,6 +16,7 @@ Bouton Replay
 Idées pouvoir:
 
     Le dash, Va vers le bas ou haut, et évite les voitures entre.
+    Faire un dash avant ?
 
     Les missiles, détruit le bloc devant
 
@@ -33,3 +34,33 @@ Mettre des ennemis différents avec des images différentes:
     Le rapide
 
     Le normal mais clignote, apparaît disparaît.
+
+Clavier Français !
+
+Faire un dessin d'un clavier avec les touches pour jouer x2:
+    car 
+        jouer avec Z et S
+        ou
+        jouer avec flèche_haut et flèche_bas
+
+        Puis les touches pour utiliser les gadgets:
+        Config Z et S:      
+            - Q pour le slow
+            - E pour les missiles.
+            - A pour le rocket.
+            - D pour le dash avant.
+            - Maj pour le dash latéral.
+
+        Config flèche_haut et flèche_bas:
+            - flèche_gauche pour le slow.
+            - Barre espace pour les missiles.
+            - ! pour le rocket.
+            - flèche_droite pour le dash avant.
+            - Maj pour le dash latéral.
+
+Faire un menu :
+    * Start Bouton
+    * Quit Bouton
+    * Settings Bouton
+    * Credits Bouton
+    (*Choose the color)
