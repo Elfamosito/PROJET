@@ -27,7 +27,7 @@ OBSTACLE_INTERVAL_DECREMENT = 2
 py.init(WINDOW_WIDTH,WINDOW_HEIGHT, title="Midnight Project")
 
 def initialisation():
-    global x_joueur, y_joueur, vivant, game_over, liste_obstacles_1, liste_obstacles_2, liste_obstacles_3, liste_obstacles_4, obstacle_interval, score, obstacle_genere, vitesse_de_deplacement_ennemi, dash, fusee, tps_fusee, liste_missiles, longueur_missile, liste_explosion, rayon_explosion, slow, missile_width, missile_height, nb_missiles, shield
+    global x_joueur, y_joueur, vivant, game_over, liste_obstacles_1, liste_obstacles_2, liste_obstacles_3, liste_obstacles_4, obstacle_interval, score, obstacle_genere, vitesse_de_deplacement_ennemi, dash, fusee, tps_fusee, rayon_onde, liste_missiles, longueur_missile, liste_explosion, rayon_explosion, slow, missile_width, missile_height, nb_missiles, shield
     x_joueur = 0 + PLAYER_WIDTH
     y_joueur = WINDOW_HEIGHT // 2
     vivant = True
@@ -41,7 +41,7 @@ def initialisation():
     obstacle_genere = 0
     vitesse_de_deplacement_ennemi = 10
     dash = 0
-    fusee = True
+    fusee = False
     tps_fusee = 0
     liste_missiles = []
     longueur_missile = 50
@@ -263,22 +263,22 @@ def deplacement_obstacles():
         obstacle[0] -= vitesse_de_deplacement_ennemi
         if obstacle[0] < -OBSTACLE_WIDTH :
             liste_obstacles_1.remove(obstacle)
-            score +=1
+            score +=100
     for obstacle in liste_obstacles_2 : 
         obstacle[0] -= 1.5 * vitesse_de_deplacement_ennemi
         if obstacle[0] < -OBSTACLE_WIDTH :
             liste_obstacles_2.remove(obstacle)
-            score +=2
+            score +=200
     for obstacle in liste_obstacles_3 : 
         obstacle[0] -= vitesse_de_deplacement_ennemi
         if obstacle[0] < -OBSTACLE_WIDTH :
             liste_obstacles_3.remove(obstacle)
-            score +=2
+            score +=200
     for obstacle in liste_obstacles_4 : 
         obstacle[0] -= 1.5 * vitesse_de_deplacement_ennemi
         if obstacle[0] < -OBSTACLE_WIDTH :
             liste_obstacles_4.remove(obstacle)
-            score +=4    
+            score +=400   
 
 def missiles_pouvoir():
     lancer_missiles()
@@ -300,7 +300,7 @@ def fusee_pouvoir():
 def mode_fusee():
     global fusee
     
-    if fusee : 
+    if fusee :
         for obstacle in liste_obstacles_1:
             liste_obstacles_1.remove(obstacle)
         for obstacle in liste_obstacles_2:
@@ -336,20 +336,58 @@ def pouvoirs():
     dash_pouvoir()
 
 def Jeu():
-    global score, SCORE_COLOR, fusee, tps_fusee, x_joueur
+    global score, SCORE_COLOR, fusee, tps_fusee, x_joueur, y_joueur
     
     if py.btnp(py.KEY_Q):
         py.quit()
 
     if fusee:
-        if tps_fusee < 300 :
+        if y_joueur > WINDOW_HEIGHT // 2 :
+            y_joueur -= PLAYER_SPEED // 4
+        if y_joueur < WINDOW_HEIGHT // 2 :
+            y_joueur += PLAYER_SPEED // 4
+            
+        if tps_fusee < 400 :
             tps_fusee += 1
-            if tps_fusee > 150 :
-                x_joueur -= 4
-            else:
+            if tps_fusee < 100 :
+                x_joueur += 7
+            elif tps_fusee >= 100 and tps_fusee < 110 :
+                x_joueur += 6
+            elif tps_fusee >= 110 and tps_fusee < 120 :
+                x_joueur += 5
+            elif tps_fusee >= 120 and tps_fusee < 130:
                 x_joueur += 4
+            elif tps_fusee >= 130 and tps_fusee < 140 :
+                x_joueur += 3
+            elif tps_fusee >= 140 and tps_fusee < 150 :
+                x_joueur += 2
+            elif tps_fusee >= 150 and tps_fusee < 160 :
+                x_joueur += 1
+            elif tps_fusee >= 160 and tps_fusee < 170 :
+                x_joueur += 0
+            elif tps_fusee < 100 :
+                x_joueur += 7
+            elif tps_fusee >= 100 and tps_fusee < 110 :
+                x_joueur += 6
+            elif tps_fusee >= 110 and tps_fusee < 120 :
+                x_joueur += 5
+            elif tps_fusee >= 120 and tps_fusee < 130:
+                x_joueur += 4
+            elif tps_fusee >= 130 and tps_fusee < 140 :
+                x_joueur += 3
+            elif tps_fusee >= 140 and tps_fusee < 150 :
+                x_joueur += 2
+            elif tps_fusee >= 150 and tps_fusee < 160 :
+                x_joueur += 1
+            elif tps_fusee >= 160 and tps_fusee < 170 :
+                x_joueur += 0
+                
+            
+            
         else: 
             fusee = False
+            x_joueur = 0 + PLAYER_WIDTH
+            tps_fusee = 0
     
     else:
         joueur()
@@ -384,9 +422,9 @@ def draw_jeu():
     py.cls(BACKGROUND_COLOR)
     
     if fusee:
-        py.blt (x_joueur , y_joueur, 1 , 0 , 0 , 870, 270)
+        py.blt (x_joueur , y_joueur, 1 , 0 , 0 , 150, 47, 11)
     else:
-        py.blt( x_joueur , y_joueur , 0 , 0 , 0 , 150 , 53)
+        py.blt( x_joueur , y_joueur , 0 , 0 , 0 , 150 , 53, 0)
     
     for obstacle in liste_obstacles_1 :
         py.rect(obstacle[0] , obstacle[1], OBSTACLE_WIDTH, OBSTACLE_HEIGHT, OBSTACLE_COLOR)
@@ -403,10 +441,14 @@ def draw_jeu():
     
     py.text(4,4,"Score: {}".format(score), SCORE_COLOR)
 
+i=0
 
 def update():
-    
+    global i, fusee
     if vivant :
+        i += 1
+        if i == 20:
+            fusee = True
         Jeu()
             
     
