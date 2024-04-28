@@ -27,7 +27,7 @@ OBSTACLE_INTERVAL_DECREMENT = 2
 py.init(WINDOW_WIDTH,WINDOW_HEIGHT, title="Midnight Project")
 
 def initialisation():
-    global x_joueur, y_joueur, vivant, game_over, liste_obstacles_1, liste_obstacles_2, liste_obstacles_3, liste_obstacles_4, obstacle_interval, score, obstacle_genere, vitesse_de_deplacement_ennemi, dash, fusee, tps_fusee, rayon_onde, liste_missiles, longueur_missile, liste_explosion, rayon_explosion, slow, missile_width, missile_height, nb_missiles, shield
+    global x_joueur, y_joueur, vivant, game_over, liste_obstacles_1, liste_obstacles_2, liste_obstacles_3, liste_obstacles_4, obstacle_interval, score, obstacle_genere, vitesse_de_deplacement_ennemi, dash, fusee, tps_fusee, rayon_onde, liste_onde, mode_onde, fusee_ready, liste_missiles, longueur_missile, liste_explosion, rayon_explosion, slow, missile_width, missile_height, nb_missiles, shield
     x_joueur = 0 + PLAYER_WIDTH
     y_joueur = WINDOW_HEIGHT // 2
     vivant = True
@@ -43,6 +43,10 @@ def initialisation():
     dash = 0
     fusee = False
     tps_fusee = 0
+    rayon_onde = 0
+    liste_onde = []
+    mode_onde = False
+    fusee_ready = False
     liste_missiles = []
     longueur_missile = 50
     liste_explosion = []
@@ -209,13 +213,13 @@ def explosion():
         if rayon_explosion <= OBSTACLE_HEIGHT :
             rayon_explosion += 10
             py.circ(explosion[0] + OBSTACLE_WIDTH/2, explosion[1] + OBSTACLE_HEIGHT/2, rayon_explosion, 10)
-            py.circ(explosion[0] + OBSTACLE_WIDTH/2, explosion[1] + OBSTACLE_HEIGHT/2, rayon_explosion - 10, 10)
+            # py.circ(explosion[0] + OBSTACLE_WIDTH/2, explosion[1] + OBSTACLE_HEIGHT/2, rayon_explosion - 10, 10)
         else:
             liste_explosion.remove(explosion)
             rayon_explosion = 0
             
 def lancer_missiles():
-    if py.btn(py.KEY_SPACE) and nb_missiles > 0:
+    if py.btn(py.KEY_SPACE) :#and nb_missiles > 0:
         liste_missiles.append([x_joueur + PLAYER_WIDTH, y_joueur + PLAYER_HEIGHT/3])
         liste_missiles.append([x_joueur + PLAYER_WIDTH, y_joueur + (PLAYER_HEIGHT/3)*2])
             
@@ -296,6 +300,7 @@ def fusee_pouvoir():
     global fusee
     
     # fusee = True
+    # mode_onde = True
 
 def mode_fusee():
     global fusee
@@ -309,6 +314,19 @@ def mode_fusee():
             liste_obstacles_3.remove(obstacle)
         for obstacle in liste_obstacles_4:
             liste_obstacles_4.remove(obstacle)
+    
+def onde():
+    global rayon_onde, fusee_ready
+    for onde in liste_onde :
+        if rayon_onde <= WINDOW_WIDTH :
+            fusee_ready = False
+            rayon_onde += 30
+            py.circ(onde[0] + PLAYER_WIDTH/2, onde[1] + PLAYER_HEIGHT/2, rayon_onde, 12)
+            py.circ(onde[0] + PLAYER_WIDTH/2, onde[1] + PLAYER_HEIGHT/2, rayon_onde - 30, 0)
+        else:
+            liste_onde.remove(onde)
+            rayon_onde = 0
+            fusee_ready = True
     
 def dash_pouvoir():
     global dash, y_joueur
@@ -336,18 +354,19 @@ def pouvoirs():
     dash_pouvoir()
 
 def Jeu():
-    global score, SCORE_COLOR, fusee, tps_fusee, x_joueur, y_joueur
+    global score, SCORE_COLOR, fusee, tps_fusee, x_joueur, y_joueur, fusee_ready, mode_onde
     
     if py.btnp(py.KEY_Q):
         py.quit()
 
-    if fusee:
+    if fusee_ready:
+        
         if y_joueur > WINDOW_HEIGHT // 2 :
             y_joueur -= PLAYER_SPEED // 4
         if y_joueur < WINDOW_HEIGHT // 2 :
             y_joueur += PLAYER_SPEED // 4
             
-        if tps_fusee < 400 :
+        if tps_fusee < 371 :
             tps_fusee += 1
             if tps_fusee < 100 :
                 x_joueur += 7
@@ -365,27 +384,41 @@ def Jeu():
                 x_joueur += 1
             elif tps_fusee >= 160 and tps_fusee < 170 :
                 x_joueur += 0
-            elif tps_fusee < 100 :
-                x_joueur += 7
-            elif tps_fusee >= 100 and tps_fusee < 110 :
-                x_joueur += 6
-            elif tps_fusee >= 110 and tps_fusee < 120 :
-                x_joueur += 5
-            elif tps_fusee >= 120 and tps_fusee < 130:
-                x_joueur += 4
-            elif tps_fusee >= 130 and tps_fusee < 140 :
-                x_joueur += 3
-            elif tps_fusee >= 140 and tps_fusee < 150 :
-                x_joueur += 2
-            elif tps_fusee >= 150 and tps_fusee < 160 :
-                x_joueur += 1
-            elif tps_fusee >= 160 and tps_fusee < 170 :
-                x_joueur += 0
-                
-            
-            
+            elif tps_fusee >= 170 and tps_fusee < 180 :
+                x_joueur -= 0
+            elif tps_fusee >= 180 and tps_fusee < 190 :
+                x_joueur -= 1
+            elif tps_fusee >= 190 and tps_fusee < 200 :
+                x_joueur -= 2
+            elif tps_fusee >= 200 and tps_fusee < 210 :
+                x_joueur -= 3
+            elif tps_fusee >= 210 and tps_fusee < 220 :
+                x_joueur -= 4
+            elif tps_fusee >= 220 and tps_fusee < 230 :
+                x_joueur -= 5
+            elif tps_fusee >= 230 and tps_fusee < 240 :
+                x_joueur -= 6
+            elif tps_fusee >= 240 and tps_fusee < 310 :
+                x_joueur -= 7
+            elif tps_fusee >= 310 and tps_fusee < 320 :
+                x_joueur -= 6
+            elif tps_fusee >= 320 and tps_fusee < 330 :
+                x_joueur -= 5
+            elif tps_fusee >= 330 and tps_fusee < 340:
+                x_joueur -= 4
+            elif tps_fusee >= 340 and tps_fusee < 350 :
+                x_joueur -= 3
+            elif tps_fusee >= 350 and tps_fusee < 360 :
+                x_joueur -= 2
+            elif tps_fusee >= 360 and tps_fusee < 370 :
+                x_joueur -= 1
+            elif tps_fusee >= 370 and tps_fusee < 371 :
+                x_joueur -= 0
+                mode_onde = True
+                x_joueur = 0 + PLAYER_WIDTH   
         else: 
             fusee = False
+            fusee_ready = False
             x_joueur = 0 + PLAYER_WIDTH
             tps_fusee = 0
     
@@ -417,12 +450,21 @@ def Fin():
     py.text(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 20 , "Final score: {}".format(score), SCORE_COLOR)
 
 def draw_jeu():
-    global SCORE_COLOR
+    global SCORE_COLOR, mode_onde
     
     py.cls(BACKGROUND_COLOR)
     
     if fusee:
-        py.blt (x_joueur , y_joueur, 1 , 0 , 0 , 150, 47, 11)
+        onde()
+        if mode_onde :
+            liste_onde.append([x_joueur, y_joueur])
+            mode_onde = False
+        elif fusee_ready == False:
+            py.rect(x_joueur, y_joueur, PLAYER_WIDTH, PLAYER_HEIGHT, 7)
+        else:
+            py.blt (x_joueur , y_joueur, 1 , 0 , 0 , 150, 47, 11)
+        
+        
     else:
         py.blt( x_joueur , y_joueur , 0 , 0 , 0 , 150 , 53, 0)
     
