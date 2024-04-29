@@ -18,11 +18,11 @@ Idées pouvoir:
     Le dash, Va vers le bas ou haut, et évite les voitures entre.
     Faire un dash avant ?
 
-    Les missiles, détruit le bloc devant
+    Les missiles, détruit le bloc devant /
 
-    Le rocket, propulse vers l'avant. Comme dans Jetpack Joyride
+    Le rocket, propulse vers l'avant. Comme dans Jetpack Joyride /
 
-    Mettre un slow
+    Mettre un slow /
 
     
 Mettre des ennemis différents avec des images différentes:

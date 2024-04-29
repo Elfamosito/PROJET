@@ -27,7 +27,7 @@ OBSTACLE_INTERVAL_DECREMENT = 2
 py.init(WINDOW_WIDTH,WINDOW_HEIGHT, title="Midnight Project")
 
 def initialisation():
-    global x_joueur, y_joueur, vivant, game_over, liste_obstacles_1, liste_obstacles_2, liste_obstacles_3, liste_obstacles_4, obstacle_interval, score, obstacle_genere, vitesse_de_deplacement_ennemi, dash, fusee, tps_fusee, rayon_onde, liste_onde, mode_onde, fusee_ready, liste_missiles, longueur_missile, liste_explosion, rayon_explosion, slow, missile_width, missile_height, nb_missiles, shield
+    global x_joueur, y_joueur, vivant, game_over, liste_obstacles_1, liste_obstacles_2, liste_obstacles_3, liste_obstacles_4, obstacle_interval, score, obstacle_genere, vitesse_de_deplacement_ennemi, dash, fusee, tps_fusee, rayon_onde, liste_onde, mode_onde, fusee_ready, fusee_get, liste_missiles, longueur_missile, liste_explosion, rayon_explosion, slow, missile_width, missile_height, nb_missiles, shield
     x_joueur = 0 + PLAYER_WIDTH
     y_joueur = WINDOW_HEIGHT // 2
     vivant = True
@@ -40,13 +40,14 @@ def initialisation():
     score = 0
     obstacle_genere = 0
     vitesse_de_deplacement_ennemi = 10
-    dash = 0
+    dash = 100
     fusee = False
     tps_fusee = 0
     rayon_onde = 0
     liste_onde = []
     mode_onde = False
     fusee_ready = False
+    fusee_get = False
     liste_missiles = []
     longueur_missile = 50
     liste_explosion = []
@@ -219,7 +220,9 @@ def explosion():
             rayon_explosion = 0
             
 def lancer_missiles():
-    if py.btn(py.KEY_SPACE) :#and nb_missiles > 0:
+    global nb_missiles
+    if py.btn(py.KEY_SPACE) and nb_missiles > 0:
+        nb_missiles -= 1
         liste_missiles.append([x_joueur + PLAYER_WIDTH, y_joueur + PLAYER_HEIGHT/3])
         liste_missiles.append([x_joueur + PLAYER_WIDTH, y_joueur + (PLAYER_HEIGHT/3)*2])
             
@@ -297,10 +300,11 @@ def slow_pouvoir():
         vitesse_de_deplacement_ennemi = 10    
 
 def fusee_pouvoir():
-    global fusee
+    global fusee, mode_onde
     
-    # fusee = True
-    # mode_onde = True
+    if fusee_get :
+        fusee = True
+        mode_onde = True
 
 def mode_fusee():
     global fusee
@@ -326,25 +330,48 @@ def onde():
         else:
             liste_onde.remove(onde)
             rayon_onde = 0
-            fusee_ready = True
-    
+            fusee_ready = True    
+
 def dash_pouvoir():
-    global dash, y_joueur
+    global dash, y_joueur, x_joueur
     
     if dash > 0 :
-        if py.btnp(py.KEY_SHIFT, 0, 10) : # A regler , quelques problèmes dessus ! #type: ignore
+        if py.btnp(py.KEY_SHIFT, 100, 0) : # Pour utilise le dash il faut d'abord appuyer sur les flèches puis sur shift. #type: ignore
             if py.btn(py.KEY_UP) :
                 y_joueur -= 100
                 dash -= 1
-                print('AAAAAA')
+                
                 if y_joueur <= 0 :
                     y_joueur = 0
+                    dash += 1
+                    
             elif py.btn(py.KEY_DOWN) :
                 y_joueur += 100
                 dash -= 1
-                print("AAAAAAAAAAAAAAAAAA")
+
                 if y_joueur >= WINDOW_HEIGHT - PLAYER_HEIGHT :
                     y_joueur = WINDOW_HEIGHT - PLAYER_HEIGHT
+                    dash += 1
+                    
+            elif py.btn(py.KEY_RIGHT) :
+                x_joueur += 300
+                dash -= 1
+                
+                if x_joueur > WINDOW_WIDTH - PLAYER_WIDTH - 2 * OBSTACLE_WIDTH :
+                    x_joueur = WINDOW_WIDTH - PLAYER_WIDTH - 2 * OBSTACLE_WIDTH
+                    dash += 1
+                    
+            elif py.btn(py.KEY_LEFT) :
+                x_joueur -= 300
+                dash -= 1
+                
+                if x_joueur < 0 + PLAYER_WIDTH :
+                    x_joueur = 0 + PLAYER_WIDTH
+                    dash += 1
+                
+                
+
+                
 
 
 def pouvoirs():
@@ -482,15 +509,11 @@ def draw_jeu():
     explosion()
     
     py.text(4,4,"Score: {}".format(score), SCORE_COLOR)
-
-i=0
+    
 
 def update():
-    global i, fusee
+
     if vivant :
-        i += 1
-        if i == 20:
-            fusee = True
         Jeu()
             
     
