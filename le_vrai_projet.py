@@ -23,11 +23,12 @@ PLAYER_SPEED = 10
 OBSTACLE_SPEED = 10
 INITIAL_OBSTACLE_INTERVAL = 100
 OBSTACLE_INTERVAL_DECREMENT = 2
+SCORE_ADD = 1
 
 py.init(WINDOW_WIDTH,WINDOW_HEIGHT, title="Midnight Project")
 
 def initialisation():
-    global x_joueur, y_joueur, vivant, game_over, liste_obstacles_1, liste_obstacles_2, liste_obstacles_3, liste_obstacles_4, obstacle_interval, score, obstacle_genere, vitesse_de_deplacement_ennemi, dash, fusee, tps_fusee, rayon_onde, liste_onde, mode_onde, fusee_ready, fusee_get, liste_missiles, longueur_missile, liste_explosion, rayon_explosion, slow, missile_width, missile_height, nb_missiles, shield
+    global x_joueur, y_joueur, vivant, game_over, liste_obstacles_1, liste_obstacles_2, liste_obstacles_3, liste_obstacles_4, liste_bonus, obstacle_interval, score, obstacle_genere, vitesse_de_deplacement_ennemi, dash, fusee, tps_fusee, rayon_onde, liste_onde, mode_onde, fusee_ready, fusee_get, liste_missiles, longueur_missile, liste_explosion, rayon_explosion, slow, missile_width, missile_height, nb_missiles, shield
     x_joueur = 0 + PLAYER_WIDTH
     y_joueur = WINDOW_HEIGHT // 2
     vivant = True
@@ -36,6 +37,7 @@ def initialisation():
     liste_obstacles_2 =[]
     liste_obstacles_3 =[]
     liste_obstacles_4 =[]
+    liste_bonus = []
     obstacle_interval = INITIAL_OBSTACLE_INTERVAL
     score = 0
     obstacle_genere = 0
@@ -117,6 +119,17 @@ def Obstacle_4():
         obstacle_interval -= OBSTACLE_INTERVAL_DECREMENT
         if obstacle_interval <= 20 :
             obstacle_interval = 15
+            
+def Bonus_obstacke():
+    global y_obstacle, x_obstacle, WINDOW_HEIGHT, OBSTACLE_HEIGHT, WINDOW_WIDTH, OBSTACLE_WIDTH, liste_bonus, obstacle_interval
+    y_obstacle = ra.randint( 50 , WINDOW_HEIGHT - OBSTACLE_HEIGHT )
+    x_obstacle = WINDOW_WIDTH + OBSTACLE_WIDTH
+    
+    if py.frame_count % obstacle_interval == 0 and obstacle_genere == 5 :
+        liste_bonus.append([x_obstacle , y_obstacle])
+        obstacle_interval -= OBSTACLE_INTERVAL_DECREMENT
+        if obstacle_interval <= 20 :
+            obstacle_interval = 15
         
 def check_colision_joueur_obstacle():
     global game_over, vivant, shield
@@ -127,6 +140,7 @@ def check_colision_joueur_obstacle():
             if shield > 0 :
                 shield -= 1
                 liste_explosion.append([obstacle[0], obstacle[1]])
+                liste_obstacles_1.remove(obstacle)
             else:
                 vivant = False
                 liste_explosion.append([obstacle[0], obstacle[1]])
@@ -137,6 +151,7 @@ def check_colision_joueur_obstacle():
             if shield > 0 :
                 shield -= 1
                 liste_explosion.append([obstacle[0], obstacle[1]])
+                liste_obstacles_2.remove(obstacle)
             else:
                 vivant = False
                 liste_explosion.append([obstacle[0], obstacle[1]])
@@ -147,6 +162,7 @@ def check_colision_joueur_obstacle():
             if shield > 0 :
                 shield -= 1
                 liste_explosion.append([obstacle[0], obstacle[1]])
+                liste_obstacles_3.remove(obstacle)
             else:
                 vivant = False
                 liste_explosion.append([obstacle[0], obstacle[1]])
@@ -157,6 +173,7 @@ def check_colision_joueur_obstacle():
             if shield > 0 :
                 shield -= 1
                 liste_explosion.append([obstacle[0], obstacle[1]])
+                liste_obstacles_4.remove(obstacle)
             else:
                 vivant = False
                 liste_explosion.append([obstacle[0], obstacle[1]])
@@ -173,14 +190,15 @@ def random_obstacles():
     proba_type_obstacle_2 = [2 for n in range(min_2)] 
     proba_type_obstacle_3 = [3 for n in range(min_3)]
     proba_type_obstacle_4 = [4 for n in range(min_4)]
+    proba_type_bonus = [5 for n in range(max_bonus)]
 
-    liste_proba_type_obstacle = proba_type_obstacle_1 + proba_type_obstacle_2 + proba_type_obstacle_3 + proba_type_obstacle_4
+    liste_proba_type_obstacle = proba_type_obstacle_1 + proba_type_obstacle_2 + proba_type_obstacle_3 + proba_type_obstacle_4 + proba_type_bonus
     
-    indice_obstacle_genere = ra.randint(0 , len(liste_proba_type_obstacle)-1)
+    indice_obstacle_genere = ra.randint(0 , len(liste_proba_type_obstacle) - 1)
     obstacle_genere = liste_proba_type_obstacle[indice_obstacle_genere]
 
 def change_proba():
-    global max_1, min_2, min_3, min_4, min_1, decrease_1, increase_2, increase_3, increase_4
+    global max_1, min_2, min_3, min_4, min_1, max_bonus, min_bonus, decrease_1, increase_2, increase_3, increase_4, decrease_5
     if score == 0:
         # Initialisation des valeurs
         # Type 1 d'obstacle   Type décroissant   
@@ -199,14 +217,19 @@ def change_proba():
         min_4 = 0
         max_4 = 20
         increase_4 = 1
-        
-        # Il faut que max_1 + max_2 + max_3 + max_4 = 100.
+
+        #Type bonus             Type décroissant
+        min_bonus = 1
+        max_bonus = 10
+        decrease_5 = 1
         
     elif max_1 > min_1 and score !=0 : # type: ignore
             max_1 -= decrease_1 # type: ignore
             min_2 += increase_2 # type: ignore
             min_3 += increase_3 # type: ignore
             min_4 += increase_4 # type: ignore
+            if max_bonus > min_bonus : #type: ignore
+                max_bonus -= decrease_5  #type: ignore
         
 def explosion():
     global rayon_explosion
@@ -300,11 +323,12 @@ def slow_pouvoir():
         vitesse_de_deplacement_ennemi = 10    
 
 def fusee_pouvoir():
-    global fusee, mode_onde
+    global fusee, mode_onde, fusee_get
     
     if fusee_get :
         fusee = True
         mode_onde = True
+        fusee_get = False
 
 def mode_fusee():
     global fusee
@@ -318,6 +342,92 @@ def mode_fusee():
             liste_obstacles_3.remove(obstacle)
         for obstacle in liste_obstacles_4:
             liste_obstacles_4.remove(obstacle)
+    
+def fusee_ready_mode():
+    global fusee, tps_fusee, x_joueur, y_joueur, mode_onde, fusee_ready, score
+    if y_joueur > WINDOW_HEIGHT // 2 :
+        y_joueur -= PLAYER_SPEED // 4
+    if y_joueur < WINDOW_HEIGHT // 2 :
+        y_joueur += PLAYER_SPEED // 4
+        
+    if tps_fusee < 371 :
+        tps_fusee += 1
+        if tps_fusee < 100 :
+            x_joueur += 7
+            score += 23 * SCORE_ADD
+        elif tps_fusee >= 100 and tps_fusee < 110 :
+            x_joueur += 6
+            score += 22 * SCORE_ADD
+        elif tps_fusee >= 110 and tps_fusee < 120 :
+            x_joueur += 5
+            score += 21 * SCORE_ADD
+        elif tps_fusee >= 120 and tps_fusee < 130:
+            x_joueur += 4
+            score += 20 * SCORE_ADD
+        elif tps_fusee >= 130 and tps_fusee < 140 :
+            x_joueur += 3
+            score += 19 * SCORE_ADD
+        elif tps_fusee >= 140 and tps_fusee < 150 :
+            x_joueur += 2
+            score += 18 * SCORE_ADD
+        elif tps_fusee >= 150 and tps_fusee < 160 :
+            x_joueur += 1
+            score += 17 * SCORE_ADD
+        elif tps_fusee >= 160 and tps_fusee < 170 :
+            x_joueur += 0
+            score += 16 * SCORE_ADD
+        elif tps_fusee >= 170 and tps_fusee < 180 :
+            x_joueur -= 0
+            score += 15 * SCORE_ADD
+        elif tps_fusee >= 180 and tps_fusee < 190 :
+            x_joueur -= 1
+            score += 14 * SCORE_ADD
+        elif tps_fusee >= 190 and tps_fusee < 200 :
+            x_joueur -= 2
+            score += 13 * SCORE_ADD
+        elif tps_fusee >= 200 and tps_fusee < 210 :
+            x_joueur -= 3
+            score += 12 * SCORE_ADD
+        elif tps_fusee >= 210 and tps_fusee < 220 :
+            x_joueur -= 4
+            score += 11 * SCORE_ADD
+        elif tps_fusee >= 220 and tps_fusee < 230 :
+            x_joueur -= 5
+            score += 10 * SCORE_ADD
+        elif tps_fusee >= 230 and tps_fusee < 240 :
+            x_joueur -= 6
+            score += 9 * SCORE_ADD
+        elif tps_fusee >= 240 and tps_fusee < 310 :
+            x_joueur -= 7
+            score += 8 * SCORE_ADD
+        elif tps_fusee >= 310 and tps_fusee < 320 :
+            x_joueur -= 6
+            score += 7 * SCORE_ADD
+        elif tps_fusee >= 320 and tps_fusee < 330 :
+            x_joueur -= 5
+            score += 6 * SCORE_ADD
+        elif tps_fusee >= 330 and tps_fusee < 340:
+            x_joueur -= 4
+            score += 5 * SCORE_ADD
+        elif tps_fusee >= 340 and tps_fusee < 350 :
+            x_joueur -= 3
+            score += 4 * SCORE_ADD
+        elif tps_fusee >= 350 and tps_fusee < 360 :
+            x_joueur -= 2
+            score += 3 * SCORE_ADD
+        elif tps_fusee >= 360 and tps_fusee < 370 :
+            x_joueur -= 1
+            score += 2 * SCORE_ADD
+        elif tps_fusee >= 370 and tps_fusee < 371 :
+            x_joueur -= 0
+            score += 1 * SCORE_ADD
+            mode_onde = True
+            x_joueur = 0 + PLAYER_WIDTH   
+    else: 
+        fusee = False
+        fusee_ready = False
+        x_joueur = 0 + PLAYER_WIDTH
+        tps_fusee = 0
     
 def onde():
     global rayon_onde, fusee_ready
@@ -369,9 +479,11 @@ def dash_pouvoir():
                     x_joueur = 0 + PLAYER_WIDTH
                     dash += 1
                 
-                
-
-                
+def bonus():
+    for bonus in liste_bonus : 
+        bonus[0] -= vitesse_de_deplacement_ennemi
+        if bonus[0] < -OBSTACLE_WIDTH :
+            liste_bonus.remove(bonus)               
 
 
 def pouvoirs():
@@ -381,88 +493,29 @@ def pouvoirs():
     dash_pouvoir()
 
 def Jeu():
-    global score, SCORE_COLOR, fusee, tps_fusee, x_joueur, y_joueur, fusee_ready, mode_onde
+    global score, fusee_ready
     
     if py.btnp(py.KEY_Q):
         py.quit()
 
     if fusee_ready:
-        
-        if y_joueur > WINDOW_HEIGHT // 2 :
-            y_joueur -= PLAYER_SPEED // 4
-        if y_joueur < WINDOW_HEIGHT // 2 :
-            y_joueur += PLAYER_SPEED // 4
-            
-        if tps_fusee < 371 :
-            tps_fusee += 1
-            if tps_fusee < 100 :
-                x_joueur += 7
-            elif tps_fusee >= 100 and tps_fusee < 110 :
-                x_joueur += 6
-            elif tps_fusee >= 110 and tps_fusee < 120 :
-                x_joueur += 5
-            elif tps_fusee >= 120 and tps_fusee < 130:
-                x_joueur += 4
-            elif tps_fusee >= 130 and tps_fusee < 140 :
-                x_joueur += 3
-            elif tps_fusee >= 140 and tps_fusee < 150 :
-                x_joueur += 2
-            elif tps_fusee >= 150 and tps_fusee < 160 :
-                x_joueur += 1
-            elif tps_fusee >= 160 and tps_fusee < 170 :
-                x_joueur += 0
-            elif tps_fusee >= 170 and tps_fusee < 180 :
-                x_joueur -= 0
-            elif tps_fusee >= 180 and tps_fusee < 190 :
-                x_joueur -= 1
-            elif tps_fusee >= 190 and tps_fusee < 200 :
-                x_joueur -= 2
-            elif tps_fusee >= 200 and tps_fusee < 210 :
-                x_joueur -= 3
-            elif tps_fusee >= 210 and tps_fusee < 220 :
-                x_joueur -= 4
-            elif tps_fusee >= 220 and tps_fusee < 230 :
-                x_joueur -= 5
-            elif tps_fusee >= 230 and tps_fusee < 240 :
-                x_joueur -= 6
-            elif tps_fusee >= 240 and tps_fusee < 310 :
-                x_joueur -= 7
-            elif tps_fusee >= 310 and tps_fusee < 320 :
-                x_joueur -= 6
-            elif tps_fusee >= 320 and tps_fusee < 330 :
-                x_joueur -= 5
-            elif tps_fusee >= 330 and tps_fusee < 340:
-                x_joueur -= 4
-            elif tps_fusee >= 340 and tps_fusee < 350 :
-                x_joueur -= 3
-            elif tps_fusee >= 350 and tps_fusee < 360 :
-                x_joueur -= 2
-            elif tps_fusee >= 360 and tps_fusee < 370 :
-                x_joueur -= 1
-            elif tps_fusee >= 370 and tps_fusee < 371 :
-                x_joueur -= 0
-                mode_onde = True
-                x_joueur = 0 + PLAYER_WIDTH   
-        else: 
-            fusee = False
-            fusee_ready = False
-            x_joueur = 0 + PLAYER_WIDTH
-            tps_fusee = 0
+        fusee_ready_mode()
     
     else:
         joueur()
         obstacles()
         deplacement_obstacles()
-
+        Bonus_obstacke()
+        bonus()
         pouvoirs()
         
-        if score % 500 == 0: 
+        if score % 50 == 0: 
             change_proba()
         
         random_obstacles()
 
         if py.frame_count % 2 == 0 :
-            score += 1
+            score += SCORE_ADD
 
 def Fin():
     global SCORE_COLOR
@@ -503,6 +556,8 @@ def draw_jeu():
         py.rect(obstacle[0] , obstacle[1], OBSTACLE_WIDTH, OBSTACLE_HEIGHT+50, OBSTACLE_COLOR)
     for obstacle in liste_obstacles_4 :
         py.rect(obstacle[0] , obstacle[1], OBSTACLE_WIDTH+50, OBSTACLE_HEIGHT+50, OBSTACLE_COLOR)
+    for bonus in liste_bonus :
+        py.rect(bonus[0], bonus[1], OBSTACLE_WIDTH, OBSTACLE_HEIGHT, 12)
     for missile in liste_missiles :
         py.rect(missile[0], missile[1], missile_width, missile_height, 10)
     
@@ -522,6 +577,7 @@ def draw():
     if vivant :
         draw_jeu()   
     else:
+        explosion()
         Fin()
         
 
