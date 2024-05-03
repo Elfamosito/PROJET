@@ -17,10 +17,9 @@ PLAYER_HEIGHT = 50
 OBSTACLE_WIDTH = 100
 OBSTACLE_HEIGHT = 45
 OBSTACLE_COLOR = 9
-BACKGROUND_COLOR = 0 #couleur noir
+BACKGROUND_COLOR = 0
 SCORE_COLOR = 7
 PLAYER_SPEED = 10
-OBSTACLE_SPEED = 10
 INITIAL_OBSTACLE_INTERVAL = 100
 OBSTACLE_INTERVAL_DECREMENT = 2
 SCORE_ADD = 1
@@ -28,7 +27,7 @@ SCORE_ADD = 1
 py.init(WINDOW_WIDTH,WINDOW_HEIGHT, title="Midnight Project")
 
 def initialisation():
-    global x_joueur, y_joueur, vivant, game_over, liste_obstacles_1, liste_obstacles_2, liste_obstacles_3, liste_obstacles_4, liste_bonus, obstacle_interval, score, obstacle_genere, vitesse_de_deplacement_ennemi, dash, fusee, tps_fusee, rayon_onde, liste_onde, mode_onde, fusee_ready, fusee_get, liste_missiles, longueur_missile, liste_explosion, rayon_explosion, slow, missile_width, missile_height, nb_missiles, shield
+    global x_joueur, y_joueur, vivant, game_over, liste_obstacles_1, liste_obstacles_2, liste_obstacles_3, liste_obstacles_4, liste_bonus, obstacle_interval, score, obstacle_genere, vitesse_de_deplacement_ennemi, dash, fusee, tps_fusee, rayon_onde, liste_onde, mode_onde, fusee_ready, fusee_get, liste_missiles, longueur_missile, liste_explosion, rayon_explosion, slow, missile_width, missile_height, nb_missiles, shield, liste_nid
     x_joueur = 0 + PLAYER_WIDTH
     y_joueur = WINDOW_HEIGHT // 2
     vivant = True
@@ -42,7 +41,7 @@ def initialisation():
     score = 0
     obstacle_genere = 0
     vitesse_de_deplacement_ennemi = 10
-    dash = 100
+    dash = 0
     fusee = False
     tps_fusee = 0
     rayon_onde = 0
@@ -59,6 +58,7 @@ def initialisation():
     missile_height = 10
     nb_missiles = 0
     shield = 0
+    liste_nid = []
 
 initialisation()
 
@@ -120,7 +120,7 @@ def Obstacle_4():
         if obstacle_interval <= 20 :
             obstacle_interval = 15
             
-def Bonus_obstacke():
+def Bonus_obstacle():
     global y_obstacle, x_obstacle, WINDOW_HEIGHT, OBSTACLE_HEIGHT, WINDOW_WIDTH, OBSTACLE_WIDTH, liste_bonus, obstacle_interval
     y_obstacle = ra.randint( 50 , WINDOW_HEIGHT - OBSTACLE_HEIGHT )
     x_obstacle = WINDOW_WIDTH + OBSTACLE_WIDTH
@@ -136,7 +136,7 @@ def check_colision_joueur_obstacle():
     joueur_hitbox = [x_joueur , y_joueur , x_joueur + PLAYER_WIDTH , y_joueur + PLAYER_HEIGHT]
     for obstacle in liste_obstacles_1:
         obstacle_hitbox = [obstacle[0] , obstacle[1] , obstacle[0] + OBSTACLE_WIDTH , obstacle[1] + OBSTACLE_HEIGHT ]
-        if check_hitbox_colision_joueur_obstacle(joueur_hitbox, obstacle_hitbox):
+        if check_hitbox_colision(joueur_hitbox, obstacle_hitbox):
             if shield > 0 :
                 shield -= 1
                 liste_explosion.append([obstacle[0], obstacle[1]])
@@ -147,7 +147,7 @@ def check_colision_joueur_obstacle():
             break
     for obstacle in liste_obstacles_2:
         obstacle_hitbox = [obstacle[0] , obstacle[1] , obstacle[0] + OBSTACLE_WIDTH , obstacle[1] + OBSTACLE_HEIGHT ]
-        if check_hitbox_colision_joueur_obstacle(joueur_hitbox, obstacle_hitbox):
+        if check_hitbox_colision(joueur_hitbox, obstacle_hitbox):
             if shield > 0 :
                 shield -= 1
                 liste_explosion.append([obstacle[0], obstacle[1]])
@@ -158,7 +158,7 @@ def check_colision_joueur_obstacle():
             break
     for obstacle in liste_obstacles_3:
         obstacle_hitbox = [obstacle[0] , obstacle[1] , obstacle[0] + OBSTACLE_WIDTH , obstacle[1] + OBSTACLE_HEIGHT ]
-        if check_hitbox_colision_joueur_obstacle(joueur_hitbox, obstacle_hitbox):
+        if check_hitbox_colision(joueur_hitbox, obstacle_hitbox):
             if shield > 0 :
                 shield -= 1
                 liste_explosion.append([obstacle[0], obstacle[1]])
@@ -169,7 +169,7 @@ def check_colision_joueur_obstacle():
             break
     for obstacle in liste_obstacles_4:
         obstacle_hitbox = [obstacle[0] , obstacle[1] , obstacle[0] + OBSTACLE_WIDTH , obstacle[1] + OBSTACLE_HEIGHT ]
-        if check_hitbox_colision_joueur_obstacle(joueur_hitbox, obstacle_hitbox):
+        if check_hitbox_colision(joueur_hitbox, obstacle_hitbox):
             if shield > 0 :
                 shield -= 1
                 liste_explosion.append([obstacle[0], obstacle[1]])
@@ -179,10 +179,150 @@ def check_colision_joueur_obstacle():
                 liste_explosion.append([obstacle[0], obstacle[1]])
             break
 
-def check_hitbox_colision_joueur_obstacle(joueur_hitbox, obstacle_hitbox):
-    if (joueur_hitbox[0] < obstacle_hitbox[2] and joueur_hitbox[2] > obstacle_hitbox[0] and joueur_hitbox[1] + 10 < obstacle_hitbox[3] and joueur_hitbox[3] - 10 > obstacle_hitbox[1]):
+def check_hitbox_colision(hitbox_1, hitbox_2):
+    if (hitbox_1[0] < hitbox_2[2] and hitbox_1[2] > hitbox_2[0] and hitbox_1[1] + 10 < hitbox_2[3] and hitbox_1[3] - 10 > hitbox_2[1]):
         return True
     return False
+   
+def check_colision_obstacle_obstacle():
+    for obstacle_1 in liste_obstacles_1 :
+        obstacle_1_hitbox = [obstacle_1[0] , obstacle_1[1] , obstacle_1[0] + OBSTACLE_WIDTH , obstacle_1[1] + OBSTACLE_HEIGHT ]
+        for obstacle_2 in liste_obstacles_2 :
+            obstacle_2_hitbox = [obstacle_2[0] , obstacle_2[1] , obstacle_2[0] + OBSTACLE_WIDTH , obstacle_2[1] + OBSTACLE_HEIGHT ]
+            for obstacle_3 in liste_obstacles_3 :
+                obstacle_3_hitbox = [obstacle_3[0] , obstacle_3[1] , obstacle_3[0] + OBSTACLE_WIDTH , obstacle_3[1] + OBSTACLE_HEIGHT ]
+                for obstacle_4 in liste_obstacles_4 :
+                    obstacle_4_hitbox = [obstacle_4[0] , obstacle_4[1] , obstacle_4[0] + OBSTACLE_WIDTH , obstacle_4[1] + OBSTACLE_HEIGHT ]
+                    for bonus in liste_bonus :
+                        bonus_hitbox = [bonus[0] , bonus[1] , bonus[0] + OBSTACLE_WIDTH , bonus[1] + OBSTACLE_HEIGHT ]
+                        if check_hitbox_colision(obstacle_1_hitbox, obstacle_2_hitbox):
+                            if obstacle_1[0] < obstacle_2[0]:
+                                liste_explosion.append([obstacle_1[0] + OBSTACLE_WIDTH , obstacle_1[1] + OBSTACLE_HEIGHT // 2])
+                                liste_nid.append([obstacle_1[0] + OBSTACLE_WIDTH , obstacle_1[1]])
+                                liste_obstacles_1.remove(obstacle_1)
+                                liste_obstacles_2.remove(obstacle_2)
+                            elif obstacle_2[0] < obstacle_1[0]:
+                                liste_explosion.append([obstacle_2[0] + OBSTACLE_WIDTH , obstacle_2[1] + OBSTACLE_HEIGHT // 2])
+                                liste_nid.append([obstacle_2[0] + OBSTACLE_WIDTH , obstacle_2[1]])
+                                liste_obstacles_1.remove(obstacle_1)
+                                liste_obstacles_2.remove(obstacle_2)
+
+                        if check_hitbox_colision(obstacle_1_hitbox, obstacle_3_hitbox):
+                            if obstacle_1[0] < obstacle_3[0]:
+                                liste_explosion.append([obstacle_1[0] + OBSTACLE_WIDTH , obstacle_1[1] + OBSTACLE_HEIGHT // 2])
+                                liste_nid.append([obstacle_1[0] + OBSTACLE_WIDTH , obstacle_1[1]])
+                                liste_obstacles_1.remove(obstacle_1)
+                                liste_obstacles_3.remove(obstacle_3)
+                            elif obstacle_3[0] < obstacle_1[0]:
+                                liste_explosion.append([obstacle_3[0] + OBSTACLE_WIDTH , obstacle_3[1] + OBSTACLE_HEIGHT // 2])
+                                liste_nid.append([obstacle_3[0] + OBSTACLE_WIDTH , obstacle_3[1]])
+                                liste_obstacles_1.remove(obstacle_1)
+                                liste_obstacles_3.remove(obstacle_3)
+                            
+                        if check_hitbox_colision(obstacle_1_hitbox, obstacle_4_hitbox):
+                            if obstacle_1[0] < obstacle_4[0]:
+                                liste_explosion.append([obstacle_1[0] + OBSTACLE_WIDTH , obstacle_1[1] + OBSTACLE_HEIGHT // 2])
+                                liste_nid.append([obstacle_1[0] + OBSTACLE_WIDTH , obstacle_1[1]])
+                                liste_obstacles_1.remove(obstacle_1)
+                                liste_obstacles_4.remove(obstacle_4)
+                            elif obstacle_4[0] < obstacle_1[0]:
+                                liste_explosion.append([obstacle_4[0] + OBSTACLE_WIDTH , obstacle_4[1] + OBSTACLE_HEIGHT // 2])
+                                liste_nid.append([obstacle_4[0] + OBSTACLE_WIDTH , obstacle_4[1]])
+                                liste_obstacles_1.remove(obstacle_1)
+                                liste_obstacles_4.remove(obstacle_4)
+                            
+                        if check_hitbox_colision(obstacle_1_hitbox, bonus_hitbox):
+                            if obstacle_1[0] < bonus[0]:
+                                liste_explosion.append([obstacle_1[0] + OBSTACLE_WIDTH , obstacle_1[1] + OBSTACLE_HEIGHT // 2])
+                                liste_nid.append([obstacle_1[0] + OBSTACLE_WIDTH , obstacle_1[1]])
+                                liste_obstacles_1.remove(obstacle_1)
+                                liste_bonus.remove(bonus)
+                            elif bonus[0] < obstacle_1[0]:
+                                liste_explosion.append([bonus[0] + OBSTACLE_WIDTH , bonus[1] + OBSTACLE_HEIGHT // 2])
+                                liste_nid.append([bonus[0] + OBSTACLE_WIDTH , bonus[1]])
+                                liste_obstacles_1.remove(obstacle_1)
+                                liste_bonus.remove(bonus)
+                                
+                        if check_hitbox_colision(obstacle_2_hitbox, obstacle_3_hitbox):
+                            if obstacle_2[0] < obstacle_3[0]:
+                                liste_explosion.append([obstacle_2[0] + OBSTACLE_WIDTH , obstacle_2[1] + OBSTACLE_HEIGHT // 2])
+                                liste_nid.append([obstacle_2[0] + OBSTACLE_WIDTH , obstacle_2[1]])
+                                liste_obstacles_2.remove(obstacle_2)
+                                liste_obstacles_3.remove(obstacle_3)
+                            elif obstacle_3[0] < obstacle_2[0]:
+                                liste_explosion.append([obstacle_3[0] + OBSTACLE_WIDTH , obstacle_3[1] + OBSTACLE_HEIGHT // 2])
+                                liste_nid.append([obstacle_3[0] + OBSTACLE_WIDTH , obstacle_3[1]])
+                                liste_obstacles_2.remove(obstacle_2)
+                                liste_obstacles_3.remove(obstacle_3)
+                            
+                        if check_hitbox_colision(obstacle_2_hitbox, obstacle_4_hitbox):
+                            if obstacle_2[0] < obstacle_4[0]:
+                                liste_explosion.append([obstacle_2[0] + OBSTACLE_WIDTH , obstacle_2[1] + OBSTACLE_HEIGHT // 2])
+                                liste_nid.append([obstacle_2[0] + OBSTACLE_WIDTH , obstacle_2[1]])
+                                liste_obstacles_2.remove(obstacle_2)
+                                liste_obstacles_4.remove(obstacle_4)
+                            elif obstacle_4[0] < obstacle_2[0]:
+                                liste_explosion.append([obstacle_4[0] + OBSTACLE_WIDTH , obstacle_4[1] + OBSTACLE_HEIGHT // 2])
+                                liste_nid.append([obstacle_4[0] + OBSTACLE_WIDTH , obstacle_4[1]])
+                                liste_obstacles_2.remove(obstacle_2)
+                                liste_obstacles_4.remove(obstacle_4)
+                            
+                        if check_hitbox_colision(obstacle_2_hitbox, bonus_hitbox):
+                            if obstacle_2[0] < bonus[0]:
+                                liste_explosion.append([obstacle_2[0] + OBSTACLE_WIDTH , obstacle_2[1] + OBSTACLE_HEIGHT // 2])
+                                liste_nid.append([obstacle_2[0] + OBSTACLE_WIDTH , obstacle_2[1]])
+                                liste_obstacles_2.remove(obstacle_2)
+                                liste_bonus.remove(bonus)
+                            elif bonus[0] < obstacle_2[0]:
+                                liste_explosion.append([bonus[0] + OBSTACLE_WIDTH , bonus[1] + OBSTACLE_HEIGHT // 2])
+                                liste_nid.append([bonus[0] + OBSTACLE_WIDTH , bonus[1]])
+                                liste_obstacles_2.remove(obstacle_2)
+                                liste_bonus.remove(bonus)
+                            
+                        if check_hitbox_colision(obstacle_3_hitbox, obstacle_4_hitbox):
+                            if obstacle_3[0] < obstacle_4[0]:
+                                liste_explosion.append([obstacle_3[0] + OBSTACLE_WIDTH , obstacle_3[1] + OBSTACLE_HEIGHT // 2])
+                                liste_nid.append([obstacle_3[0] + OBSTACLE_WIDTH , obstacle_3[1]])
+                                liste_obstacles_3.remove(obstacle_3)
+                                liste_obstacles_4.remove(obstacle_4)
+                            elif obstacle_4[0] < obstacle_3[0]:
+                                liste_explosion.append([obstacle_4[0] + OBSTACLE_WIDTH , obstacle_4[1] + OBSTACLE_HEIGHT // 2])
+                                liste_nid.append([obstacle_4[0] + OBSTACLE_WIDTH , obstacle_4[1]])
+                                liste_obstacles_3.remove(obstacle_3)
+                                liste_obstacles_4.remove(obstacle_4)
+                            
+                        if check_hitbox_colision(obstacle_3_hitbox, bonus_hitbox):
+                            if obstacle_3[0] < bonus[0]:
+                                liste_explosion.append([obstacle_3[0] + OBSTACLE_WIDTH , obstacle_3[1] + OBSTACLE_HEIGHT // 2])
+                                liste_nid.append([obstacle_3[0] + OBSTACLE_WIDTH , obstacle_3[1]])
+                                liste_obstacles_3.remove(obstacle_3)
+                                liste_bonus.remove(bonus)
+                            elif bonus[0] < obstacle_3[0]:
+                                liste_explosion.append([bonus[0] + OBSTACLE_WIDTH , bonus[1] + OBSTACLE_HEIGHT // 2])
+                                liste_nid.append([bonus[0] + OBSTACLE_WIDTH , bonus[1]])
+                                liste_obstacles_3.remove(obstacle_3)
+                                liste_bonus.remove(bonus)
+                            
+                        if check_hitbox_colision(obstacle_4_hitbox, bonus_hitbox):
+                            if obstacle_4[0] < bonus[0]:
+                                liste_explosion.append([obstacle_4[0] + OBSTACLE_WIDTH , obstacle_4[1] + OBSTACLE_HEIGHT // 2])
+                                liste_nid.append([obstacle_4[0] + OBSTACLE_WIDTH , obstacle_4[1]])
+                                liste_obstacles_4.remove(obstacle_4)
+                                liste_bonus.remove(bonus)
+                            elif bonus[0] < obstacle_4[0]:
+                                liste_explosion.append([bonus[0] + OBSTACLE_WIDTH , bonus[1] + OBSTACLE_HEIGHT // 2])
+                                liste_nid.append([bonus[0] + OBSTACLE_WIDTH , bonus[1]])
+                                liste_obstacles_4.remove(obstacle_4)
+                                liste_bonus.remove(bonus)
+   
+def nid_de_poule():
+    global liste_nid, score
+    for nid in liste_nid : 
+        nid[0] -= vitesse_de_deplacement_ennemi
+        if nid[0] >=  - OBSTACLE_WIDTH :
+            liste_nid.remove(nid)
+            score += 350
+    
     
 def random_obstacles():
     global obstacle_genere
@@ -284,7 +424,7 @@ def obstacles():
     Obstacle_1()
     Obstacle_2()
     Obstacle_3()
-    Obstacle_4()    
+    Obstacle_4()   
 
 def deplacement_obstacles():
     global score
@@ -505,10 +645,12 @@ def Jeu():
         joueur()
         obstacles()
         deplacement_obstacles()
-        Bonus_obstacke()
+        Bonus_obstacle()
         bonus()
         pouvoirs()
-        
+        check_colision_obstacle_obstacle()
+        nid_de_poule()
+                
         if score % 50 == 0: 
             change_proba()
         
@@ -558,6 +700,8 @@ def draw_jeu():
         py.rect(obstacle[0] , obstacle[1], OBSTACLE_WIDTH+50, OBSTACLE_HEIGHT+50, OBSTACLE_COLOR)
     for bonus in liste_bonus :
         py.rect(bonus[0], bonus[1], OBSTACLE_WIDTH, OBSTACLE_HEIGHT, 12)
+    for nid in liste_nid : 
+        py.rect(nid[0], nid[1], OBSTACLE_WIDTH, OBSTACLE_HEIGHT, 3)
     for missile in liste_missiles :
         py.rect(missile[0], missile[1], missile_width, missile_height, 10)
     
