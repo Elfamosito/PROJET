@@ -1,55 +1,55 @@
-import pyxel 
+# import pyxel 
 
-bonus=[]
-tirs = []
-ennemis = []
-x = 64
-y = 115
+# bonus=[]
+# tirs = []
+# ennemis = []
+# x = 64
+# y = 115
 
-def creer_tirs():  #déplace les tirs du bas vers le haut
-    global vie,y,x,score,vaissaide
-    if pyxel.btnp(pyxel.KEY_SPACE, 5, 10):  # ajoute les positions x,y a "tirs" du missile
-        tirs.append([x + 4, y - 4])
-        if vaissaide == 1 :
-            tirs.append([x + 22, y + 15])
-            tirs.append([x - 18, y + 15])
+# def creer_tirs():  #déplace les tirs du bas vers le haut
+#     global vie,y,x,score,vaissaide
+#     if pyxel.btnp(pyxel.KEY_SPACE, 5, 10):  # ajoute les positions x,y a "tirs" du missile
+#         tirs.append([x + 4, y - 4])
+#         if vaissaide == 1 :
+#             tirs.append([x + 22, y + 15])
+#             tirs.append([x - 18, y + 15])
 
-def deplacement_tirs():  # fait se deplacer les tirs vers le haut et les retires losqu'ils sortent de l'écran
-    for i in tirs:
-        i[1] = i[1] - 2
-        if i[1] < 0:
-            i[1] = i[1] - 2
-            tirs.remove(i)
+# def deplacement_tirs():  # fait se deplacer les tirs vers le haut et les retires losqu'ils sortent de l'écran
+#     for i in tirs:
+#         i[1] = i[1] - 2
+#         if i[1] < 0:
+#             i[1] = i[1] - 2
+#             tirs.remove(i)
 
-def ennemis_suppression():  #detruit les ennemis lorsque qu'ils touchent le vaisseau, ils sortent de l'écran ou ils se font toucher par un tir
-    global vie,y,x,score,unbonus
-    for i in tirs:
-        for j in ennemis:
-            if j[0] <= i[0] <= j[0] + 8 and j[1] > i[1] :
-                    tirs.remove(i)
-                    carrébonus = randint(0,6)
-                    if carrébonus == 0 :
-                        if unbonus == 1 :
-                            unbonus = 0
-                            bonus.append([j[0]+2,j[1]+2])
-                    ennemis.remove(j)
-                    score = score + 1
+# def ennemis_suppression():  #detruit les ennemis lorsque qu'ils touchent le vaisseau, ils sortent de l'écran ou ils se font toucher par un tir
+#     global vie,y,x,score,unbonus
+#     for i in tirs:
+#         for j in ennemis:
+#             if j[0] <= i[0] <= j[0] + 8 and j[1] > i[1] :
+#                     tirs.remove(i)
+#                     carrébonus = randint(0,6)
+#                     if carrébonus == 0 :
+#                         if unbonus == 1 :
+#                             unbonus = 0
+#                             bonus.append([j[0]+2,j[1]+2])
+#                     ennemis.remove(j)
+#                     score = score + 1
 
 
-def destruction_bonus():  #detruit le bonus lorsque le vaisseau le touche ou un ennemis
-    global unbonus
-    for j in bonus :
-        for i in ennemis :
-            if len(bonus)!= 0 :
-                if i[0] <= j[0] <= i[0] +8 and i[1] + 8 > j[1] or i[0] <= j[0] + 8 <= i[0] +8 and i[1] + 8 > j[1]:
-                    bonus.remove(j)
-                    unbonus = 1
+# def destruction_bonus():  #detruit le bonus lorsque le vaisseau le touche ou un ennemis
+#     global unbonus
+#     for j in bonus :
+#         for i in ennemis :
+#             if len(bonus)!= 0 :
+#                 if i[0] <= j[0] <= i[0] +8 and i[1] + 8 > j[1] or i[0] <= j[0] + 8 <= i[0] +8 and i[1] + 8 > j[1]:
+#                     bonus.remove(j)
+#                     unbonus = 1
 
-def carré_bonus():  #apparition du carré bonus
-    global unbonus,x,y,vaissaide
-    for i in bonus :
-        pyxel.rect(i[0],i[1],4,4,6)
-        if x <= i[0] <= x + 8 and y <= i[1] <= y + 8 or x <= i[0] +4 <= x + 8 and y <= i[1]+4 <= y + 8:
-            bonus.remove(i)
-            unbonus = 1
-            vaissaide = 1
+# def carré_bonus():  #apparition du carré bonus
+#     global unbonus,x,y,vaissaide
+#     for i in bonus :
+#         pyxel.rect(i[0],i[1],4,4,6)
+#         if x <= i[0] <= x + 8 and y <= i[1] <= y + 8 or x <= i[0] +4 <= x + 8 and y <= i[1]+4 <= y + 8:
+#             bonus.remove(i)
+#             unbonus = 1
+#             vaissaide = 1
