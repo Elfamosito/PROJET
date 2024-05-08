@@ -65,7 +65,7 @@ def initialisation():
     tps_slow = 0
     missile_width = 30
     missile_height = 10
-    nb_missiles = 0
+    nb_missiles = 10
     shield = 0
     liste_nid = []
 
@@ -209,47 +209,6 @@ def check_hitbox_colision(hitbox_1, hitbox_2):
 def collision_entre_obstacles():
     global liste_obstacles_1, liste_obstacles_2, liste_obstacles_3, liste_obstacles_4
 
-    # for obstacle_1 in liste_obstacles_1:
-    #     for obstacle_2 in liste_obstacles_2 + liste_obstacles_3 + liste_obstacles_4:
-    #         if obstacle_1 != obstacle_2:  # Assurez-vous que ce ne sont pas les mêmes obstacles
-    #             obstacle_hitbox_1 = [obstacle_1[0], obstacle_1[1], obstacle_1[0] + OBSTACLE_WIDTH, obstacle_1[1] + OBSTACLE_HEIGHT]
-    #             obstacle_hitbox_2 = [obstacle_2[0], obstacle_2[1], obstacle_2[0] + OBSTACLE_WIDTH, obstacle_2[1] + OBSTACLE_HEIGHT]
-
-    #             if check_hitbox_colision(obstacle_hitbox_1, obstacle_hitbox_2):
-    #                 # Si les obstacles se chevauchent, les supprimer des listes respectives
-    #                 if obstacle_1 in liste_obstacles_1:
-    #                     liste_obstacles_1.remove(obstacle_1)
-    #                 if obstacle_2 in liste_obstacles_2:
-    #                     liste_obstacles_2.remove(obstacle_2)
-    #                 return  # Sortir de la fonction après avoir supprimé les obstacles pour éviter de supprimer plusieurs paires à la fois
-
-    # # Répéter le même processus pour les autres types d'obstacles
-    # for obstacle_1 in liste_obstacles_2:
-    #     for obstacle_2 in liste_obstacles_3 + liste_obstacles_4:
-    #         if obstacle_1 != obstacle_2:
-    #             obstacle_hitbox_1 = [obstacle_1[0], obstacle_1[1], obstacle_1[0] + OBSTACLE_WIDTH, obstacle_1[1] + OBSTACLE_HEIGHT]
-    #             obstacle_hitbox_2 = [obstacle_2[0], obstacle_2[1], obstacle_2[0] + OBSTACLE_WIDTH, obstacle_2[1] + OBSTACLE_HEIGHT]
-
-    #             if check_hitbox_colision(obstacle_hitbox_1, obstacle_hitbox_2):
-    #                 if obstacle_1 in liste_obstacles_2:
-    #                     liste_obstacles_2.remove(obstacle_1)
-    #                 if obstacle_2 in liste_obstacles_3:
-    #                     liste_obstacles_3.remove(obstacle_2)
-    #                 return
-
-    # for obstacle_1 in liste_obstacles_3:
-    #     for obstacle_2 in liste_obstacles_4:
-    #         if obstacle_1 != obstacle_2:
-    #             obstacle_hitbox_1 = [obstacle_1[0], obstacle_1[1], obstacle_1[0] + OBSTACLE_WIDTH, obstacle_1[1] + OBSTACLE_HEIGHT]
-    #             obstacle_hitbox_2 = [obstacle_2[0], obstacle_2[1], obstacle_2[0] + OBSTACLE_WIDTH, obstacle_2[1] + OBSTACLE_HEIGHT]
-
-    #             if check_hitbox_colision(obstacle_hitbox_1, obstacle_hitbox_2):
-    #                 if obstacle_1 in liste_obstacles_3:
-    #                     liste_obstacles_3.remove(obstacle_1)
-    #                 if obstacle_2 in liste_obstacles_4:
-    #                     liste_obstacles_4.remove(obstacle_2)
-    #                 return
-
    
 def nid_de_poule():
     global liste_nid, score
@@ -296,7 +255,7 @@ def change_proba():
 
         #Type bonus             Type décroissant
         min_bonus = 1
-        max_bonus = 100000
+        max_bonus = 10
         decrease_5 = 1
         
     elif max_1 > min_1 and score !=0 : # type: ignore
@@ -321,7 +280,7 @@ def explosion():
             
 def lancer_missiles():
     global nb_missiles
-    if py.btn(py.KEY_SPACE) and nb_missiles > 0:
+    if py.btnp(py.KEY_SPACE) and nb_missiles > 0:
         nb_missiles -= 1
         liste_missiles.append([x_joueur + PLAYER_WIDTH, y_joueur + PLAYER_HEIGHT/3])
         liste_missiles.append([x_joueur + PLAYER_WIDTH, y_joueur + (PLAYER_HEIGHT/3)*2])
@@ -679,11 +638,11 @@ def update():
     
 def draw():
     
-    # if vivant :
+    if vivant :
         draw_jeu()   
-    # else:
-    #     explosion()
-    #     Fin()
+    else:
+        explosion()
+        Fin()
         
 
 py.run(update,draw)
