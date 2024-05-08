@@ -1,3 +1,11 @@
-#Hitbox pour création de nid de poule si un obstacle rapide percute un obstacle plus lent
+"""
+Reste à faire : 
 
-#Faire en sorte que si un obstacle est généré sur un autre il est détruit/placé autre part.
+Faire les collisions entre obstacles,
+Pour création d'un nid de poule :
+    - statique pendant une certaine durée
+    - mouvant, qui se déplace comme une voiture (lent ou rapide)
+    
+Faire un changement de couleur du carré du bonus en fonction du bonus qu'il obtient.
+Comme ça il suffira de changer le cube par les images des collectibles des bonus à la place.
+"""

@@ -27,7 +27,7 @@ BONUS_HEIGHT = 50
 OBSTACLE_COLOR = 9
 BACKGROUND_COLOR = 0
 SCORE_COLOR = 7
-PLAYER_SPEED = 10
+PLAYER_SPEED = 60
 INITIAL_OBSTACLE_INTERVAL = 100
 OBSTACLE_INTERVAL_DECREMENT = 2
 SCORE_ADD = 1
@@ -37,7 +37,7 @@ py.init(WINDOW_WIDTH,WINDOW_HEIGHT, title="Midnight Project")
 def initialisation():
     global x_joueur, y_joueur, vivant, game_over, liste_obstacles_1, liste_obstacles_2, liste_obstacles_3, liste_obstacles_4, liste_bonus, obstacle_interval, score, obstacle_genere, vitesse_de_deplacement_ennemi, dash, fusee, tps_fusee, rayon_onde, liste_onde, mode_onde, fusee_ready, fusee_get, calibrage, liste_missiles, longueur_missile, liste_explosion, rayon_explosion, tps_slow, missile_width, missile_height, nb_missiles, shield, liste_nid
     x_joueur = 0 + PLAYER_WIDTH
-    y_joueur = WINDOW_HEIGHT // 2
+    y_joueur = WINDOW_HEIGHT // 2 + 2
     vivant = True
     game_over = False
     liste_obstacles_1 =[]
@@ -79,15 +79,33 @@ images()
 
 def deplacement_joueur():
     global y_joueur
-    if py.btn(py.KEY_UP) and y_joueur > 0 :
+    if py.btnp(py.KEY_UP) and y_joueur > 60 :
         y_joueur -= PLAYER_SPEED
 
-    if py.btn(py.KEY_DOWN) and y_joueur < WINDOW_HEIGHT - PLAYER_HEIGHT :
+    if py.btnp(py.KEY_DOWN) and y_joueur < WINDOW_HEIGHT - 120 :
         y_joueur += PLAYER_SPEED
 
 def Obstacle_1():
     global y_obstacle, x_obstacle, WINDOW_HEIGHT, OBSTACLE_HEIGHT_1, WINDOW_WIDTH, OBSTACLE_WIDTH_1, liste_obstacles_1, obstacle_interval
-    y_obstacle = ra.randint( 50 , WINDOW_HEIGHT - OBSTACLE_HEIGHT_1 )
+    y_gen = ra.randint( 0 , 7 )
+    if y_gen == 0: 
+        y_obstacle = 60
+    if y_gen == 1: 
+        y_obstacle = 2 * 60
+    if y_gen == 2: 
+        y_obstacle = 3 * 60
+    if y_gen == 3: 
+        y_obstacle = 4 * 60
+    if y_gen == 4: 
+        y_obstacle = 5 * 60
+    if y_gen == 5: 
+        y_obstacle = 6 * 60
+    if y_gen == 6: 
+        y_obstacle = 7 * 60
+    if y_gen == 7: 
+        y_obstacle = 8 * 60
+    y_obstacle += 7
+    
     x_obstacle = WINDOW_WIDTH + OBSTACLE_WIDTH_1
     
     if py.frame_count % obstacle_interval == 0 and obstacle_genere == 1 :
@@ -98,7 +116,25 @@ def Obstacle_1():
             
 def Obstacle_2():
     global y_obstacle, x_obstacle, WINDOW_HEIGHT, OBSTACLE_HEIGHT_2, WINDOW_WIDTH, OBSTACLE_WIDTH_2, liste_obstacles_2, obstacle_interval
-    y_obstacle = ra.randint( 50 , WINDOW_HEIGHT - OBSTACLE_HEIGHT_2 )
+    y_gen = ra.randint( 0 , 7 )
+    if y_gen == 0: 
+        y_obstacle = 60
+    if y_gen == 1: 
+        y_obstacle = 2 * 60
+    if y_gen == 2: 
+        y_obstacle = 3 * 60
+    if y_gen == 3: 
+        y_obstacle = 4 * 60
+    if y_gen == 4: 
+        y_obstacle = 5 * 60
+    if y_gen == 5: 
+        y_obstacle = 6 * 60
+    if y_gen == 6: 
+        y_obstacle = 7 * 60
+    if y_gen == 7: 
+        y_obstacle = 8 * 60
+    y_obstacle += 7
+        
     x_obstacle = WINDOW_WIDTH + OBSTACLE_WIDTH_2
     
     if py.frame_count % obstacle_interval == 0 and obstacle_genere == 2 :
@@ -109,7 +145,23 @@ def Obstacle_2():
             
 def Obstacle_3():
     global y_obstacle, x_obstacle, WINDOW_HEIGHT, OBSTACLE_HEIGHT_3, WINDOW_WIDTH, OBSTACLE_WIDTH_3, liste_obstacles_3, obstacle_interval
-    y_obstacle = ra.randint( 50 , WINDOW_HEIGHT - OBSTACLE_HEIGHT_3 )
+    y_gen = ra.randint( 0 , 6 )
+    if y_gen == 0: 
+        y_obstacle = 60
+    if y_gen == 1: 
+        y_obstacle = 2 * 60
+    if y_gen == 2: 
+        y_obstacle = 3 * 60
+    if y_gen == 3: 
+        y_obstacle = 4 * 60
+    if y_gen == 4: 
+        y_obstacle = 5 * 60
+    if y_gen == 5: 
+        y_obstacle = 6 * 60
+    if y_gen == 6: 
+        y_obstacle = 7 * 60
+    y_obstacle += 14
+    
     x_obstacle = WINDOW_WIDTH + OBSTACLE_WIDTH_3
     
     if py.frame_count % obstacle_interval == 0 and obstacle_genere == 3 :
@@ -120,7 +172,23 @@ def Obstacle_3():
             
 def Obstacle_4():
     global y_obstacle, x_obstacle, WINDOW_HEIGHT, OBSTACLE_HEIGHT_4, WINDOW_WIDTH, OBSTACLE_WIDTH_4, liste_obstacles_4, obstacle_interval
-    y_obstacle = ra.randint( 50 , WINDOW_HEIGHT - OBSTACLE_HEIGHT_4 )
+    y_gen = ra.randint( 0 , 7 )
+    if y_gen == 0: 
+        y_obstacle = 60
+    if y_gen == 1: 
+        y_obstacle = 2 * 60
+    if y_gen == 2: 
+        y_obstacle = 3 * 60
+    if y_gen == 3: 
+        y_obstacle = 4 * 60
+    if y_gen == 4: 
+        y_obstacle = 5 * 60
+    if y_gen == 5: 
+        y_obstacle = 6 * 60
+    if y_gen == 6: 
+        y_obstacle = 7 * 60
+    y_obstacle += 14
+    
     x_obstacle = WINDOW_WIDTH + OBSTACLE_WIDTH_4
     
     if py.frame_count % obstacle_interval == 0 and obstacle_genere == 4 :
@@ -131,7 +199,25 @@ def Obstacle_4():
             
 def Bonus_obstacle():
     global y_obstacle, x_obstacle, WINDOW_HEIGHT, BONUS_HEIGHT, WINDOW_WIDTH, BONUS_WIDTH, liste_bonus, obstacle_interval
-    y_obstacle = ra.randint( 50 , WINDOW_HEIGHT - BONUS_HEIGHT )
+    y_gen = ra.randint( 0 , 7 )
+    if y_gen == 0: 
+        y_obstacle = 60
+    if y_gen == 1: 
+        y_obstacle = 2 * 60
+    if y_gen == 2: 
+        y_obstacle = 3 * 60
+    if y_gen == 3: 
+        y_obstacle = 4 * 60
+    if y_gen == 4: 
+        y_obstacle = 5 * 60
+    if y_gen == 5: 
+        y_obstacle = 6 * 60
+    if y_gen == 6: 
+        y_obstacle = 7 * 60
+    if y_gen == 7: 
+        y_obstacle = 8 * 60
+    y_obstacle += 6
+    
     x_obstacle = WINDOW_WIDTH + BONUS_WIDTH
     
     if py.frame_count % obstacle_interval == 0 and obstacle_genere == 5 :
@@ -225,7 +311,7 @@ def random_obstacles():
     proba_type_obstacle_2 = [2 for n in range(min_2)] 
     proba_type_obstacle_3 = [3 for n in range(min_3)]
     proba_type_obstacle_4 = [4 for n in range(min_4)]
-    proba_type_bonus = [5 for n in range(max_bonus)]
+    proba_type_bonus = [5 for n in range(chance_bonus)]
 
     liste_proba_type_obstacle = proba_type_obstacle_1 + proba_type_obstacle_2 + proba_type_obstacle_3 + proba_type_obstacle_4 + proba_type_bonus
     
@@ -233,7 +319,7 @@ def random_obstacles():
     obstacle_genere = liste_proba_type_obstacle[indice_obstacle_genere]
 
 def change_proba():
-    global max_1, min_2, min_3, min_4, min_1, max_bonus, min_bonus, decrease_1, increase_2, increase_3, increase_4, decrease_5
+    global max_1, min_2, min_3, min_4, min_1, chance_bonus, decrease_1, increase_2, increase_3, increase_4, decrease_5
     if score == 0:
         # Initialisation des valeurs
         # Type 1 d'obstacle   Type décroissant   
@@ -253,18 +339,15 @@ def change_proba():
         max_4 = 20
         increase_4 = 1
 
-        #Type bonus             Type décroissant
-        min_bonus = 1
-        max_bonus = 10
-        decrease_5 = 1
+        #Type bonus
+        chance_bonus = 1000
         
     elif max_1 > min_1 and score !=0 : # type: ignore
             max_1 -= decrease_1 # type: ignore
             min_2 += increase_2 # type: ignore
             min_3 += increase_3 # type: ignore
             min_4 += increase_4 # type: ignore
-            if max_bonus > min_bonus : #type: ignore
-                max_bonus -= decrease_5  #type: ignore
+
         
 def explosion():
     global rayon_explosion
@@ -497,25 +580,25 @@ def onde():
 def dash_pouvoir():
     global dash, y_joueur, x_joueur
     
-    if dash > 0 :  # Voir en_decal.py pour l'autre type d'activation du dash. Il suffit d'inverser les btnp et les btn de cette fonction.
-        if py.btnp(py.KEY_SHIFT, 100, 0) : # Pour utilise le dash il faut d'abord appuyer sur les flèches puis sur shift. #type: ignore
-            if py.btn(py.KEY_UP) : 
-                y_joueur -= 100
+    if dash > 0 :
+        if py.btn(py.KEY_SHIFT) : # Pour utiliser le dash, il faut d'abord appuyer sur shift puis sur la touche de déplacement.
+            if py.btnp(py.KEY_UP) :
+                y_joueur -= 180
                 dash -= 1
                 
-                if y_joueur <= 0 :
-                    y_joueur = 0
+                if y_joueur <= 62 :
+                    y_joueur = 62
                     dash += 1
                     
-            elif py.btn(py.KEY_DOWN) :
-                y_joueur += 100
+            elif py.btnp(py.KEY_DOWN) :
+                y_joueur += 180
                 dash -= 1
 
-                if y_joueur >= WINDOW_HEIGHT - PLAYER_HEIGHT :
-                    y_joueur = WINDOW_HEIGHT - PLAYER_HEIGHT
+                if y_joueur >= WINDOW_HEIGHT - 120 :
+                    y_joueur = WINDOW_HEIGHT - 120
                     dash += 1
                     
-            elif py.btn(py.KEY_RIGHT) :
+            elif py.btnp(py.KEY_RIGHT) :
                 x_joueur += 300
                 dash -= 1
                 
@@ -523,7 +606,7 @@ def dash_pouvoir():
                     x_joueur = WINDOW_WIDTH - 3 * PLAYER_WIDTH
                     dash += 1
                     
-            elif py.btn(py.KEY_LEFT) :
+            elif py.btnp(py.KEY_LEFT) :
                 x_joueur -= 300
                 dash -= 1
                 
@@ -605,7 +688,25 @@ def draw_jeu():
         
         
     else:
-        py.blt( x_joueur , y_joueur +1, 0 , 0 , 0 , 150 , 53, 0)
+        py.blt( x_joueur , y_joueur + 1, 0 , 0 , 0 , 150 , 53, 0)
+    
+    py.line(0,60,1200,60,7)
+    
+    py.line(0,120,1200,120,7)
+    
+    py.line(0,180,1200,180,7)
+    
+    py.line(0,240,1200,240,7)
+    
+    py.line(0,300,1200,300,7)
+    
+    py.line(0,360,1200,360,7)
+    
+    py.line(0,420,1200,420,7)
+    
+    py.line(0,480,1200,480,7)
+    
+    py.line(0,540,1200,540,7)
     
     for obstacle in liste_obstacles_1 :
         py.rect(obstacle[0] , obstacle[1], OBSTACLE_WIDTH_1, OBSTACLE_HEIGHT_1, OBSTACLE_COLOR)
@@ -648,5 +749,6 @@ def draw():
         Fin()
         if py.btnp(py.KEY_Q):
             py.quit()
+        
 
 py.run(update,draw)
