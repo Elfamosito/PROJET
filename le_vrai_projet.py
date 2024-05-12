@@ -472,7 +472,7 @@ def change_proba():
         increase_4 = 1
 
         #Type bonus
-        proba_bonus = 1
+        proba_bonus = 10
         
     elif max_1 > min_1 and score !=0 : # type: ignore
             max_1 -= decrease_1 # type: ignore
@@ -569,7 +569,7 @@ def missiles_pouvoir():
 def slow_pouvoir():
     global vitesse_de_deplacement_ennemi, tps_slow
     
-    if tps_slow > 0 :
+    if tps_slow > 0 and py.btn(py.KEY_R):
         vitesse_de_deplacement_ennemi = 5
         tps_slow -= 1
         
@@ -579,23 +579,11 @@ def slow_pouvoir():
 def fusee_pouvoir():
     global fusee, mode_onde, fusee_get
     
-    if fusee_get :
+    if (fusee_get and py.btnp(py.KEY_EXCLAIM)) or (fusee_get and py.btnp(py.KEY_A)):
         fusee = True
         mode_onde = True
         fusee_get = False
 
-def mode_fusee():
-    global fusee, liste_bonus
-    
-    if fusee :
-        for obstacle in liste_obstacles_1:
-            liste_obstacles_1.remove(obstacle)
-        for obstacle in liste_obstacles_2:
-            liste_obstacles_2.remove(obstacle)
-        for obstacle in liste_obstacles_3:
-            liste_obstacles_3.remove(obstacle)
-        for obstacle in liste_obstacles_4:
-            liste_obstacles_4.remove(obstacle)
     
 def fusee_ready_mode():
     global fusee, tps_fusee, x_joueur, y_joueur, mode_onde, fusee_ready, score, calibrage
@@ -763,14 +751,14 @@ def pouvoirs():
 def Jeu():
     global score, fusee_ready
     
-    if py.btnp(py.KEY_Q):
+    if py.btnp(py.KEY_DELETE):
         py.quit()
 
     if fusee_ready:
         fusee_ready_mode()
     
     else:
-        if score % 50 == 0: 
+        if score % 100 == 0: 
             change_proba()
         joueur()
         obstacles()
@@ -805,6 +793,14 @@ def draw_jeu():
         onde()
         for bonus in liste_bonus:
             liste_bonus.remove(bonus)
+        for obstacle in liste_obstacles_1:
+            liste_obstacles_1.remove(obstacle)
+        for obstacle in liste_obstacles_2:
+            liste_obstacles_2.remove(obstacle)
+        for obstacle in liste_obstacles_3:
+            liste_obstacles_3.remove(obstacle)
+        for obstacle in liste_obstacles_4:
+            liste_obstacles_4.remove(obstacle)
         for missile in liste_missiles:
             liste_missiles.remove(missile)
         tps_slow = 0
@@ -854,6 +850,10 @@ def draw_jeu():
     py.text(200,4,"SLOW: {}".format(tps_slow), SCORE_COLOR)
     py.text(300,4,"MISSILES: {}".format(nb_missiles), SCORE_COLOR)
     py.text(400,4,"SHIELD: {}".format(shield), SCORE_COLOR)
+    if fusee_get :
+        py.text(500,4,"FUSEE: ON", SCORE_COLOR)
+    else:
+        py.text(500,4,"FUSEE: OFF", SCORE_COLOR)
     
 
 def update():
@@ -869,7 +869,7 @@ def draw():
     else:
         explosion()
         Fin()
-        if py.btnp(py.KEY_Q):
+        if py.btnp(py.KEY_DELETE):
             py.quit()
 
 py.run(update,draw)
