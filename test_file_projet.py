@@ -27,94 +27,9 @@ chemin_bibliotheque = os.path.join(chemin_script, nom_bibliotheque) # Stockage d
 import sys
 sys.path.append(chemin_bibliotheque) # Faire en sorte que les fichiers de chemin_bibliotheque soit lu par l'ordinateur.
 
-
-# import pyxel as py
-
-# py.init(1200,600, title="K")
-
-# liste_boutons =[]
-# py.mouse(True)
-
-# def update():
-#      if py.btnp(py.MOUSE_BUTTON_LEFT):
-#             for bulles in liste_bulles:
-#                 dx = bubble[0] - py.mouse_x
-#                 dy = bubble[1] - py.mouse_y
-
-#                 if dx * dx + dy * dy < bubble.r * bubble.r:
-                        
-    
-# def draw():
-#     py.cls(0)
-
-# py.run(update,draw)
-
-# import pyxel
-
-# class Menu:
-#     def __init__(self):
-#         pyxel.init(200, 200, title="Menu de jeu")
-#         pyxel.mouse(True)
-#         # pyxel.load("assets.pyxres")  # Assure-toi d'avoir une image appelée "settings.png" dans le même répertoire que ce script
-
-#         self.start_button = Button(75, 80, 50, 20, "Démarrer", self.start_game)
-#         self.quit_button = Button(75, 110, 50, 20, "Quitter", pyxel.quit)
-#         self.settings_button = Button(75, 140, 50, 20, "Paramètres", self.show_settings)
-
-#     def run(self):
-#         pyxel.run(self.update, self.draw)
-
-#     def update(self):
-#         self.start_button.update()
-#         self.quit_button.update()
-#         self.settings_button.update()
-
-#     def draw(self):
-#         pyxel.cls(0)
-#         pyxel.text(50, 30, "Nom du Jeu", 7)
-#         self.start_button.draw()
-#         self.quit_button.draw()
-#         self.settings_button.draw()
-
-#     def start_game(self):
-#         # Implémenter la logique pour démarrer le jeu
-#         pass
-
-#     def show_settings(self):
-#         # pyxel.blt(0, 0, 0, 0, 0, 200, 150)
-#         print('A')
-
-# class Button:
-#     def __init__(self, x, y, width, height, text, action):
-#         self.x = x
-#         self.y = y
-#         self.width = width
-#         self.height = height
-#         self.text = text
-#         self.action = action
-#         self.hovered = False
-
-#     def update(self):
-#         self.hovered = (
-#             self.x <= pyxel.mouse_x <= self.x + self.width
-#             and self.y <= pyxel.mouse_y <= self.y + self.height
-#         )
-#         if self.hovered and pyxel.btnp(pyxel.MOUSE_BUTTON_LEFT):
-#             self.action()
-
-#     def draw(self):
-#         color = 9 if self.hovered else 7
-#         pyxel.rectb(self.x, self.y, self.width, self.height, color)
-#         pyxel.text(self.x + 5, self.y + 5, self.text, color)
-
-# menu = Menu()
-# menu.run()
-
-
 import pyxel
 
-pyxel.init(1200, 600, title="Menu de jeu")
-pyxel.mouse(True)
+pyxel.init(600, 300, title="Menu de jeu", quit_key=pyxel.KEY_DELETE, display_scale=2)
 
 # Variables globales pour garder une trace de l'état du menu
 menu_active = True
@@ -175,7 +90,7 @@ def draw_settings():
     pyxel.text(50, 30, "Paramètres", 7)
     retour_color = 7
     if 140 <= pyxel.mouse_y <= 160:
-        retour_color = 11  # Change la couleur du bouton "Paramètres" si la souris le survole
+        retour_color = 11  # Change la couleur du bouton "Retour" si la souris le survole
     pyxel.rectb(75, 140, 50, 20, retour_color)
     pyxel.text(80, 145, "Retour", retour_color)
 
@@ -195,8 +110,10 @@ def update_menu():
 def update():
     if menu_active:
         update_menu()
+        pyxel.mouse(True)
     if show_settings:
         update_settings()
+        pyxel.mouse(True)
     
 def draw():
     if menu_active:
