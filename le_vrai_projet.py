@@ -34,8 +34,21 @@ SCORE_ADD = 1
 
 py.init(WINDOW_WIDTH,WINDOW_HEIGHT, title="Midnight Project", quit_key=py.KEY_DELETE, display_scale=2)
 
+# Chargement du score record depuis un fichier
+def load_high_score():
+    try: # Test pour vérifier l'existence du fichier de sauvegarde du record
+        with open("high_score.txt", "r") as file: # Ouverture du fichier avec le record
+            return int(file.read()) # Récupération du record
+    except FileNotFoundError: # Si le fichier n'existe pas
+        return 0 # Ne rien faire
+
+# Sauvegarde du score record dans un fichier
+def save_high_score(score): 
+    with open("high_score.txt", "w") as file: # Ouverture du fichier ou création du fichier avec le record
+        file.write(str(score)) # Insertion du record dans le fichier
+
 def initialisation():
-    global menu_active, show_settings, affichage_debut, x_joueur, y_joueur, vivant, game_over, liste_obstacles_1, liste_obstacles_2, liste_obstacles_3, liste_obstacles_4, liste_bonus, obstacle_interval, score, obstacle_genere, vitesse_de_deplacement_ennemi, dash, fusee, tps_fusee, rayon_onde, liste_onde, mode_onde, fusee_ready, fusee_get, calibrage, liste_missiles, liste_explosion, rayon_explosion, rayon_max, tps_slow, missile_width, missile_height, nb_missiles, shield, liste_nid
+    global menu_active, show_settings, affichage_debut, x_joueur, y_joueur, vivant, game_over, liste_obstacles_1, liste_obstacles_2, liste_obstacles_3, liste_obstacles_4, liste_bonus, obstacle_interval, score, obstacle_genere, vitesse_de_deplacement_ennemi, dash, fusee, tps_fusee, rayon_onde, liste_onde, mode_onde, fusee_ready, fusee_get, calibrage, liste_missiles, liste_explosion, rayon_explosion, rayon_max, tps_slow, missile_width, missile_height, nb_missiles, shield, liste_nid, high_score
     
     menu_active = False
     show_settings = False
@@ -66,17 +79,19 @@ def initialisation():
     liste_explosion = []
     rayon_explosion = 0
     rayon_max = 25
-    tps_slow = 0
+    tps_slow = 100
     missile_width = 15
     missile_height = 5
     nb_missiles = 0
     shield = 0
     liste_nid = []
+    high_score = load_high_score()
 
 initialisation()
 
 def images():
     py.images[0].load(0,0,"Elements.png") #type: ignore
+    py.images[1].load(0,0,"Commandes.png") #type: ignore
 
 images()
 
@@ -183,18 +198,28 @@ def update_settings():
     global show_settings
     if show_settings:
         if py.btnp(py.MOUSE_BUTTON_LEFT):
-            if 75 <= py.mouse_x <= 125 and 140 <= py.mouse_y <= 160:
+            if 45 <= py.mouse_x <= 95 and 240 <= py.mouse_y <= 260:
                 return_to_menu()
         elif py.btnp(py.KEY_ESCAPE):
             return_to_menu()
 
 def draw_settings():
     py.text(50, 30, "Settings", 7)
+    
+    py.blt(90 , 100 , 1 , 0 , 193 , 205 , 30) #Config 1
+    py.blt(90 , 200 , 1 , 0 , 223 , 207 , 30)  #Config 2
+    py.blt(300 , 20 , 1 , 0 , 150 , 150 , 44)#Touches deplacement
+    py.blt(470 , 20 , 1 , 150 , 136 , 106 , 49)#touches bonus
+    py.blt(315 , 80 , 1 , 0 , 0 , 128 , 78)#touches dp 1 zqsd
+    py.blt(315 , 180 , 1 , 128 , 0 , 128 , 80)#touches dp 2 flèches
+    py.blt(460 , 82 , 1 , 0 , 78 , 128 , 72)#touches bonus 1 aer
+    py.blt(460 , 190 , 1 , 128 , 80 , 128 , 56)#touches bonus 2 :!
+    
     retour_color = 7
-    if 140 <= py.mouse_y <= 160 and 75 <= py.mouse_x <= 125:
+    if 240 <= py.mouse_y <= 260 and 45 <= py.mouse_x <= 95:
         retour_color = 11  # Change la couleur du bouton "Retour" si la souris le survole
-    py.rectb(75, 140, 50, 20, retour_color)
-    py.text(80, 145, "Back", retour_color)
+    py.rectb(45, 240, 50, 20, retour_color)
+    py.text(50, 250, "Back", retour_color)
 
 # Fonction principale de mise à jour du menu
 def update_menu():
@@ -211,8 +236,10 @@ def update_menu():
                     quit_game()
 
 def draw_menu():
+    global col1
+    
     py.text(50, 30, "MIDNIGHT DRIVE", 7)
-    py.text(75, 40, "A game developed by famositoengine", 7)
+    py.text(125, 50, "A game developed by Famoso Engine", 7)
     
     start_color = 7
     quit_color = 7
@@ -243,17 +270,23 @@ def draw_menu():
     
     py.text(500,293,"Actual version: 0.1.1", 7)
     
+    col1 += 1
+    if col1 == 16:
+        col1 = 1
+    
+    py.text(75, 250, "High score: {}".format(high_score), col1)
+    
 
 def deplacement_joueur():
     global y_joueur
-    if (py.btn(py.KEY_UP) and y_joueur > 0) or (py.btn(py.KEY_Z) and y_joueur > 0) :
+    if (py.btn(py.KEY_UP) and y_joueur > 10) or (py.btn(py.KEY_Z) and y_joueur > 10) :
         y_joueur -= PLAYER_SPEED
 
     if (py.btn(py.KEY_DOWN) and y_joueur < WINDOW_HEIGHT - PLAYER_HEIGHT) or (py.btn(py.KEY_S) and y_joueur < WINDOW_HEIGHT - PLAYER_HEIGHT) :
         y_joueur += PLAYER_SPEED
     
     if y_joueur < 0 :
-        y_joueur = 0
+        y_joueur = 10
     if y_joueur > WINDOW_HEIGHT - PLAYER_HEIGHT : 
         y_joueur = WINDOW_HEIGHT - PLAYER_HEIGHT
 
@@ -262,7 +295,7 @@ def Obstacle_1():
 
     
     if obstacle_genere == 1 :
-        y_obstacle = ra.randint( 50 , WINDOW_HEIGHT - OBSTACLE_HEIGHT_1 )
+        y_obstacle = ra.randint( 10 , WINDOW_HEIGHT - OBSTACLE_HEIGHT_1 )
         x_obstacle = WINDOW_WIDTH + OBSTACLE_WIDTH_1
         liste_obstacles_1.append([x_obstacle , y_obstacle])
         obstacle_interval -= OBSTACLE_INTERVAL_DECREMENT
@@ -273,7 +306,7 @@ def Obstacle_2():
     global y_obstacle, x_obstacle, WINDOW_HEIGHT, OBSTACLE_HEIGHT_2, WINDOW_WIDTH, OBSTACLE_WIDTH_2, liste_obstacles_2, obstacle_interval
     
     if obstacle_genere == 2 :
-        y_obstacle = ra.randint( 50 , WINDOW_HEIGHT - OBSTACLE_HEIGHT_2 )
+        y_obstacle = ra.randint( 10 , WINDOW_HEIGHT - OBSTACLE_HEIGHT_2 )
         x_obstacle = WINDOW_WIDTH + OBSTACLE_WIDTH_2
         liste_obstacles_2.append([x_obstacle , y_obstacle])
         obstacle_interval -= OBSTACLE_INTERVAL_DECREMENT
@@ -284,7 +317,7 @@ def Obstacle_3():
     global y_obstacle, x_obstacle, WINDOW_HEIGHT, OBSTACLE_HEIGHT_3, WINDOW_WIDTH, OBSTACLE_WIDTH_3, liste_obstacles_3, obstacle_interval
     
     if obstacle_genere == 3 :
-        y_obstacle = ra.randint( 50 , WINDOW_HEIGHT - OBSTACLE_HEIGHT_3 )
+        y_obstacle = ra.randint( 10 , WINDOW_HEIGHT - OBSTACLE_HEIGHT_3 )
         x_obstacle = WINDOW_WIDTH + OBSTACLE_WIDTH_3
         liste_obstacles_3.append([x_obstacle , y_obstacle])
         obstacle_interval -= OBSTACLE_INTERVAL_DECREMENT
@@ -295,7 +328,7 @@ def Obstacle_4():
     global y_obstacle, x_obstacle, WINDOW_HEIGHT, OBSTACLE_HEIGHT_4, WINDOW_WIDTH, OBSTACLE_WIDTH_4, liste_obstacles_4, obstacle_interval
     
     if obstacle_genere == 4 :
-        y_obstacle = ra.randint( 50 , WINDOW_HEIGHT - OBSTACLE_HEIGHT_4 )
+        y_obstacle = ra.randint( 10 , WINDOW_HEIGHT - OBSTACLE_HEIGHT_4 )
         x_obstacle = WINDOW_WIDTH + OBSTACLE_WIDTH_4
         liste_obstacles_4.append([x_obstacle , y_obstacle])
         obstacle_interval -= OBSTACLE_INTERVAL_DECREMENT
@@ -306,7 +339,7 @@ def Bonus_obstacle():
     global y_obstacle, x_obstacle, WINDOW_HEIGHT, BONUS_HEIGHT, WINDOW_WIDTH, BONUS_WIDTH, liste_bonus, obstacle_interval
 
     if obstacle_genere == 5 :
-        y_obstacle = ra.randint( 50 , WINDOW_HEIGHT - BONUS_HEIGHT )
+        y_obstacle = ra.randint( 10 , WINDOW_HEIGHT - BONUS_HEIGHT )
         x_obstacle = WINDOW_WIDTH + BONUS_WIDTH
         type_bonus = ra.randint(0,4)
 
@@ -366,9 +399,9 @@ def check_colision_joueur_obstacle():
         bonus_hitbox = [bonus[0] , bonus[1] , bonus[0] + BONUS_WIDTH , bonus[1] + BONUS_HEIGHT ]
         if check_hitbox_colision(joueur_hitbox, bonus_hitbox):
             if bonus[2] == 0:
-                nb_missiles += 10
+                nb_missiles += 5
             elif bonus[2] == 1:
-                dash += 5
+                dash += 4
             elif bonus[2] == 2:
                 fusee_get = True
             elif bonus[2] == 3:
@@ -376,6 +409,17 @@ def check_colision_joueur_obstacle():
             else:
                 tps_slow += 100
             liste_bonus.remove(bonus)
+    for obstacle in liste_nid:
+        obstacle_hitbox = [obstacle[0] , obstacle[1] , obstacle[0] + 3 * BONUS_WIDTH , obstacle[1] + 3 * BONUS_HEIGHT ]
+        if check_hitbox_colision(joueur_hitbox, obstacle_hitbox):
+            if shield > 0 :
+                shield -= 1
+                liste_explosion.append([obstacle[0] + (3 * BONUS_WIDTH) /2 , obstacle[1] + (3 * BONUS_HEIGHT) /2])
+                liste_nid.remove(obstacle)
+            else:
+                vivant = False
+                liste_explosion.append([obstacle[0] + (3 * BONUS_WIDTH) /2 , obstacle[1] + (3 * BONUS_HEIGHT) /2])
+            break
                 
 
 
@@ -695,7 +739,7 @@ def change_proba():
         increase_4 = 1
 
         #Type bonus
-        proba_bonus = 10
+        proba_bonus = 6
         
     elif max_1 > min_1 and score !=0 : # type: ignore
             max_1 -= decrease_1 # type: ignore
@@ -716,7 +760,7 @@ def explosion():
             
 def lancer_missiles():
     global nb_missiles
-    if py.btnp(py.KEY_SPACE) and nb_missiles > 0:
+    if py.btnp(py.KEY_SPACE) or py.btnp(py.KEY_E) and nb_missiles > 0:
         nb_missiles -= 1
         liste_missiles.append([x_joueur + PLAYER_WIDTH, y_joueur + PLAYER_HEIGHT/3])
         liste_missiles.append([x_joueur + PLAYER_WIDTH, y_joueur + (PLAYER_HEIGHT/3)*2])
@@ -792,7 +836,8 @@ def missiles_pouvoir():
 def slow_pouvoir():
     global vitesse_de_deplacement_ennemi, tps_slow
     
-    if tps_slow > 0 and py.btn(py.KEY_R): #type: ignore
+    if (tps_slow > 0 and py.btn(py.KEY_R)) or (tps_slow > 0 and py.btn(py.KEY_COLON )): #type: ignore
+        print('A')
         vitesse_de_deplacement_ennemi = 4
         if py.frame_count % 3 == 0:
             tps_slow -= 1
@@ -927,7 +972,7 @@ def dash_pouvoir():
     
     if dash > 0 :  # Voir en_decal.py pour l'autre type d'activation du dash. Il suffit d'inverser les btnp et les btn de cette fonction.
         if py.btnp(py.KEY_SHIFT, 100, 0) : # Pour utilise le dash il faut d'abord appuyer sur les flèches puis sur shift. #type: ignore
-            if py.btn(py.KEY_UP) : 
+            if py.btn(py.KEY_UP) or py.btn(py.KEY_Z) : 
                 y_joueur -= 50
                 dash -= 1
                 
@@ -935,7 +980,7 @@ def dash_pouvoir():
                     y_joueur = 0
                     dash += 1
                     
-            elif py.btn(py.KEY_DOWN) :
+            elif py.btn(py.KEY_DOWN) or py.btn(py.KEY_S) :
                 y_joueur += 50
                 dash -= 1
 
@@ -943,7 +988,7 @@ def dash_pouvoir():
                     y_joueur = WINDOW_HEIGHT - PLAYER_HEIGHT
                     dash += 1
                     
-            elif py.btn(py.KEY_RIGHT) :
+            elif py.btn(py.KEY_RIGHT) or py.btn(py.KEY_D) :
                 x_joueur += 150
                 dash -= 1
                 
@@ -951,7 +996,7 @@ def dash_pouvoir():
                     x_joueur = WINDOW_WIDTH - 3 * PLAYER_WIDTH
                     dash += 1
                     
-            elif py.btn(py.KEY_LEFT) :
+            elif py.btn(py.KEY_LEFT) or py.btn(py.KEY_Q) :
                 x_joueur -= 150
                 dash -= 1
                 
@@ -1006,16 +1051,20 @@ def Fin():
     
     if SCORE_COLOR == 15 :
         SCORE_COLOR = 0
-    
+        
     py.text(WINDOW_WIDTH // 2 - 20, WINDOW_HEIGHT // 2, "Game Over", SCORE_COLOR)
-    py.text(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 20 , "Final score: {}".format(score), SCORE_COLOR)
+    py.text(WINDOW_WIDTH // 2 - 20, WINDOW_HEIGHT // 2 + 20 , "Final score: {}".format(score), SCORE_COLOR)
+    
+    if score > high_score :
+        save_high_score(score)
+        py.text(WINDOW_WIDTH // 2 - 20, WINDOW_HEIGHT // 2 + 40 , "You broke your record !", SCORE_COLOR)
+        py.text(WINDOW_WIDTH // 2 - 20, WINDOW_HEIGHT // 2 + 50 , "GG", SCORE_COLOR)
     
     if py.frame_count % 30 > 20:
         col = 0
     else:
         col=7
 
-    py.text(320,240,"PRESS ENTER TO START",col)
     py.text(WINDOW_WIDTH // 2, WINDOW_HEIGHT - 70, "Press R to restart and M to go to the menu", col)
 
 def draw_jeu():
@@ -1079,16 +1128,18 @@ def draw_jeu():
     
     py.text(4,4,"Score: {}".format(score), SCORE_COLOR)
     py.text(100,4,"DASH: {}".format(dash), SCORE_COLOR)
-    py.text(200,4,"SLOW: {}".format(tps_slow), SCORE_COLOR)
-    py.text(300,4,"MISSILES: {}".format(nb_missiles), SCORE_COLOR)
-    py.text(400,4,"SHIELD: {}".format(shield), SCORE_COLOR)
+    py.text(175,4,"SLOW: {}".format(tps_slow), SCORE_COLOR)
+    py.text(250,4,"MISSILES: {}".format(nb_missiles), SCORE_COLOR)
+    py.text(325,4,"SHIELD: {}".format(shield), SCORE_COLOR)
     if fusee_get :
-        py.text(500,4,"ROCKET: ON", SCORE_COLOR)
+        py.text(400,4,"ROCKET: ON", SCORE_COLOR)
     else:
-        py.text(500,4,"ROCKET: OFF", SCORE_COLOR)
+        py.text(400,4,"ROCKET: OFF", SCORE_COLOR)
+        
+    py.text(500,4,"HIGH SCORE: {}".format(high_score), SCORE_COLOR)
     
 def recommencer():
-    global menu_active, show_settings, affichage_debut, x_joueur, y_joueur, vivant, game_over, liste_obstacles_1, liste_obstacles_2, liste_obstacles_3, liste_obstacles_4, liste_bonus, obstacle_interval, score, obstacle_genere, vitesse_de_deplacement_ennemi, dash, fusee, tps_fusee, rayon_onde, liste_onde, mode_onde, fusee_ready, fusee_get, calibrage, liste_missiles, liste_explosion, rayon_explosion, rayon_max, tps_slow, missile_width, missile_height, nb_missiles, shield, liste_nid
+    global menu_active, show_settings, affichage_debut, x_joueur, y_joueur, vivant, game_over, liste_obstacles_1, liste_obstacles_2, liste_obstacles_3, liste_obstacles_4, liste_bonus, obstacle_interval, score, obstacle_genere, vitesse_de_deplacement_ennemi, dash, fusee, tps_fusee, rayon_onde, liste_onde, mode_onde, fusee_ready, fusee_get, calibrage, liste_missiles, liste_explosion, rayon_explosion, rayon_max, tps_slow, missile_width, missile_height, nb_missiles, shield, liste_nid, high_score, SCORE_COLOR
     
     menu_active = False
     show_settings = False
@@ -1125,9 +1176,11 @@ def recommencer():
     nb_missiles = 0
     shield = 0
     liste_nid = []
+    high_score = load_high_score()
+    SCORE_COLOR = 7
     
 def retour_au_menu():
-    global menu_active, show_settings, affichage_debut, x_joueur, y_joueur, vivant, game_over, liste_obstacles_1, liste_obstacles_2, liste_obstacles_3, liste_obstacles_4, liste_bonus, obstacle_interval, score, obstacle_genere, vitesse_de_deplacement_ennemi, dash, fusee, tps_fusee, rayon_onde, liste_onde, mode_onde, fusee_ready, fusee_get, calibrage, liste_missiles, liste_explosion, rayon_explosion, rayon_max, tps_slow, missile_width, missile_height, nb_missiles, shield, liste_nid
+    global menu_active, show_settings, affichage_debut, x_joueur, y_joueur, vivant, game_over, liste_obstacles_1, liste_obstacles_2, liste_obstacles_3, liste_obstacles_4, liste_bonus, obstacle_interval, score, obstacle_genere, vitesse_de_deplacement_ennemi, dash, fusee, tps_fusee, rayon_onde, liste_onde, mode_onde, fusee_ready, fusee_get, calibrage, liste_missiles, liste_explosion, rayon_explosion, rayon_max, tps_slow, missile_width, missile_height, nb_missiles, shield, liste_nid, high_score, SCORE_COLOR
     
     menu_active = True
     show_settings = False
@@ -1164,6 +1217,8 @@ def retour_au_menu():
     nb_missiles = 0
     shield = 0
     liste_nid = []
+    high_score = load_high_score()
+    SCORE_COLOR = 7
 
 def update():
     global vivant

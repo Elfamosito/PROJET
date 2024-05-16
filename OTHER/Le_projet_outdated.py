@@ -42,7 +42,7 @@ def save_high_score(score):
 
 def chargement_images():
 
-    py.images[0].load(0,0,"Voiture_joueur.png") #type: ignore
+    py.images[0].load(0,0,"Elements.png") #type: ignore
 
 
 
