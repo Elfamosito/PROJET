@@ -90,8 +90,8 @@ def initialisation():
 initialisation()
 
 def images():
-    py.images[0].load(0,0,"Elements.png") #type: ignore
-    py.images[1].load(0,0,"Commandes.png") #type: ignore
+    py.images[0].load(0,0,"Resources/Elements.png") #type: ignore
+    py.images[1].load(0,0,"Resources/Commandes.png") #type: ignore
 
 images()
 
@@ -117,19 +117,20 @@ couleurs_debut()
 
 def affichage_debut_jeu():
     global col1,col2,col3,col4,col5,col6,col7,col8,col9,col10,col11,col12,col13,col
-    col1 += 1
-    col2 += 1
-    col3 += 1
-    col4 += 1
-    col5 += 1
-    col6 += 1
-    col7 += 1
-    col8 += 1
-    col9 += 1
-    col10 += 1
-    col11 += 1
-    col12 += 1
-    col13 += 1
+    if py.frame_count % 2 == 0:
+        col1 += 1
+        col2 += 1
+        col3 += 1
+        col4 += 1
+        col5 += 1
+        col6 += 1
+        col7 += 1
+        col8 += 1
+        col9 += 1
+        col10 += 1
+        col11 += 1
+        col12 += 1
+        col13 += 1
     if col1 == 16 :
         col1 = 1
     elif col2 == 16 :
@@ -270,7 +271,9 @@ def draw_menu():
     
     py.text(500,293,"Actual version: 0.1.1", 7)
     
-    col1 += 1
+    if py.frame_count % 2 == 0:
+        col1 += 1
+    
     if col1 == 16:
         col1 = 1
     
@@ -837,7 +840,7 @@ def slow_pouvoir():
     global vitesse_de_deplacement_ennemi, tps_slow
     
     if (tps_slow > 0 and py.btn(py.KEY_R)) or (tps_slow > 0 and py.btn(py.KEY_COLON )): #type: ignore
-        print('A')
+
         vitesse_de_deplacement_ennemi = 4
         if py.frame_count % 3 == 0:
             tps_slow -= 1
@@ -1024,7 +1027,7 @@ def Jeu():
         fusee_ready_mode()
     
     else:
-        if score % 1000 == 0 : 
+        if score % 500 == 0 : 
             change_proba()
             if tps_slow > 0:
                 vitesse_de_deplacement_ennemi += 0.2
