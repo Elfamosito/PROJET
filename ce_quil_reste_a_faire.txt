@@ -1,0 +1,81 @@
+UPDATES IMPORTANTES:
+
+-   Faire un fond pour le menu + le jeu + Mode fusée + la fin
+
+-   Choix du logo, découpe.
+
+-   Affichage du logo dans le menu, en tant qu'image ou fait avec des traits et autres.
+
+-   Refaire la taille des images pour les commandes du jeu dans settings.
+
+-   Faire la palette de 16 couleurs:
+
+0 =     0x000000    ( noir )
+1 =     0x          (   )
+2 =     0x          (   )
+3 =     0x          (   )
+4 =     0x          (   )
+5 =     0x          (   )
+6 =     0x          (   )
+7 =     0x          (   )
+8 =     0x          (   )
+9 =     0x          (   )
+10 =    0x          (   )
+11 =    0x          (   )
+12 =    0x          (   )
+13 =    0x          (   )
+14 =    0x          (   )
+15 =    0x          (   )
+
+/!\ Laisser une couleur qui sera "inutile", car servira pour être la couleur à ignorer des images !
+
+-   Réaliser toutes les images avec la palette de 16 couleurs
+
+/!\ Ne pas oublier de mettre à jour la version du jeu + carré NEWS !
+
+
+
+FUTURES UPDATES :
+
+-   Faire une bande son :
+
+Musique du menu.
+Son quand la souris passe sur un bouton dans les menus.
+Son quand on fait quitter.
+Son de la voiture.
+Son explosion.
+Son récupération d'un bonus.
+Son dash.
+Son fusée.
+Son slow.
+Son missiles.
+Son joueur meurt.
+Musique fin.
+
+[-   Faire les images de la voiture avec les couleurs différentes.]
+[-   Faire le bouton/autre pour choisir la couleur de la voiture(/voir la voiture).]
+
+-   Créer des nouvelles voitures. (+son unique)
+
+-   Créer des succès. -> Récompenses.
+
+-   Créer des niveaux. -> Différentes difficultés, donnent récompenses.
+
+-   Faire un tutoriel.
+
+-   Système de boutique.
+
+-   Animation du logo lors du démarrage du jeu (+son)
+
+-   Faire un écran de chargement pour passer du menu -> le jeu, la fin -> le jeu et la fin -> menu.
+
+-   Mettre à jour le slow.
+
+-   Faire des animations pour 
+
+Dash :      Des traits bleus qui relient départ-arrivée
+Slow :      Des petits carrés violets qui bougent lentement
+Bouclier:   Un contour bleu autour de la voiture qui scintille, ...
+
+
+-   Mieux gérer les probabilités d'apparition de chaque bonus, - de fusee et bouclier que autre. A déterminer.
