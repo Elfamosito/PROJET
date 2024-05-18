@@ -10,26 +10,32 @@ UPDATES IMPORTANTES:
 
 -   Faire la palette de 16 couleurs:
 
-0 =     0x000000    ( noir )
-1 =     0x          (   )
-2 =     0x          (   )
-3 =     0x          (   )
-4 =     0x          (   )
-5 =     0x          (   )
-6 =     0x          (   )
-7 =     0x          (   )
-8 =     0x          (   )
-9 =     0x          (   )
-10 =    0x          (   )
-11 =    0x          (   )
-12 =    0x          (   )
-13 =    0x          (   )
-14 =    0x          (   )
-15 =    0x          (   )
+0 =     0x000000    ( noir )     #noir
+1 =     0xFFFFFF    (  blanc )   #blanc -> Touches + phares voiture
+2 =     0xFFFF00    (  jaune )   #jaune -> voiture + munitions + fusee
+3 =     0x0000FF    (  bleu )   #bleu -> police + shield + dash
+4 =     0xFF0000    (  rouge )   #rouge -> fusee + police
+5 =     0x787878    (  gris )   #gris -> dash + ennemi_1 + fusee
+6 =     0xFF9600    (  orange )   #orange -> fusee x2
+7 =     0xFF00FF    (  violet )   #violet -> slow
+8 =     0x    (   )   #
+9 =     0x    (   )   #
+10 =    0x    (   )   #
+11 =    0x    (   )   #
+12 =    0x    (   )   #
+13 =    0x    (   )   #
+14 =    0x    (   )   #
+15 =    0x    (   ) # Couleur "inutile", servira à faire le fond des documents ressources et à l'utiliser comme couleur transparente.
 
 /!\ Laisser une couleur qui sera "inutile", car servira pour être la couleur à ignorer des images !
 
+- Création d'une fonction qui rement les couleurs "à zéro", voir test_file_projet.py
+
 -   Réaliser toutes les images avec la palette de 16 couleurs
+Refaire : 
+camion : taille + design
+moto : design
+munitions : couleurs
 
 /!\ Ne pas oublier de mettre à jour la version du jeu + carré NEWS !
 
@@ -69,7 +75,11 @@ Musique fin.
 
 -   Faire un écran de chargement pour passer du menu -> le jeu, la fin -> le jeu et la fin -> menu.
 
--   Mettre à jour le slow.
+-   Mettre à jour le slow:
+Remise à 7 de la vitesse de déplacement ennemi, il faudrait que la vitesse redevienne la même que avant le slow.
+Faire de l'uilisation du slow en un seul coup, le joueur appuie une fois sur la touche et le slow se vide complètement.
+    ou 
+        le slow ne s'active que lorsque le joueur appuie sur la touches
 
 -   Faire des animations pour 
 

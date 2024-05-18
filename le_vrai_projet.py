@@ -10,27 +10,34 @@ import pyxel as py
 import random as ra
 
 # Définition des variables globales
-WINDOW_WIDTH = 600
-WINDOW_HEIGHT = 300
-PLAYER_WIDTH = 60
-PLAYER_HEIGHT = 26
-OBSTACLE_WIDTH_1 = 50
-OBSTACLE_HEIGHT_1 = 23
-OBSTACLE_WIDTH_2 = 75
-OBSTACLE_HEIGHT_2 = 25
-OBSTACLE_WIDTH_3 = 50
-OBSTACLE_HEIGHT_3 = 40
-OBSTACLE_WIDTH_4 = 75
-OBSTACLE_HEIGHT_4 = 40
-BONUS_WIDTH = 25
-BONUS_HEIGHT = 25
-OBSTACLE_COLOR = 9
-BACKGROUND_COLOR = 0
-SCORE_COLOR = 7
-PLAYER_SPEED = 5
-INITIAL_OBSTACLE_INTERVAL = 100
-OBSTACLE_INTERVAL_DECREMENT = 2
-SCORE_ADD = 1
+def variable_globles():
+    global WINDOW_WIDTH, WINDOW_HEIGHT, PLAYER_WIDTH, PLAYER_HEIGHT, OBSTACLE_WIDTH_1, OBSTACLE_HEIGHT_1, OBSTACLE_WIDTH_2, OBSTACLE_HEIGHT_2, OBSTACLE_WIDTH_3, OBSTACLE_HEIGHT_3, OBSTACLE_WIDTH_4, OBSTACLE_HEIGHT_4, BONUS_WIDTH, BONUS_HEIGHT, OBSTACLE_COLOR, BACKGROUND_COLOR, PLAYER_SPEED, INITIAL_OBSTACLE_INTERVAL, OBSTACLE_INTERVAL_DECREMENT, SCORE_ADD, missile_width, missile_height, rayon_max
+    
+    WINDOW_WIDTH = 600
+    WINDOW_HEIGHT = 300
+    PLAYER_WIDTH = 60
+    PLAYER_HEIGHT = 26
+    OBSTACLE_WIDTH_1 = 50
+    OBSTACLE_HEIGHT_1 = 23
+    OBSTACLE_WIDTH_2 = 75
+    OBSTACLE_HEIGHT_2 = 25
+    OBSTACLE_WIDTH_3 = 50
+    OBSTACLE_HEIGHT_3 = 40
+    OBSTACLE_WIDTH_4 = 75
+    OBSTACLE_HEIGHT_4 = 40
+    BONUS_WIDTH = 25
+    BONUS_HEIGHT = 25
+    OBSTACLE_COLOR = 9
+    BACKGROUND_COLOR = 0
+    PLAYER_SPEED = 5
+    INITIAL_OBSTACLE_INTERVAL = 100
+    OBSTACLE_INTERVAL_DECREMENT = 2
+    SCORE_ADD = 1
+    missile_width = 15
+    missile_height = 5
+    rayon_max = 25
+    
+variable_globles()
 
 py.init(WINDOW_WIDTH,WINDOW_HEIGHT, title="Midnight Project", quit_key=py.KEY_DELETE, display_scale=2)
 
@@ -47,9 +54,12 @@ def save_high_score(score):
     with open("high_score.txt", "w") as file: # Ouverture du fichier ou création du fichier avec le record
         file.write(str(score)) # Insertion du record dans le fichier
 
-def initialisation():
-    global menu_active, show_settings, affichage_debut, x_joueur, y_joueur, vivant, game_over, liste_obstacles_1, liste_obstacles_2, liste_obstacles_3, liste_obstacles_4, liste_bonus, obstacle_interval, score, obstacle_genere, vitesse_de_deplacement_ennemi, dash, fusee, tps_fusee, rayon_onde, liste_onde, mode_onde, fusee_ready, fusee_get, calibrage, liste_missiles, liste_explosion, rayon_explosion, rayon_max, tps_slow, missile_width, missile_height, nb_missiles, shield, liste_nid, high_score
+
+
+def initialisation_valeur_jeu():
+    global SCORE_COLOR, menu_active, show_settings, affichage_debut, x_joueur, y_joueur, vivant, game_over, liste_obstacles_1, liste_obstacles_2, liste_obstacles_3, liste_obstacles_4, liste_bonus, obstacle_interval, score, obstacle_genere, vitesse_de_deplacement_ennemi, dash, fusee, tps_fusee, rayon_onde, liste_onde, mode_onde, fusee_ready, fusee_get, calibrage, liste_missiles, liste_explosion, rayon_explosion, tps_slow, nb_missiles, shield, liste_nid, high_score
     
+    SCORE_COLOR = 7
     menu_active = False
     show_settings = False
     affichage_debut = True
@@ -78,16 +88,13 @@ def initialisation():
     liste_missiles = []
     liste_explosion = []
     rayon_explosion = 0
-    rayon_max = 25
-    tps_slow = 100
-    missile_width = 15
-    missile_height = 5
+    tps_slow = 0
     nb_missiles = 0
     shield = 0
     liste_nid = []
     high_score = load_high_score()
 
-initialisation()
+initialisation_valeur_jeu()
 
 def images():
     py.images[0].load(0,0,"Resources/Elements.png") #type: ignore
@@ -97,6 +104,9 @@ images()
 
 def map():
     # py.tilemaps[0].load()
+    return None
+
+map()
 
 def couleurs_debut():
     global col1,col2,col3,col4,col5,col6,col7,col8,col9,col10,col11,col12,col13,col
@@ -844,7 +854,7 @@ def slow_pouvoir():
     if (tps_slow > 0 and py.btn(py.KEY_R)) or (tps_slow > 0 and py.btn(py.KEY_COLON )): #type: ignore
 
         vitesse_de_deplacement_ennemi = 4
-        if py.frame_count % 3 == 0:
+        if py.frame_count % 2 == 0:
             tps_slow -= 1
         
     else :
@@ -1063,7 +1073,7 @@ def Fin():
     if score > high_score :
         save_high_score(score)
         py.text(WINDOW_WIDTH // 2 - 20, WINDOW_HEIGHT // 2 + 40 , "You broke your record !", SCORE_COLOR)
-        py.text(WINDOW_WIDTH // 2 - 20, WINDOW_HEIGHT // 2 + 50 , "GG", SCORE_COLOR)
+        py.text(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 50 , "GG", SCORE_COLOR)
     
     if py.frame_count % 30 > 20:
         col = 0
@@ -1174,10 +1184,7 @@ def recommencer():
     liste_missiles = []
     liste_explosion = []
     rayon_explosion = 0
-    rayon_max = 25
     tps_slow = 0
-    missile_width = 15
-    missile_height = 5
     nb_missiles = 0
     shield = 0
     liste_nid = []
@@ -1215,10 +1222,7 @@ def retour_au_menu():
     liste_missiles = []
     liste_explosion = []
     rayon_explosion = 0
-    rayon_max = 25
     tps_slow = 0
-    missile_width = 15
-    missile_height = 5
     nb_missiles = 0
     shield = 0
     liste_nid = []
