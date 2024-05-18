@@ -95,6 +95,8 @@ def images():
 
 images()
 
+def map():
+    # py.tilemaps[0].load()
 
 def couleurs_debut():
     global col1,col2,col3,col4,col5,col6,col7,col8,col9,col10,col11,col12,col13,col
