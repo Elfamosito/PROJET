@@ -11,27 +11,46 @@ UPDATES IMPORTANTES:
 -   Faire la palette de 16 couleurs:
 
 0 =     0x000000    ( noir )     #noir
-1 =     0xFFFFFF    (  blanc )   #blanc -> Touches + phares voiture
-2 =     0xFFFF00    (  jaune )   #jaune -> voiture + munitions + fusee
-3 =     0x0000FF    (  bleu )   #bleu -> police + shield + dash
-4 =     0xFF0000    (  rouge )   #rouge -> fusee + police
+1 =     0xffffff    (  blanc )   #blanc -> Touches + phares voiture
+2 =     0xffff00    (  jaune )   #jaune -> voiture + munitions + fusee
+3 =     0x0000ff    (  bleu )   #bleu -> police + shield + dash
+4 =     0xff0000    (  rouge )   #rouge -> fusee + police
 5 =     0x787878    (  gris )   #gris -> dash + ennemi_1 + fusee
-6 =     0xFF9600    (  orange )   #orange -> fusee x2
-7 =     0xFF00FF    (  violet )   #violet -> slow
-8 =     0x    (   )   #
+6 =     0xff9600    (  orange )   #orange -> fusee x2
+7 =     0xff00ff    (  violet )   #violet -> slow
+8 =     0x00ff00    (  vert )   # moto
 9 =     0x    (   )   #
 10 =    0x    (   )   #
 11 =    0x    (   )   #
 12 =    0x    (   )   #
 13 =    0x    (   )   #
 14 =    0x    (   )   #
-15 =    0x    (   ) # Couleur "inutile", servira à faire le fond des documents ressources et à l'utiliser comme couleur transparente.
+15 =    0x5ea080    (  couleur moche ) # Couleur "inutile", servira à faire le fond des documents ressources et à l'utiliser comme couleur transparente.
 
-/!\ Laisser une couleur qui sera "inutile", car servira pour être la couleur à ignorer des images !
+/!\ Laisser une couleur qui sera "inutile", car servira pour être la couleur à ignorer des images ! \/
 
-- Création d'une fonction qui rement les couleurs "à zéro", voir test_file_projet.py
+- Création d'une fonction qui rement les couleurs "à zéro". \/
+
+def reinitialiser_couleur():
+    py.colors[0] = 0x000000
+    py.colors[1] = 0x2b335f
+    py.colors[2] = 0x7e2072
+    py.colors[3] = 0x19959c
+    py.colors[4] = 0x8b4852
+    py.colors[5] = 0x395c98
+    py.colors[6] = 0xa9c1ff
+    py.colors[7] = 0xeeeeee
+    py.colors[8] = 0xd4186c
+    py.colors[9] = 0xd38441
+    py.colors[10] = 0xe9c35b
+    py.colors[11] = 0X70c6a9
+    py.colors[12] = 0x7696de
+    py.colors[13] = 0xa3a3a3
+    py.colors[14] = 0xff9798
+    py.colors[15] = 0xedc7b0
 
 -   Réaliser toutes les images avec la palette de 16 couleurs
+
 Refaire : 
 camion : taille + design
 moto : design
@@ -63,14 +82,6 @@ Musique fin.
 
 -   Créer des nouvelles voitures. (+son unique)
 
--   Créer des succès. -> Récompenses.
-
--   Créer des niveaux. -> Différentes difficultés, donnent récompenses.
-
--   Faire un tutoriel.
-
--   Système de boutique.
-
 -   Animation du logo lors du démarrage du jeu (+son)
 
 -   Faire un écran de chargement pour passer du menu -> le jeu, la fin -> le jeu et la fin -> menu.
@@ -79,7 +90,7 @@ Musique fin.
 Remise à 7 de la vitesse de déplacement ennemi, il faudrait que la vitesse redevienne la même que avant le slow.
 Faire de l'uilisation du slow en un seul coup, le joueur appuie une fois sur la touche et le slow se vide complètement.
     ou 
-        le slow ne s'active que lorsque le joueur appuie sur la touches
+        le slow ne s'active que lorsque le joueur appuie sur la touche
 
 -   Faire des animations pour 
 
@@ -89,3 +100,23 @@ Bouclier:   Un contour bleu autour de la voiture qui scintille, ...
 
 
 -   Mieux gérer les probabilités d'apparition de chaque bonus, - de fusee et bouclier que autre. A déterminer.
+
+-   Faire une sélection des touches que l'on souhaite utiliser dans settings (=KEY BINDINGS) avec jusqu'à 2 configs.
+ex: A et flèche_haut pour monter.
+
+-   Faire dans settings le règlage du son.
+général, bruit voiture joueur, bruit_voiture ennemi, effets spéciaux (récupération bonus + utilisation bonus), musique.
+
+BIG UPDATES:
+
+-   Faire le jeu en première personne.
+
+-   Système de boutique.
+
+-   Créer des succès. -> Récompenses.
+
+-   Créer des niveaux. -> Différentes difficultés, donnent récompenses.
+
+-   Faire un tutoriel.
+
+-   Faire une histoire. (envoi vers tutoriel ou est un tutoriel)

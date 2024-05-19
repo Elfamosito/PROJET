@@ -54,12 +54,48 @@ def save_high_score(score):
     with open("high_score.txt", "w") as file: # Ouverture du fichier ou création du fichier avec le record
         file.write(str(score)) # Insertion du record dans le fichier
 
+def couleurs_jeu():
+    py.colors[0] = 0x000000   # ( noir )
+    py.colors[1] = 0xffffff   # (  blanc )   #blanc -> Touches + phares voiture
+    py.colors[2] = 0xffff00   # (  jaune )   #jaune -> voiture + munitions + fusee
+    py.colors[3] = 0x0000ff   # (  bleu )   #bleu -> police + shield + dash
+    py.colors[4] = 0xff0000   # (  rouge )   #rouge -> fusee + police
+    py.colors[5] = 0x787878   # (  gris )   #gris -> dash + ennemi_1 + fusee
+    py.colors[6] = 0xff9600   # (  orange )   #orange -> fusee x2
+    py.colors[7] = 0xff00ff   # (  violet )   #violet -> slow
+    py.colors[8] = 0x00ff00   # (  vert )   # moto
+    # 9 = 0x    (   )   #
+    # 10 = 0x    (   )   #
+    # 11 = 0x    (   )   #
+    # 12 = 0x    (   )   #
+    # 13 = 0x    (   )   #
+    # 14 = 0x    (   )   #
+    py.colors[15] = 0x5ea080   # (  couleur moche ) # Couleur "inutile", servira à faire le fond des documents ressources et à l'utiliser comme couleur transparente.
 
+couleurs_jeu()
+
+def reinitialiser_couleur():
+    py.colors[0] = 0x000000
+    py.colors[1] = 0x2b335f
+    py.colors[2] = 0x7e2072
+    py.colors[3] = 0x19959c
+    py.colors[4] = 0x8b4852
+    py.colors[5] = 0x395c98
+    py.colors[6] = 0xa9c1ff
+    py.colors[7] = 0xeeeeee
+    py.colors[8] = 0xd4186c
+    py.colors[9] = 0xd38441
+    py.colors[10] = 0xe9c35b
+    py.colors[11] = 0X70c6a9
+    py.colors[12] = 0x7696de
+    py.colors[13] = 0xa3a3a3
+    py.colors[14] = 0xff9798
+    py.colors[15] = 0xedc7b0
 
 def initialisation_valeur_jeu():
     global SCORE_COLOR, menu_active, show_settings, affichage_debut, x_joueur, y_joueur, vivant, game_over, liste_obstacles_1, liste_obstacles_2, liste_obstacles_3, liste_obstacles_4, liste_bonus, obstacle_interval, score, obstacle_genere, vitesse_de_deplacement_ennemi, dash, fusee, tps_fusee, rayon_onde, liste_onde, mode_onde, fusee_ready, fusee_get, calibrage, liste_missiles, liste_explosion, rayon_explosion, tps_slow, nb_missiles, shield, liste_nid, high_score
     
-    SCORE_COLOR = 7
+    SCORE_COLOR = 1
     menu_active = False
     show_settings = False
     affichage_debut = True
@@ -187,7 +223,7 @@ def affichage_debut_jeu():
     if py.frame_count % 30 > 20:
         col = 0
     else:
-        col=7
+        col=1
 
     py.text(260,180,"PRESS ENTER TO START",col)
 
@@ -217,20 +253,20 @@ def update_settings():
             return_to_menu()
 
 def draw_settings():
-    py.text(50, 30, "Settings", 7)
+    py.text(50, 30, "Settings", 1)
     
-    py.blt(90 , 100 , 1 , 0 , 193 , 205 , 30) #Config 1
-    py.blt(90 , 200 , 1 , 0 , 223 , 207 , 30)  #Config 2
-    py.blt(300 , 20 , 1 , 0 , 150 , 150 , 44)#Touches deplacement
-    py.blt(470 , 20 , 1 , 150 , 136 , 106 , 49)#touches bonus
-    py.blt(315 , 80 , 1 , 0 , 0 , 128 , 78)#touches dp 1 zqsd
-    py.blt(315 , 180 , 1 , 128 , 0 , 128 , 80)#touches dp 2 flèches
-    py.blt(460 , 82 , 1 , 0 , 78 , 128 , 72)#touches bonus 1 aer
-    py.blt(460 , 190 , 1 , 128 , 80 , 128 , 56)#touches bonus 2 :!
+    py.blt(90 , 100 , 1 , 0 , 193 , 205 , 30, 15) #Config 1
+    py.blt(90 , 200 , 1 , 0 , 223 , 207 , 30, 15)  #Config 2
+    py.blt(300 , 20 , 1 , 0 , 150 , 150 , 44, 15)#Touches deplacement
+    py.blt(470 , 20 , 1 , 150 , 136 , 106 , 49, 15)#touches bonus
+    py.blt(315 , 80 , 1 , 0 , 0 , 128 , 78, 15)#touches dp 1 zqsd
+    py.blt(315 , 180 , 1 , 128 , 0 , 128 , 80, 15)#touches dp 2 flèches
+    py.blt(460 , 82 , 1 , 0 , 78 , 128 , 72, 15)#touches bonus 1 aer
+    py.blt(460 , 190 , 1 , 128 , 80 , 128 , 56, 15)#touches bonus 2 :!
     
-    retour_color = 7
+    retour_color = 1
     if 240 <= py.mouse_y <= 260 and 45 <= py.mouse_x <= 95:
-        retour_color = 11  # Change la couleur du bouton "Retour" si la souris le survole
+        retour_color = 4  # Change la couleur du bouton "Retour" si la souris le survole
     py.rectb(45, 240, 50, 20, retour_color)
     py.text(50, 250, "Back", retour_color)
 
@@ -251,20 +287,20 @@ def update_menu():
 def draw_menu():
     global col1
     
-    py.text(50, 30, "MIDNIGHT DRIVE", 7)
-    py.text(125, 50, "A game developed by Famoso Engine", 7)
+    py.text(50, 30, "MIDNIGHT DRIVE", 1)
+    py.text(125, 50, "A game developed by Famoso Engine", 1)
     
-    start_color = 7
-    quit_color = 7
-    settings_color = 7
+    start_color = 1
+    quit_color = 1
+    settings_color = 1
 
     if 75 <= py.mouse_x <= 125:
         if 80 <= py.mouse_y <= 100:
-            start_color = 11  # Change la couleur du bouton "Démarrer" si la souris le survole
+            start_color = 4  # Change la couleur du bouton "Démarrer" si la souris le survole
         elif 110 <= py.mouse_y <= 130:
-            settings_color = 11  # Change la couleur du bouton "Paramètres" si la souris le survole
+            settings_color = 4  # Change la couleur du bouton "Paramètres" si la souris le survole
         elif 140 <= py.mouse_y <= 160:
-            quit_color = 11  # Change la couleur du bouton "Quitter" si la souris le survole
+            quit_color = 4  # Change la couleur du bouton "Quitter" si la souris le survole
 
     py.rectb(75, 80, 50, 20, start_color)
     py.text(84, 85, "Drive", start_color)
@@ -273,15 +309,15 @@ def draw_menu():
     py.rectb(75, 140, 50, 20, quit_color)
     py.text(86, 145, "Leave", quit_color)
     
-    py.rectb(380, 120, 210, 170, 8)
-    py.text(470 , 135 , "NEWS" , 6)
-    py.text(390, 155, "- Press ALT + 9 to switch between 3 screen modes", 7)
-    py.text(390, 175, "- The game is still in developpment, some bugs",7)
-    py.text(390,195,"can still appear.", 7)
+    py.rectb(380, 120, 210, 170, 4)
+    py.text(470 , 135 , "NEWS" , 4)
+    py.text(390, 155, "- Press ALT + 9 to switch between 3 screen modes", 1)
+    py.text(390, 175, "- The game is still in developpment, some bugs",1)
+    py.text(390,195,"can still appear.", 1)
     
-    py.blt( 200 , 200, 0 , 0 , 0 , 75 , 26, 0)
+    py.blt( 200 , 200, 0 , 0 , 0 , 75 , 26, 15)
     
-    py.text(500,293,"Actual version: 0.1.1", 7)
+    py.text(500,293,"Actual version: 0.1.1", 1)
     
     if py.frame_count % 2 == 0:
         col1 += 1
@@ -775,7 +811,7 @@ def explosion():
             
 def lancer_missiles():
     global nb_missiles
-    if py.btnp(py.KEY_SPACE) or py.btnp(py.KEY_E) and nb_missiles > 0:
+    if (py.btnp(py.KEY_SPACE) and nb_missiles > 0) or (py.btnp(py.KEY_E) and nb_missiles > 0):
         nb_missiles -= 1
         liste_missiles.append([x_joueur + PLAYER_WIDTH, y_joueur + PLAYER_HEIGHT/3])
         liste_missiles.append([x_joueur + PLAYER_WIDTH, y_joueur + (PLAYER_HEIGHT/3)*2])
@@ -1078,7 +1114,7 @@ def Fin():
     if py.frame_count % 30 > 20:
         col = 0
     else:
-        col=7
+        col=1
 
     py.text(WINDOW_WIDTH // 2, WINDOW_HEIGHT - 70, "Press R to restart and M to go to the menu", col)
 
@@ -1105,39 +1141,39 @@ def draw_jeu():
             liste_onde.append([x_joueur, y_joueur])
             mode_onde = False
         elif fusee_ready == False:
-            py.rect(x_joueur, y_joueur, PLAYER_WIDTH, PLAYER_HEIGHT, 7)
+            py.rect(x_joueur, y_joueur, PLAYER_WIDTH, PLAYER_HEIGHT, 1)
         else:
-            py.blt (x_joueur , y_joueur, 0 , 175 , 40 , 75, 24, 11)
+            py.blt (x_joueur , y_joueur, 0 , 175 , 40 , 75, 24, 15)
  
         
     else:
-        py.blt( x_joueur , y_joueur +1, 0 , 0 , 0 , 75 , PLAYER_HEIGHT, 0)
+        py.blt( x_joueur , y_joueur +1, 0 , 0 , 0 , 75 , PLAYER_HEIGHT, 15)
     
     for obstacle in liste_obstacles_1 :
-        py.blt(obstacle[0] , obstacle[1], 0 , 75, 0, OBSTACLE_WIDTH_1 , OBSTACLE_HEIGHT_1)
+        py.blt(obstacle[0] , obstacle[1], 0 , 75, 0, OBSTACLE_WIDTH_1 , OBSTACLE_HEIGHT_1, 15)
     for obstacle in liste_obstacles_2 :
-        py.blt(obstacle[0] , obstacle[1], 0 , 0 , 26 , OBSTACLE_WIDTH_2, OBSTACLE_HEIGHT_2)
+        py.blt(obstacle[0] , obstacle[1], 0 , 0 , 26 , OBSTACLE_WIDTH_2, OBSTACLE_HEIGHT_2, 15)
     for obstacle in liste_obstacles_3 :
-        py.blt(obstacle[0] , obstacle[1], 0 , 125 , 0 , OBSTACLE_WIDTH_3, OBSTACLE_HEIGHT_3)
+        py.blt(obstacle[0] , obstacle[1], 0 , 125 , 0 , OBSTACLE_WIDTH_3, OBSTACLE_HEIGHT_3, 15)
     for obstacle in liste_obstacles_4 :
         if py.frame_count % 30 < 15 :
-            py.blt(obstacle[0] , obstacle[1], 0 , 175 , 0 , OBSTACLE_WIDTH_4, OBSTACLE_HEIGHT_4)
+            py.blt(obstacle[0] , obstacle[1], 0 , 175 , 0 , OBSTACLE_WIDTH_4, OBSTACLE_HEIGHT_4, 15)
 
     for bonus in liste_bonus :
         if bonus[2] == 0:
-            py.blt(bonus[0], bonus[1], 0 , 0 , 51, 25 , 25)
+            py.blt(bonus[0], bonus[1], 0 , 0 , 51, 25 , 25, 15)
         elif bonus[2] == 1:
-            py.blt(bonus[0], bonus[1], 0 , 25 , 51, 25 , 25)
+            py.blt(bonus[0], bonus[1], 0 , 25 , 51, 25 , 25, 15)
         elif bonus[2] == 2:
-            py.blt(bonus[0], bonus[1], 0 , 50 , 51, 25 , 25)
+            py.blt(bonus[0], bonus[1], 0 , 50 , 51, 25 , 25, 15)
         elif bonus[2] == 3:
-            py.blt(bonus[0], bonus[1], 0 , 75 , 51, 25 , 25)
+            py.blt(bonus[0], bonus[1], 0 , 75 , 51, 25 , 25, 15)
         else:
-            py.blt(bonus[0], bonus[1], 0 , 100 , 51, 25 , 25)
+            py.blt(bonus[0], bonus[1], 0 , 100 , 51, 25 , 25, 15)
     for nid in liste_nid : 
-        py.rect(nid[0], nid[1], 2 * BONUS_WIDTH, 2 * BONUS_HEIGHT, 8)
+        py.rect(nid[0], nid[1], 2 * BONUS_WIDTH, 2 * BONUS_HEIGHT, 4)
     for missile in liste_missiles :
-        py.rect(missile[0], missile[1], missile_width, missile_height, 10)
+        py.rect(missile[0], missile[1], missile_width, missile_height, 2)
     
     explosion()
     
@@ -1189,7 +1225,7 @@ def recommencer():
     shield = 0
     liste_nid = []
     high_score = load_high_score()
-    SCORE_COLOR = 7
+    SCORE_COLOR = 1
     
 def retour_au_menu():
     global menu_active, show_settings, affichage_debut, x_joueur, y_joueur, vivant, game_over, liste_obstacles_1, liste_obstacles_2, liste_obstacles_3, liste_obstacles_4, liste_bonus, obstacle_interval, score, obstacle_genere, vitesse_de_deplacement_ennemi, dash, fusee, tps_fusee, rayon_onde, liste_onde, mode_onde, fusee_ready, fusee_get, calibrage, liste_missiles, liste_explosion, rayon_explosion, rayon_max, tps_slow, missile_width, missile_height, nb_missiles, shield, liste_nid, high_score, SCORE_COLOR
@@ -1227,7 +1263,7 @@ def retour_au_menu():
     shield = 0
     liste_nid = []
     high_score = load_high_score()
-    SCORE_COLOR = 7
+    SCORE_COLOR = 1
 
 def update():
     global vivant
