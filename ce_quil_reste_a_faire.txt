@@ -120,3 +120,6 @@ BIG UPDATES:
 -   Faire un tutoriel.
 
 -   Faire une histoire. (envoi vers tutoriel ou est un tutoriel)
+
+-   Si le score est haut, faire apparaître des "boss".
+Il lance des voitures, le joueur a missiles illimité/doit récupérer les missiles.

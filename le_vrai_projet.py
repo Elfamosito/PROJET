@@ -16,12 +16,12 @@ def variable_globles():
     WINDOW_WIDTH = 600
     WINDOW_HEIGHT = 300
     PLAYER_WIDTH = 60
-    PLAYER_HEIGHT = 26
+    PLAYER_HEIGHT = 25
     OBSTACLE_WIDTH_1 = 50
     OBSTACLE_HEIGHT_1 = 23
-    OBSTACLE_WIDTH_2 = 75
-    OBSTACLE_HEIGHT_2 = 25
-    OBSTACLE_WIDTH_3 = 50
+    OBSTACLE_WIDTH_2 = 48
+    OBSTACLE_HEIGHT_2 = 15
+    OBSTACLE_WIDTH_3 = 92
     OBSTACLE_HEIGHT_3 = 40
     OBSTACLE_WIDTH_4 = 75
     OBSTACLE_HEIGHT_4 = 40
@@ -31,7 +31,7 @@ def variable_globles():
     BACKGROUND_COLOR = 0
     PLAYER_SPEED = 5
     INITIAL_OBSTACLE_INTERVAL = 100
-    OBSTACLE_INTERVAL_DECREMENT = 2
+    OBSTACLE_INTERVAL_DECREMENT = 1
     SCORE_ADD = 1
     missile_width = 15
     missile_height = 5
@@ -64,7 +64,7 @@ def couleurs_jeu():
     py.colors[6] = 0xff9600   # (  orange )   #orange -> fusee x2
     py.colors[7] = 0xff00ff   # (  violet )   #violet -> slow
     py.colors[8] = 0x00ff00   # (  vert )   # moto
-    # 9 = 0x    (   )   #
+    py.colors[9] = 0xF9E4B7   # (  beige )   # moto
     # 10 = 0x    (   )   #
     # 11 = 0x    (   )   #
     # 12 = 0x    (   )   #
@@ -119,7 +119,7 @@ def initialisation_valeur_jeu():
     liste_onde = []
     mode_onde = False
     fusee_ready = False
-    fusee_get = False
+    fusee_get = True
     calibrage = True
     liste_missiles = []
     liste_explosion = []
@@ -315,7 +315,7 @@ def draw_menu():
     py.text(390, 175, "- The game is still in developpment, some bugs",1)
     py.text(390,195,"can still appear.", 1)
     
-    py.blt( 200 , 200, 0 , 0 , 0 , 75 , 26, 15)
+    py.blt( 200 , 200, 0 , 0 , 0 , 75 , 25, 15)
     
     py.text(500,293,"Actual version: 0.1.1", 1)
     
@@ -461,7 +461,7 @@ def check_colision_joueur_obstacle():
                 tps_slow += 100
             liste_bonus.remove(bonus)
     for obstacle in liste_nid:
-        obstacle_hitbox = [obstacle[0] , obstacle[1] , obstacle[0] + 3 * BONUS_WIDTH , obstacle[1] + 3 * BONUS_HEIGHT ]
+        obstacle_hitbox = [obstacle[0] , obstacle[1] , obstacle[0] + 2 * BONUS_WIDTH , obstacle[1] + 2 * BONUS_HEIGHT ]
         if check_hitbox_colision(joueur_hitbox, obstacle_hitbox):
             if shield > 0 :
                 shield -= 1
@@ -769,7 +769,7 @@ def random_obstacles():
     obstacle_genere = liste_proba_type_obstacle[indice_obstacle_genere]
 
 def change_proba():
-    global max_1, min_2, min_3, min_4, min_1, proba_bonus, decrease_1, increase_2, increase_3, increase_4
+    global max_1, min_2, min_3, min_4, min_1, proba_bonus, decrease_1, increase_2, increase_3, increase_4, score
     if score == 0:
         # Initialisation des valeurs
         # Type 1 d'obstacle   Type décroissant   
@@ -777,7 +777,7 @@ def change_proba():
         max_1 = 100
         decrease_1 = 5
         # Type 2 d'obstacle    Type croissant
-        min_2 = 0
+        min_2 = 1000
         max_2 = 25
         increase_2 = 2
         # Type 3 d'obstacle    Type croissant
@@ -790,13 +790,15 @@ def change_proba():
         increase_4 = 1
 
         #Type bonus
-        proba_bonus = 6
+        proba_bonus = 4
         
     elif max_1 > min_1 and score !=0 : # type: ignore
             max_1 -= decrease_1 # type: ignore
             min_2 += increase_2 # type: ignore
             min_3 += increase_3 # type: ignore
             min_4 += increase_4 # type: ignore
+            score += 1
+            print('A')
         
 def explosion():
     global rayon_explosion
@@ -1075,7 +1077,7 @@ def Jeu():
         fusee_ready_mode()
     
     else:
-        if score % 500 == 0 : 
+        if score % 400 == 0 : 
             change_proba()
             if tps_slow > 0:
                 vitesse_de_deplacement_ennemi += 0.2
@@ -1143,7 +1145,7 @@ def draw_jeu():
         elif fusee_ready == False:
             py.rect(x_joueur, y_joueur, PLAYER_WIDTH, PLAYER_HEIGHT, 1)
         else:
-            py.blt (x_joueur , y_joueur, 0 , 175 , 40 , 75, 24, 15)
+            py.blt (x_joueur , y_joueur, 0 , 125 , 80 , 75, 24, 15)
  
         
     else:
@@ -1152,7 +1154,7 @@ def draw_jeu():
     for obstacle in liste_obstacles_1 :
         py.blt(obstacle[0] , obstacle[1], 0 , 75, 0, OBSTACLE_WIDTH_1 , OBSTACLE_HEIGHT_1, 15)
     for obstacle in liste_obstacles_2 :
-        py.blt(obstacle[0] , obstacle[1], 0 , 0 , 26 , OBSTACLE_WIDTH_2, OBSTACLE_HEIGHT_2, 15)
+        py.blt(obstacle[0] , obstacle[1], 0 , 0 , 25 , OBSTACLE_WIDTH_2, OBSTACLE_HEIGHT_2, 15)
     for obstacle in liste_obstacles_3 :
         py.blt(obstacle[0] , obstacle[1], 0 , 125 , 0 , OBSTACLE_WIDTH_3, OBSTACLE_HEIGHT_3, 15)
     for obstacle in liste_obstacles_4 :
