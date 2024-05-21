@@ -11,7 +11,8 @@ import random as ra
 
 # Définition des variables globales
 def variable_globles():
-    global WINDOW_WIDTH, WINDOW_HEIGHT, PLAYER_WIDTH, PLAYER_HEIGHT, OBSTACLE_WIDTH_1, OBSTACLE_HEIGHT_1, OBSTACLE_WIDTH_2, OBSTACLE_HEIGHT_2, OBSTACLE_WIDTH_3, OBSTACLE_HEIGHT_3, OBSTACLE_WIDTH_4, OBSTACLE_HEIGHT_4, BONUS_WIDTH, BONUS_HEIGHT, OBSTACLE_COLOR, BACKGROUND_COLOR, PLAYER_SPEED, INITIAL_OBSTACLE_INTERVAL, OBSTACLE_INTERVAL_DECREMENT, SCORE_ADD, missile_width, missile_height, rayon_max
+
+    global WINDOW_WIDTH, WINDOW_HEIGHT, PLAYER_WIDTH, PLAYER_HEIGHT, OBSTACLE_WIDTH_1, OBSTACLE_HEIGHT_1, OBSTACLE_WIDTH_2, OBSTACLE_HEIGHT_2, OBSTACLE_WIDTH_3, OBSTACLE_HEIGHT_3, OBSTACLE_WIDTH_4, OBSTACLE_HEIGHT_4, BONUS_WIDTH, BONUS_HEIGHT, OBSTACLE_COLOR, BACKGROUND_COLOR, PLAYER_SPEED, INITIAL_OBSTACLE_INTERVAL, OBSTACLE_INTERVAL_DECREMENT, SCORE_ADD, missile_width, missile_height, rayon_max, max_hauteur_objet, min_hauteur_objet
     
     WINDOW_WIDTH = 600
     WINDOW_HEIGHT = 300
@@ -36,6 +37,8 @@ def variable_globles():
     missile_width = 15
     missile_height = 5
     rayon_max = 25
+    min_hauteur_objet = 30
+    max_hauteur_objet = WINDOW_HEIGHT - 15 
     
 variable_globles()
 
@@ -60,7 +63,7 @@ def couleurs_jeu():
     py.colors[2] = 0xffff00   # (  jaune )   #jaune -> voiture + munitions + fusee
     py.colors[3] = 0x0000ff   # (  bleu )   #bleu -> police + shield + dash
     py.colors[4] = 0xff0000   # (  rouge )   #rouge -> fusee + police
-    py.colors[5] = 0x787878   # (  gris )   #gris -> dash + ennemi_1 + fusee
+    py.colors[5] = 0x4e4e4e   # (  gris )   #gris -> dash + ennemi_1 + fusee
     py.colors[6] = 0xff9600   # (  orange )   #orange -> fusee x2
     py.colors[7] = 0xff00ff   # (  violet )   #violet -> slow
     py.colors[8] = 0x00ff00   # (  vert )   # moto
@@ -93,7 +96,7 @@ def reinitialiser_couleur():
     py.colors[15] = 0xedc7b0
 
 def initialisation_valeur_jeu():
-    global SCORE_COLOR, menu_active, show_settings, affichage_debut, x_joueur, y_joueur, vivant, game_over, liste_obstacles_1, liste_obstacles_2, liste_obstacles_3, liste_obstacles_4, liste_bonus, obstacle_interval, score, obstacle_genere, vitesse_de_deplacement_ennemi, dash, fusee, tps_fusee, rayon_onde, liste_onde, mode_onde, fusee_ready, fusee_get, calibrage, liste_missiles, liste_explosion, rayon_explosion, tps_slow, nb_missiles, shield, liste_nid, high_score
+    global SCORE_COLOR, menu_active, show_settings, affichage_debut, x_joueur, y_joueur, vivant, game_over, liste_obstacles_1, liste_obstacles_2, liste_obstacles_3, liste_obstacles_4, liste_bonus, obstacle_interval, score, obstacle_genere, vitesse_de_deplacement_ennemi, dash, fusee, tps_fusee, rayon_onde, liste_onde, mode_onde, fusee_ready, fusee_get, calibrage, liste_missiles, liste_explosion, rayon_explosion, tps_slow, nb_missiles, shield, liste_nid, high_score, mode_pause
     
     SCORE_COLOR = 1
     menu_active = False
@@ -129,6 +132,7 @@ def initialisation_valeur_jeu():
     shield = 0
     liste_nid = []
     high_score = load_high_score()
+    mode_pause = False
 
 initialisation_valeur_jeu()
 
@@ -315,7 +319,7 @@ def draw_menu():
     py.text(390, 175, "- The game is still in developpment, some bugs",1)
     py.text(390,195,"can still appear.", 1)
     
-    py.blt( 200 , 200, 0 , 0 , 0 , 75 , 25, 15)
+    py.blt( 200 , 200, 0 , 0 , 0 , 75 , PLAYER_HEIGHT, 15)
     
     py.text(500,293,"Actual version: 0.1.1", 1)
     
@@ -330,23 +334,23 @@ def draw_menu():
 
 def deplacement_joueur():
     global y_joueur
-    if (py.btn(py.KEY_UP) and y_joueur > 20) or (py.btn(py.KEY_Z) and y_joueur > 20) :
+    if (py.btn(py.KEY_UP) and y_joueur > min_hauteur_objet) or (py.btn(py.KEY_Z) and y_joueur > min_hauteur_objet) :
         y_joueur -= PLAYER_SPEED
 
-    if (py.btn(py.KEY_DOWN) and y_joueur < WINDOW_HEIGHT - PLAYER_HEIGHT- 10) or (py.btn(py.KEY_S) and y_joueur < WINDOW_HEIGHT - PLAYER_HEIGHT - 10) :
+    if (py.btn(py.KEY_DOWN) and y_joueur < max_hauteur_objet - PLAYER_HEIGHT) or (py.btn(py.KEY_S) and y_joueur < max_hauteur_objet - PLAYER_HEIGHT) :
         y_joueur += PLAYER_SPEED
     
-    if y_joueur < 20 :
-        y_joueur = 20
-    if y_joueur > WINDOW_HEIGHT - PLAYER_HEIGHT - 10: 
-        y_joueur = WINDOW_HEIGHT - PLAYER_HEIGHT - 10
+    if y_joueur < 30 :
+        y_joueur = 30
+    if y_joueur > max_hauteur_objet - PLAYER_HEIGHT: 
+        y_joueur = max_hauteur_objet - PLAYER_HEIGHT
 
 def Obstacle_1():
     global y_obstacle, x_obstacle, WINDOW_HEIGHT, OBSTACLE_HEIGHT_1, WINDOW_WIDTH, OBSTACLE_WIDTH_1, liste_obstacles_1, obstacle_interval
 
     
     if obstacle_genere == 1 :
-        y_obstacle = ra.randint( 260 , WINDOW_HEIGHT - OBSTACLE_HEIGHT_1 - 10)
+        y_obstacle = ra.randint( min_hauteur_objet , max_hauteur_objet - OBSTACLE_HEIGHT_1)
         x_obstacle = WINDOW_WIDTH + OBSTACLE_WIDTH_1
         liste_obstacles_1.append([x_obstacle , y_obstacle])
         obstacle_interval -= OBSTACLE_INTERVAL_DECREMENT
@@ -357,7 +361,7 @@ def Obstacle_2():
     global y_obstacle, x_obstacle, WINDOW_HEIGHT, OBSTACLE_HEIGHT_2, WINDOW_WIDTH, OBSTACLE_WIDTH_2, liste_obstacles_2, obstacle_interval
     
     if obstacle_genere == 2 :
-        y_obstacle = ra.randint( 260 , WINDOW_HEIGHT - OBSTACLE_HEIGHT_2 - 10)
+        y_obstacle = ra.randint( min_hauteur_objet , max_hauteur_objet - OBSTACLE_HEIGHT_2)
         x_obstacle = WINDOW_WIDTH + OBSTACLE_WIDTH_2
         liste_obstacles_2.append([x_obstacle , y_obstacle])
         obstacle_interval -= OBSTACLE_INTERVAL_DECREMENT
@@ -368,7 +372,7 @@ def Obstacle_3():
     global y_obstacle, x_obstacle, WINDOW_HEIGHT, OBSTACLE_HEIGHT_3, WINDOW_WIDTH, OBSTACLE_WIDTH_3, liste_obstacles_3, obstacle_interval
     
     if obstacle_genere == 3 :
-        y_obstacle = ra.randint( 20 , WINDOW_HEIGHT - OBSTACLE_HEIGHT_3 - 10)
+        y_obstacle = ra.randint( min_hauteur_objet, max_hauteur_objet - OBSTACLE_HEIGHT_3)
         x_obstacle = WINDOW_WIDTH + OBSTACLE_WIDTH_3
         liste_obstacles_3.append([x_obstacle , y_obstacle])
         obstacle_interval -= OBSTACLE_INTERVAL_DECREMENT
@@ -379,7 +383,7 @@ def Obstacle_4():
     global y_obstacle, x_obstacle, WINDOW_HEIGHT, OBSTACLE_HEIGHT_4, WINDOW_WIDTH, OBSTACLE_WIDTH_4, liste_obstacles_4, obstacle_interval
     
     if obstacle_genere == 4 :
-        y_obstacle = ra.randint( 20 , WINDOW_HEIGHT - OBSTACLE_HEIGHT_4 - 10)
+        y_obstacle = ra.randint( min_hauteur_objet, max_hauteur_objet - OBSTACLE_HEIGHT_4)
         x_obstacle = WINDOW_WIDTH + OBSTACLE_WIDTH_4
         liste_obstacles_4.append([x_obstacle , y_obstacle])
         obstacle_interval -= OBSTACLE_INTERVAL_DECREMENT
@@ -390,7 +394,7 @@ def Bonus_obstacle():
     global y_obstacle, x_obstacle, WINDOW_HEIGHT, BONUS_HEIGHT, WINDOW_WIDTH, BONUS_WIDTH, liste_bonus, obstacle_interval
 
     if obstacle_genere == 5 :
-        y_obstacle = ra.randint( 20 , WINDOW_HEIGHT - BONUS_HEIGHT - 10)
+        y_obstacle = ra.randint( min_hauteur_objet , max_hauteur_objet - BONUS_HEIGHT)
         x_obstacle = WINDOW_WIDTH + BONUS_WIDTH
         type_bonus = ra.randint(0,4)
 
@@ -879,7 +883,7 @@ def deplacement_obstacles():
         obstacle[0] -= 1.5 * vitesse_de_deplacement_ennemi
         if obstacle[0] < -OBSTACLE_WIDTH_4 :
             liste_obstacles_4.remove(obstacle)
-            score +=400   
+            score +=300   
 
 def missiles_pouvoir():
     lancer_missiles()
@@ -891,8 +895,7 @@ def slow_pouvoir():
     if (tps_slow > 0 and py.btn(py.KEY_R)) or (tps_slow > 0 and py.btn(py.KEY_COLON )): #type: ignore
 
         vitesse_de_deplacement_ennemi = 4
-        if py.frame_count % 2 == 0:
-            tps_slow -= 1
+        tps_slow -= 1
         
     else :
         vitesse_de_deplacement_ennemi = 5
@@ -1158,19 +1161,19 @@ def draw_jeu():
         py.blt(obstacle[0] , obstacle[1], 0 , 125 , 0 , OBSTACLE_WIDTH_3, OBSTACLE_HEIGHT_3, 15)
     for obstacle in liste_obstacles_4 :
         if py.frame_count % 30 < 15 :
-            py.blt(obstacle[0] , obstacle[1], 0 , 175 , 0 , OBSTACLE_WIDTH_4, OBSTACLE_HEIGHT_4, 15)
+            py.blt(obstacle[0] , obstacle[1], 0 , 125 , 40 , OBSTACLE_WIDTH_4, OBSTACLE_HEIGHT_4, 15)
 
     for bonus in liste_bonus :
         if bonus[2] == 0:
-            py.blt(bonus[0], bonus[1], 0 , 0 , 51, 25 , 25, 15)
+            py.blt(bonus[0], bonus[1], 0 , 0 , 40, BONUS_WIDTH , BONUS_HEIGHT, 15)
         elif bonus[2] == 1:
-            py.blt(bonus[0], bonus[1], 0 , 25 , 51, 25 , 25, 15)
+            py.blt(bonus[0], bonus[1], 0 , 25 , 40, BONUS_WIDTH , BONUS_HEIGHT, 15)
         elif bonus[2] == 2:
-            py.blt(bonus[0], bonus[1], 0 , 50 , 51, 25 , 25, 15)
+            py.blt(bonus[0], bonus[1], 0 , 50 , 40, BONUS_WIDTH , BONUS_HEIGHT, 15)
         elif bonus[2] == 3:
-            py.blt(bonus[0], bonus[1], 0 , 75 , 51, 25 , 25, 15)
+            py.blt(bonus[0], bonus[1], 0 , 75 , 40, BONUS_WIDTH , BONUS_HEIGHT, 15)
         else:
-            py.blt(bonus[0], bonus[1], 0 , 100 , 51, 25 , 25, 15)
+            py.blt(bonus[0], bonus[1], 0 , 100 , 40, BONUS_WIDTH , BONUS_HEIGHT, 15)
     for nid in liste_nid : 
         py.rect(nid[0], nid[1], 2 * BONUS_WIDTH, 2 * BONUS_HEIGHT, 4)
     for missile in liste_missiles :
@@ -1275,7 +1278,10 @@ def update():
         update_settings()
         py.mouse(True)
     elif vivant :
-        Jeu()
+        if py.btnp(py.KEY_ESCAPE):
+            return None
+        else:
+            Jeu()
     else:
         if py.btn(py.KEY_R):
             recommencer() 
@@ -1283,22 +1289,41 @@ def update():
             retour_au_menu() 
     
 def draw():
-    global affichage_debut, menu_active
-    py.cls(BACKGROUND_COLOR)
+    global affichage_debut, menu_active, mode_pause, vivant
     
     if affichage_debut:
+        py.cls(BACKGROUND_COLOR)
         affichage_debut_jeu()
         if py.btnp(py.KEY_RETURN) :
             affichage_debut = False
             menu_active = True
     elif menu_active:
+        py.cls(BACKGROUND_COLOR)
         draw_menu()
     elif show_settings:
+        py.cls(BACKGROUND_COLOR)
         draw_settings()
     elif vivant :
-        py.mouse(False)
-        draw_jeu()   
+        if py.btnp(py.KEY_ESCAPE) :
+            mode_pause = True
+            vivant = False
+        else:
+            py.cls(BACKGROUND_COLOR)
+            py.mouse(False)
+            draw_jeu()   
+    elif mode_pause:
+        if py.frame_count % 30 > 20:
+            col = 0
+        else:
+            col=1
+                
+        py.text(WINDOW_WIDTH/2 , WINDOW_HEIGHT/2 , 'PAUSED' , col)
+        
+        if py.btnp(py.KEY_ESCAPE) :
+            mode_pause = False
+            vivant = True
     else:
+        py.cls(BACKGROUND_COLOR)
         explosion()
         Fin()
 

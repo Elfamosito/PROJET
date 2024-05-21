@@ -1,42 +1,46 @@
 UPDATES IMPORTANTES:
 
--   Faire un fond pour le menu + le jeu + Mode fusée + la fin.
+-   Faire un fond pour le menu + le jeu + Mode fusée + la fin. 8 tilemaps max.
+Menu : 
+Jeu :  
+Fusee :
+Fin :
 
 -   Choix du logo, découpe.
-
--   Affichage du logo dans le menu, en tant qu'image ou fait avec des traits et autres.
+Affichage du logo dans le menu, en tant qu'image ou fait avec des traits et autres.
 
 -   Refaire la taille des images pour les commandes du jeu dans settings.
 
-- Création d'une fonction qui rement les couleurs "à zéro". \/
+# - Création d'une fonction qui rement les couleurs "à zéro". \/
 
-def reinitialiser_couleur():
-    py.colors[0] = 0x000000
-    py.colors[1] = 0x2b335f
-    py.colors[2] = 0x7e2072
-    py.colors[3] = 0x19959c
-    py.colors[4] = 0x8b4852
-    py.colors[5] = 0x395c98
-    py.colors[6] = 0xa9c1ff
-    py.colors[7] = 0xeeeeee
-    py.colors[8] = 0xd4186c
-    py.colors[9] = 0xd38441
-    py.colors[10] = 0xe9c35b
-    py.colors[11] = 0X70c6a9
-    py.colors[12] = 0x7696de
-    py.colors[13] = 0xa3a3a3
-    py.colors[14] = 0xff9798
-    py.colors[15] = 0xedc7b0
+# def reinitialiser_couleur():
+#     py.colors[0] = 0x000000
+#     py.colors[1] = 0x2b335f
+#     py.colors[2] = 0x7e2072
+#     py.colors[3] = 0x19959c
+#     py.colors[4] = 0x8b4852
+#     py.colors[5] = 0x395c98
+#     py.colors[6] = 0xa9c1ff
+#     py.colors[7] = 0xeeeeee
+#     py.colors[8] = 0xd4186c
+#     py.colors[9] = 0xd38441
+#     py.colors[10] = 0xe9c35b
+#     py.colors[11] = 0X70c6a9
+#     py.colors[12] = 0x7696de
+#     py.colors[13] = 0xa3a3a3
+#     py.colors[14] = 0xff9798
+#     py.colors[15] = 0xedc7b0
 
 -   Réaliser toutes les images avec la palette de 16 couleurs
 
 Refaire : 
 camion : taille + design /\
 moto : design /\
-munitions : couleurs
+munitions : couleurs /\
 
 /!\ Ne pas oublier de mettre à jour la version du jeu + carré NEWS !
 
+-   Faire un menu pause. Ca met juste en freeze. /\ Rapide
 
 
 FUTURES UPDATES :
@@ -80,6 +84,8 @@ Bouclier:   Un contour bleu autour de la voiture qui scintille, ...
 
 -   Mieux gérer les probabilités d'apparition de chaque bonus, - de fusee et bouclier que autre. A déterminer.
 
+-   Mieux gérer la génération des probas, car mtn arrière plan, ==> futur, généré seulement quand on en a besoin + économise RAM.
+
 -   Faire une sélection des touches que l'on souhaite utiliser dans settings (=KEY BINDINGS) avec jusqu'à 2 configs.
 ex: A et flèche_haut pour monter.
 
@@ -103,25 +109,27 @@ BIG UPDATES:
 -   Si le score est haut, faire apparaître des "boss".
 Il lance des voitures, le joueur a missiles illimité/doit récupérer les missiles.
 
+-   Refaire le menu pause du jeu.
+
 -   Réajuster la palette de 16 couleurs, si jamais: 
 
 9 couleurs sur 16 utilisées :
 
-0 =     0x000000    ( noir )     #noir
-1 =     0xffffff    (  blanc )   #blanc -> Touches + phares voiture
-2 =     0xffff00    (  jaune )   #jaune -> voiture + munitions + fusee
-3 =     0x0000ff    (  bleu )   #bleu -> police + shield + dash
-4 =     0xff0000    (  rouge )   #rouge -> fusee + police
-5 =     0x787878    (  gris )   #gris -> dash + ennemi_1 + fusee
-6 =     0xff9600    (  orange )   #orange -> fusee x2
-7 =     0xff00ff    (  violet )   #violet -> slow
-8 =     0x00ff00    (  vert )   # moto
+# 0 =     0x000000    ( noir )     #noir
+# 1 =     0xffffff    (  blanc )   #blanc -> Touches + phares voiture
+# 2 =     0xffff00    (  jaune )   #jaune -> voiture + munitions + fusee
+# 3 =     0x0000ff    (  bleu )   #bleu -> police + shield + dash
+# 4 =     0xff0000    (  rouge )   #rouge -> fusee + police
+# 5 =     0x787878    (  gris )   #gris -> dash + ennemi_1 + fusee
+# 6 =     0xff9600    (  orange )   #orange -> fusee x2
+# 7 =     0xff00ff    (  violet )   #violet -> slow
+# 8 =     0x00ff00    (  vert )   # moto
 9 =     0x    (   )   #
 10 =    0x    (   )   #
 11 =    0x    (   )   #
 12 =    0x    (   )   #
 13 =    0x    (   )   #
 14 =    0x    (   )   #
-15 =    0x5ea080    (  couleur moche ) # Couleur "inutile", servira à faire le fond des documents ressources et à l'utiliser comme couleur transparente.
+# 15 =    0x5ea080    (  couleur moche ) # Couleur "inutile", servira à faire le fond des documents ressources et à l'utiliser comme couleur transparente.
 
-/!\ Laisser une couleur qui sera "inutile", car servira pour être la couleur à ignorer des images ! ==> voir couleur 15\/
+# /!\ Laisser une couleur qui sera "inutile", car servira pour être la couleur à ignorer des images ! ==> voir couleur 15\/
