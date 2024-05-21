@@ -31,8 +31,8 @@ def reinitialiser_couleur():
 -   Réaliser toutes les images avec la palette de 16 couleurs
 
 Refaire : 
-camion : taille + design
-moto : design
+camion : taille + design /\
+moto : design /\
 munitions : couleurs
 
 /!\ Ne pas oublier de mettre à jour la version du jeu + carré NEWS !
