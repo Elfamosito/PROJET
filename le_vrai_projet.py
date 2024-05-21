@@ -119,7 +119,7 @@ def initialisation_valeur_jeu():
     liste_onde = []
     mode_onde = False
     fusee_ready = False
-    fusee_get = True
+    fusee_get = False
     calibrage = True
     liste_missiles = []
     liste_explosion = []
@@ -330,23 +330,23 @@ def draw_menu():
 
 def deplacement_joueur():
     global y_joueur
-    if (py.btn(py.KEY_UP) and y_joueur > 10) or (py.btn(py.KEY_Z) and y_joueur > 10) :
+    if (py.btn(py.KEY_UP) and y_joueur > 20) or (py.btn(py.KEY_Z) and y_joueur > 20) :
         y_joueur -= PLAYER_SPEED
 
-    if (py.btn(py.KEY_DOWN) and y_joueur < WINDOW_HEIGHT - PLAYER_HEIGHT) or (py.btn(py.KEY_S) and y_joueur < WINDOW_HEIGHT - PLAYER_HEIGHT) :
+    if (py.btn(py.KEY_DOWN) and y_joueur < WINDOW_HEIGHT - PLAYER_HEIGHT- 10) or (py.btn(py.KEY_S) and y_joueur < WINDOW_HEIGHT - PLAYER_HEIGHT - 10) :
         y_joueur += PLAYER_SPEED
     
-    if y_joueur < 0 :
-        y_joueur = 10
-    if y_joueur > WINDOW_HEIGHT - PLAYER_HEIGHT : 
-        y_joueur = WINDOW_HEIGHT - PLAYER_HEIGHT
+    if y_joueur < 20 :
+        y_joueur = 20
+    if y_joueur > WINDOW_HEIGHT - PLAYER_HEIGHT - 10: 
+        y_joueur = WINDOW_HEIGHT - PLAYER_HEIGHT - 10
 
 def Obstacle_1():
     global y_obstacle, x_obstacle, WINDOW_HEIGHT, OBSTACLE_HEIGHT_1, WINDOW_WIDTH, OBSTACLE_WIDTH_1, liste_obstacles_1, obstacle_interval
 
     
     if obstacle_genere == 1 :
-        y_obstacle = ra.randint( 10 , WINDOW_HEIGHT - OBSTACLE_HEIGHT_1 )
+        y_obstacle = ra.randint( 260 , WINDOW_HEIGHT - OBSTACLE_HEIGHT_1 - 10)
         x_obstacle = WINDOW_WIDTH + OBSTACLE_WIDTH_1
         liste_obstacles_1.append([x_obstacle , y_obstacle])
         obstacle_interval -= OBSTACLE_INTERVAL_DECREMENT
@@ -357,7 +357,7 @@ def Obstacle_2():
     global y_obstacle, x_obstacle, WINDOW_HEIGHT, OBSTACLE_HEIGHT_2, WINDOW_WIDTH, OBSTACLE_WIDTH_2, liste_obstacles_2, obstacle_interval
     
     if obstacle_genere == 2 :
-        y_obstacle = ra.randint( 10 , WINDOW_HEIGHT - OBSTACLE_HEIGHT_2 )
+        y_obstacle = ra.randint( 260 , WINDOW_HEIGHT - OBSTACLE_HEIGHT_2 - 10)
         x_obstacle = WINDOW_WIDTH + OBSTACLE_WIDTH_2
         liste_obstacles_2.append([x_obstacle , y_obstacle])
         obstacle_interval -= OBSTACLE_INTERVAL_DECREMENT
@@ -368,7 +368,7 @@ def Obstacle_3():
     global y_obstacle, x_obstacle, WINDOW_HEIGHT, OBSTACLE_HEIGHT_3, WINDOW_WIDTH, OBSTACLE_WIDTH_3, liste_obstacles_3, obstacle_interval
     
     if obstacle_genere == 3 :
-        y_obstacle = ra.randint( 10 , WINDOW_HEIGHT - OBSTACLE_HEIGHT_3 )
+        y_obstacle = ra.randint( 20 , WINDOW_HEIGHT - OBSTACLE_HEIGHT_3 - 10)
         x_obstacle = WINDOW_WIDTH + OBSTACLE_WIDTH_3
         liste_obstacles_3.append([x_obstacle , y_obstacle])
         obstacle_interval -= OBSTACLE_INTERVAL_DECREMENT
@@ -379,7 +379,7 @@ def Obstacle_4():
     global y_obstacle, x_obstacle, WINDOW_HEIGHT, OBSTACLE_HEIGHT_4, WINDOW_WIDTH, OBSTACLE_WIDTH_4, liste_obstacles_4, obstacle_interval
     
     if obstacle_genere == 4 :
-        y_obstacle = ra.randint( 10 , WINDOW_HEIGHT - OBSTACLE_HEIGHT_4 )
+        y_obstacle = ra.randint( 20 , WINDOW_HEIGHT - OBSTACLE_HEIGHT_4 - 10)
         x_obstacle = WINDOW_WIDTH + OBSTACLE_WIDTH_4
         liste_obstacles_4.append([x_obstacle , y_obstacle])
         obstacle_interval -= OBSTACLE_INTERVAL_DECREMENT
@@ -390,7 +390,7 @@ def Bonus_obstacle():
     global y_obstacle, x_obstacle, WINDOW_HEIGHT, BONUS_HEIGHT, WINDOW_WIDTH, BONUS_WIDTH, liste_bonus, obstacle_interval
 
     if obstacle_genere == 5 :
-        y_obstacle = ra.randint( 10 , WINDOW_HEIGHT - BONUS_HEIGHT )
+        y_obstacle = ra.randint( 20 , WINDOW_HEIGHT - BONUS_HEIGHT - 10)
         x_obstacle = WINDOW_WIDTH + BONUS_WIDTH
         type_bonus = ra.randint(0,4)
 
@@ -777,7 +777,7 @@ def change_proba():
         max_1 = 100
         decrease_1 = 5
         # Type 2 d'obstacle    Type croissant
-        min_2 = 1000
+        min_2 = 0
         max_2 = 25
         increase_2 = 2
         # Type 3 d'obstacle    Type croissant
@@ -792,13 +792,12 @@ def change_proba():
         #Type bonus
         proba_bonus = 4
         
-    elif max_1 > min_1 and score !=0 : # type: ignore
+    elif max_1 > min_1 and score >= 26 : # type: ignore
             max_1 -= decrease_1 # type: ignore
             min_2 += increase_2 # type: ignore
             min_3 += increase_3 # type: ignore
             min_4 += increase_4 # type: ignore
-            score += 1
-            print('A')
+            score += 26
         
 def explosion():
     global rayon_explosion
@@ -1077,7 +1076,7 @@ def Jeu():
         fusee_ready_mode()
     
     else:
-        if score % 400 == 0 : 
+        if score % 250 <= 25 : 
             change_proba()
             if tps_slow > 0:
                 vitesse_de_deplacement_ennemi += 0.2

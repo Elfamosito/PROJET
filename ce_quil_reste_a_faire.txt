@@ -8,27 +8,6 @@ UPDATES IMPORTANTES:
 
 -   Refaire la taille des images pour les commandes du jeu dans settings.
 
--   Faire la palette de 16 couleurs:
-
-0 =     0x000000    ( noir )     #noir
-1 =     0xffffff    (  blanc )   #blanc -> Touches + phares voiture
-2 =     0xffff00    (  jaune )   #jaune -> voiture + munitions + fusee
-3 =     0x0000ff    (  bleu )   #bleu -> police + shield + dash
-4 =     0xff0000    (  rouge )   #rouge -> fusee + police
-5 =     0x787878    (  gris )   #gris -> dash + ennemi_1 + fusee
-6 =     0xff9600    (  orange )   #orange -> fusee x2
-7 =     0xff00ff    (  violet )   #violet -> slow
-8 =     0x00ff00    (  vert )   # moto
-9 =     0x    (   )   #
-10 =    0x    (   )   #
-11 =    0x    (   )   #
-12 =    0x    (   )   #
-13 =    0x    (   )   #
-14 =    0x    (   )   #
-15 =    0x5ea080    (  couleur moche ) # Couleur "inutile", servira à faire le fond des documents ressources et à l'utiliser comme couleur transparente.
-
-/!\ Laisser une couleur qui sera "inutile", car servira pour être la couleur à ignorer des images ! \/
-
 - Création d'une fonction qui rement les couleurs "à zéro". \/
 
 def reinitialiser_couleur():
@@ -123,3 +102,26 @@ BIG UPDATES:
 
 -   Si le score est haut, faire apparaître des "boss".
 Il lance des voitures, le joueur a missiles illimité/doit récupérer les missiles.
+
+-   Réajuster la palette de 16 couleurs, si jamais: 
+
+9 couleurs sur 16 utilisées :
+
+0 =     0x000000    ( noir )     #noir
+1 =     0xffffff    (  blanc )   #blanc -> Touches + phares voiture
+2 =     0xffff00    (  jaune )   #jaune -> voiture + munitions + fusee
+3 =     0x0000ff    (  bleu )   #bleu -> police + shield + dash
+4 =     0xff0000    (  rouge )   #rouge -> fusee + police
+5 =     0x787878    (  gris )   #gris -> dash + ennemi_1 + fusee
+6 =     0xff9600    (  orange )   #orange -> fusee x2
+7 =     0xff00ff    (  violet )   #violet -> slow
+8 =     0x00ff00    (  vert )   # moto
+9 =     0x    (   )   #
+10 =    0x    (   )   #
+11 =    0x    (   )   #
+12 =    0x    (   )   #
+13 =    0x    (   )   #
+14 =    0x    (   )   #
+15 =    0x5ea080    (  couleur moche ) # Couleur "inutile", servira à faire le fond des documents ressources et à l'utiliser comme couleur transparente.
+
+/!\ Laisser une couleur qui sera "inutile", car servira pour être la couleur à ignorer des images ! ==> voir couleur 15\/
