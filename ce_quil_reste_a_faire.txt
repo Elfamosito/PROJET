@@ -1,5 +1,7 @@
 UPDATES IMPORTANTES:
 
+-   Logo avec github, insta, X, 
+
 -   Faire un fond pour le menu + le jeu + Mode fusée + la fin. 8 tilemaps max.
 Menu : 
 Jeu :  
